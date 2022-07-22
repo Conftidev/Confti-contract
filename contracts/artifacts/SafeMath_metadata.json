@@ -1,0 +1,35 @@
+{
+	"compiler": {
+		"version": "0.4.11+commit.68ef5810"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"methods": {}
+		},
+		"userdoc": {
+			"methods": {}
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/WETH.sol": "SafeMath"
+		},
+		"libraries": {},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/WETH.sol": {
+			"keccak256": "0xadf5b599a9c863ef8fbddad2daa7b6334184269d1bf4c0ca64baaa46feae5019",
+			"urls": [
+				"bzzr://dbc713c48adced0223b4197ef5754c23ac886475a01ff0345ff66c7316a380a3"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,80 @@
+{
+	"compiler": {
+		"version": "0.8.0+commit.c7dfd78e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "logic",
+						"type": "address"
+					},
+					{
+						"internalType": "bytes",
+						"name": "initializationCalldata",
+						"type": "bytes"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "fallback"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"author": "Anna Carroll",
+			"kind": "dev",
+			"methods": {},
+			"title": "InitializedProxy",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/InitializedProxy.sol": "InitializedProxy"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol": {
+			"keccak256": "0xc15eeb888d421aa4dedf46768a0502590d88911cfe5750d3ab9f644a7e5ada95",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2f270653fd8d1a109e3e3aa77d5035a52f175b66604f924e0db1f71a5b38e708",
+				"dweb:/ipfs/QmNiP7PvV47ahSvMwxCifeUExVNhyVXdd8Zu2hGz4XC32j"
+			]
+		},
+		"contracts/InitializedProxy.sol": {
+			"keccak256": "0x504e2faa466facb03fe92b29171dc79524477ea33cf4687378e838dce0862777",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b614983ab56b3c595fff9d4986954d63bbef5f89b507590555c7136693acf928",
+				"dweb:/ipfs/QmekNJUTVJTZgLF4CdoEGLSdBGTFjBhDuYJeQuoBc6AGVe"
+			]
+		}
+	},
+	"version": 1
+}

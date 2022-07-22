@@ -1,0 +1,65 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"görli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"linkReferences": {},
+			"object": "60606040523415600b57fe5b5b60338060196000396000f30060606040525bfe00a165627a7a723058201b07a42bc73c10044362a7287d753ecdb0348e3e4af21029f69f67b325e9e05c0029",
+			"opcodes": "PUSH1 0x60 PUSH1 0x40 MSTORE CALLVALUE ISZERO PUSH1 0xB JUMPI INVALID JUMPDEST JUMPDEST PUSH1 0x33 DUP1 PUSH1 0x19 PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN STOP PUSH1 0x60 PUSH1 0x40 MSTORE JUMPDEST INVALID STOP LOG1 PUSH6 0x627A7A723058 SHA3 0x1b SMOD LOG4 0x2b 0xc7 EXTCODECOPY LT DIV NUMBER PUSH3 0xA7287D PUSH22 0x3ECDB0348E3E4AF21029F69F67B325E9E05C00290000 ",
+			"sourceMap": "5569:1115:0:-;;;;;;;;;;;;;;;;"
+		},
+		"deployedBytecode": {
+			"linkReferences": {},
+			"object": "60606040525bfe00a165627a7a723058201b07a42bc73c10044362a7287d753ecdb0348e3e4af21029f69f67b325e9e05c0029",
+			"opcodes": "PUSH1 0x60 PUSH1 0x40 MSTORE JUMPDEST INVALID STOP LOG1 PUSH6 0x627A7A723058 SHA3 0x1b SMOD LOG4 0x2b 0xc7 EXTCODECOPY LT DIV NUMBER PUSH3 0xA7287D PUSH22 0x3ECDB0348E3E4AF21029F69F67B325E9E05C00290000 ",
+			"sourceMap": "5569:1115:0:-;;;;"
+		},
+		"gasEstimates": {
+			"creation": {
+				"codeDepositCost": "10200",
+				"executionCost": "62",
+				"totalCost": "10262"
+			},
+			"internal": {
+				"max256(uint256,uint256)": "infinite",
+				"max64(uint64,uint64)": "infinite",
+				"min256(uint256,uint256)": "infinite",
+				"min64(uint64,uint64)": "infinite",
+				"safeAdd(uint256,uint256)": "infinite",
+				"safeDiv(uint256,uint256)": "infinite",
+				"safeMul(uint256,uint256)": "infinite",
+				"safeSub(uint256,uint256)": "infinite"
+			}
+		},
+		"methodIdentifiers": {}
+	},
+	"abi": []
+}

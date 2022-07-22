@@ -1,0 +1,676 @@
+{
+	"compiler": {
+		"version": "0.8.10+commit.fc410830"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "voteTopic_",
+						"type": "string"
+					},
+					{
+						"indexed": true,
+						"internalType": "string",
+						"name": "describe_",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "codeModel_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "valaue_",
+						"type": "uint256"
+					}
+				],
+				"name": "CreateVoteEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "to_",
+						"type": "address"
+					}
+				],
+				"name": "DelegateToEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					}
+				],
+				"name": "ExecuteEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "veToken_",
+						"type": "address"
+					}
+				],
+				"name": "InitializeEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "reasons_",
+						"type": "string"
+					}
+				],
+				"name": "RejectEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "topic_",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "targetAddress_",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "functionName_",
+						"type": "string"
+					}
+				],
+				"name": "SetGovernanceTemplateEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "result_",
+						"type": "bool"
+					}
+				],
+				"name": "ToVoteEvent",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "bufferTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "voteTopic_",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "describe_",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "codeModel_",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "valaue_",
+						"type": "uint256"
+					}
+				],
+				"name": "createVote",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "to_",
+						"type": "address"
+					}
+				],
+				"name": "delegateTo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					}
+				],
+				"name": "execute",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "executeQueue",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "executeQueueMap",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getTemplate",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "templateId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "toppic",
+								"type": "string"
+							},
+							{
+								"internalType": "address",
+								"name": "targetAddress",
+								"type": "address"
+							},
+							{
+								"internalType": "string",
+								"name": "functionName",
+								"type": "string"
+							}
+						],
+						"internalType": "struct VoteData.GgovernanceTemplate[]",
+						"name": "re",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					}
+				],
+				"name": "getTest",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "voteTime",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getVeToken",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					}
+				],
+				"name": "getVoteDetailwithVoteId",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "voteTopic",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "describe",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "initiator",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					}
+				],
+				"name": "getVoteStatuswithVoteId",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "status",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "minimumQuantity",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "reasons_",
+						"type": "string"
+					}
+				],
+				"name": "reject",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "router",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "topic_",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "targetAddress_",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "functionName_",
+						"type": "string"
+					}
+				],
+				"name": "setGovernanceTemplate",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "templateTotal",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "result_",
+						"type": "bool"
+					}
+				],
+				"name": "toVote",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "veToken",
+				"outputs": [
+					{
+						"internalType": "contract VeTokenTest",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "voteTatola",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "voteTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					}
+				],
+				"name": "winningProposal",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "forVote",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "againstVote",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "forVote2",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "againstVote2",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "time",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"delegateTo(uint256,address)": {
+					"details": "Entrust someone else to vote"
+				},
+				"winningProposal(uint256)": {
+					"details": "calculates the current winning proposal based on all the current votes"
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"createVote(string,string,uint256,uint256)": {
+					"notice": "notion createVote. param  codeModel_  GovernanceTemplate ID."
+				},
+				"execute(uint256)": {
+					"notice": "notion If the vote passes execute the proposal. param  voteId_   voteID"
+				},
+				"initialize()": {
+					"notice": "param  _veToken the  value for  connect veToken"
+				},
+				"reject(uint256,string)": {
+					"notice": "notion rejecting the proposal. param  _voteId   VoteId param  _reasons   The reasons for rejecting the proposal"
+				},
+				"setGovernanceTemplate(string,address,string)": {
+					"notice": "notion Templates should be set up before voting"
+				},
+				"toVote(uint256,bool)": {
+					"notice": "notion Vote. param  result_   VoteId param  voteId_  false or true"
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/Template/Istanbul10/logic/Vote.sol": "Vote"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Template/Istanbul10/Interface/IRouter.sol": {
+			"keccak256": "0x4830f2cf82cb1ca440d94989aa3f4c76ee2c40653afd2268c4d9def4295ce093",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://01b206365590b23f2072c01a519c65a711edfc8486104dfe04713820413e792b",
+				"dweb:/ipfs/QmNp3Hx2qeUCfMHxjb7jzwQ1vq9jiEaykcCZV7vpFzMTbP"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IRouterData.sol": {
+			"keccak256": "0x7c7b3758b8809dbeab2af25edbce1bbaf0035a15ec4c5b7b390bbe862123dc4e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bb530310b35a4feaaba26fde788298435107e12ce9bf220ab9bb8cb0e6050b5b",
+				"dweb:/ipfs/QmPTZxPoUmGwnLERqDswSGPy9yZgwBL6rm1CbhGXdSB6Vj"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IVote.sol": {
+			"keccak256": "0x4c2259a5823e16f8885e3bff938e2fa78aaf51251383726f87a0cb75acff84a4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://95a8d45411ec3999c5f92c32c1c6492f0fb68d7fa6894c42581bd991c8d0dd2d",
+				"dweb:/ipfs/QmQy7MkjUiw8FTV2bgV2hhtuDFvS9yRMg24SFae2vhtrNS"
+			]
+		},
+		"contracts/Template/Istanbul10/data/VoteData.sol": {
+			"keccak256": "0xe2db4fb2ef2240d765c4eeaaf4776af2d36fd3169e3fa55a04b8f3aa7ef20402",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a31b994f3cfbfc64538c42a714f02ebc19330ca9e82a3b7629a964ace98e184d",
+				"dweb:/ipfs/QmW5CZUEJSXmhFp9xbQ1K97TuGzutxLeu6U4nqWkrdaDvE"
+			]
+		},
+		"contracts/Template/Istanbul10/logic/Vote.sol": {
+			"keccak256": "0x9b1bc28b339db03cf4c44084c628490e9bf4df0326d45f4452e9412198ec8a91",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://aaa848d38d88f22d125f1e42b69d9b654eaa86dc037b3fba88f66b28a9bd6420",
+				"dweb:/ipfs/QmYP3Pq3Sw9Ew1HU3dB5QBDpcEsd2h5qQdsaGZqRJmyjmB"
+			]
+		},
+		"contracts/test/VeTokenTest.sol": {
+			"keccak256": "0x592be011b607d6bcb7cb0f53aba296b6a64dfd4cedce56e5ce4429feefe35a49",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b77d3808c8bebccf198e0fb4d77dd64807920e1d0228360857263c03884c54a8",
+				"dweb:/ipfs/QmdJJxzjDcLdhMQBFiJQNP1i7MbVWfrQV8mepxHUtnbFno"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,436 @@
+{
+	"compiler": {
+		"version": "0.8.0+commit.c7dfd78e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "Bid",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "EntirePrice",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "Start",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "length",
+						"type": "uint256"
+					}
+				],
+				"name": "UpdateAuctionLength",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "buyer",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					}
+				],
+				"name": "Won",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "auctionEnd",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "auctionLength",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "bid",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "end",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "entireVaultPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getSettings",
+				"outputs": [
+					{
+						"internalType": "contract ISettings",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getVault",
+				"outputs": [
+					{
+						"internalType": "contract IVault",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getVaultAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initializer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "livePrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "router",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_price",
+						"type": "uint256"
+					}
+				],
+				"name": "setPrice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "start",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_length",
+						"type": "uint256"
+					}
+				],
+				"name": "updateAuctionLength",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "a",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "b",
+						"type": "string"
+					}
+				],
+				"name": "utilCompareInternal",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "winning",
+				"outputs": [
+					{
+						"internalType": "address payable",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"events": {
+				"Bid(address,uint256)": {
+					"notice": "An event emitted when a bid is made"
+				},
+				"EntirePrice(uint256)": {
+					"notice": "An event emitted when a user updates their price"
+				},
+				"Start(address,uint256)": {
+					"notice": "An event emitted when an auction starts"
+				},
+				"UpdateAuctionLength(uint256)": {
+					"notice": "An event emitted when update auction length"
+				},
+				"Won(address,uint256)": {
+					"notice": "An event emitted when an auction is won"
+				}
+			},
+			"kind": "user",
+			"methods": {
+				"bid()": {
+					"notice": "an external function to bid on purchasing the vaults NFT. The msg.value is the bid amount"
+				},
+				"end()": {
+					"notice": "an external function to end an auction after the timer has run out"
+				},
+				"start()": {
+					"notice": "kick off an auction. Must send reservePrice in ETH"
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/Template/Istanbul10/logic/Auction.sol": "Auction"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Interface/IFactory.sol": {
+			"keccak256": "0x85f645c1a87f047459acc4526202f14e87740327a9a114396bfd9355e7bb8c18",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ba66996e3c459adb159dea8cb7eb458fb580014fe382910d71fafc3bc10886b2",
+				"dweb:/ipfs/QmcrJuEpaqkpDtaoaiyTxdoki2Sc1V3TBdU442g9i8vXqF"
+			]
+		},
+		"contracts/Interface/ISettings.sol": {
+			"keccak256": "0x4960456f01f02fe14b95416b251a8471a7352cdb2f7d259a2ca6b49eabbe9ef1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://eae30b8166a2a5dcc0f1f6e6e63bdcae9675283bef72a0e1093d8e12718fe7eb",
+				"dweb:/ipfs/QmTQirnMe2VE8Dv2Y3ki4b34yGU6sttV4wh73FyzK469KH"
+			]
+		},
+		"contracts/Interface/IVault.sol": {
+			"keccak256": "0x7456c3e6695e67ce0a542f1a25bd56e778c23d43e226411481f860a9631083a2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://79a0d6ee771ed53ae1483d004991e725396b9d272851cc21c77087b35c87b70a",
+				"dweb:/ipfs/QmT1eu7L2TfwAnPiC4n4rgd1bKfRs57AbdKMhGdJrkALbH"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IAuction.sol": {
+			"keccak256": "0xd9a45d2cfcc7211e5b1f257a2460c7d31d68117172aee75fe8ff87448334af01",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://201d9165e030ea6ff47a272b21bebb90b1233ff9179d313aa7dd7dc93b1e4966",
+				"dweb:/ipfs/QmQW2fAh345rJZnisrnvhpKRHauiurLKrL3GjDko8gKyQR"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IAuctionData.sol": {
+			"keccak256": "0xf81991fb399396fd336bc11ffecdb2100ceeec5f62cec1778477600a7f003175",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://49e0ecc1723db3c2a381636239e658e70cbca5a5fec6e01b448606b4f32ebedf",
+				"dweb:/ipfs/QmXJJA9oUwRqc42RQ1HGJeMPVGHgxdC5tdYEUa8WzWWp57"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IRouter.sol": {
+			"keccak256": "0x4830f2cf82cb1ca440d94989aa3f4c76ee2c40653afd2268c4d9def4295ce093",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://01b206365590b23f2072c01a519c65a711edfc8486104dfe04713820413e792b",
+				"dweb:/ipfs/QmNp3Hx2qeUCfMHxjb7jzwQ1vq9jiEaykcCZV7vpFzMTbP"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IRouterData.sol": {
+			"keccak256": "0x7c7b3758b8809dbeab2af25edbce1bbaf0035a15ec4c5b7b390bbe862123dc4e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bb530310b35a4feaaba26fde788298435107e12ce9bf220ab9bb8cb0e6050b5b",
+				"dweb:/ipfs/QmPTZxPoUmGwnLERqDswSGPy9yZgwBL6rm1CbhGXdSB6Vj"
+			]
+		},
+		"contracts/Template/Istanbul10/data/AuctionData.sol": {
+			"keccak256": "0x633fbb57724c59d383261ff4a20f9aa4874e6043ae0227eb07d7c685cda03f2a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7c8c6c8397c2c5a09183be3804a1d92f99006ff4cdc250a2d5287a9c1a3e3348",
+				"dweb:/ipfs/Qmbw6YnDGfzfocxqJuqttPwfTz8gCyysMWrw7B262h28ZF"
+			]
+		},
+		"contracts/Template/Istanbul10/logic/Auction.sol": {
+			"keccak256": "0xf16835826ce77d80f652b67d0b279053c4d7e58d49a9f94b1e77a323ad67b359",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a2f50f6f4bf0ae999fbd813a9f63d294a97c807682bc943b7e91338f7e02d463",
+				"dweb:/ipfs/QmYSn4FQCm2boEojxkfwpP4KqYK2DUYkhEDFwohtXbt3xm"
+			]
+		},
+		"contracts/utils/State.sol": {
+			"keccak256": "0xfd9df2ec38b6b962ce03db54d8b44fcfa334dcb94ddba838c39f28587db3020b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://29ade40c10450b2799962f6430ac157d21b026c75dddbd3819d77e7059036958",
+				"dweb:/ipfs/QmQcVKi3a2uo92NEdeLj4r37dJb3Ztfef3RdQeueDWWRzU"
+			]
+		}
+	},
+	"version": 1
+}

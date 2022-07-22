@@ -1,0 +1,783 @@
+{
+	"compiler": {
+		"version": "0.8.0+commit.c7dfd78e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "veTokenTemplate_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "vaultTemplate_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "auctionTemplate_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "voteTemplate_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "divisionTemplate_",
+						"type": "address"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "shares",
+						"type": "uint256"
+					}
+				],
+				"name": "Cash",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address[]",
+						"name": "nft",
+						"type": "address[]"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256[]",
+						"name": "nftId",
+						"type": "uint256[]"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256[]",
+						"name": "amount",
+						"type": "uint256[]"
+					}
+				],
+				"name": "CuratorDeposit",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "curator",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "vault",
+						"type": "address"
+					}
+				],
+				"name": "Initialize",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "supply",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "symbol",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "reserveRatio",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "EntireVaultPrice",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "depositLength",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "rewardLength",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "vetoken",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "auction",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "vote",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "division",
+						"type": "address"
+					}
+				],
+				"name": "Issue",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "DaoName",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "VERSION_NAME",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "VERSION_NUMBER",
+				"outputs": [
+					{
+						"internalType": "uint16",
+						"name": "",
+						"type": "uint16"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "auction",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "auctionTemplate",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "cashDivision",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "cashVetoken",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "claimFees",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "curator",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address[]",
+						"name": "nft",
+						"type": "address[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "nftId",
+						"type": "uint256[]"
+					},
+					{
+						"internalType": "uint256[]",
+						"name": "amount",
+						"type": "uint256[]"
+					}
+				],
+				"name": "curatorDeposit",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "division",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "divisionTemplate",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "factory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "fee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "curator_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "settings_",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initializer",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "supply_",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "symbol",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "reserveRatio_",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "entireVaultPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "depositLength",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "rewardLength",
+						"type": "uint256"
+					}
+				],
+				"name": "issue",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastClaimed",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "supply_",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "mintTo",
+						"type": "address"
+					}
+				],
+				"name": "mintToScale",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "open",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "reserveAmount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "reserveRatio",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "settings",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "supply",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "updataTemplate",
+						"type": "address"
+					}
+				],
+				"name": "updateRouter",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "vault",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "vaultTemplate",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "veToken",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "veTokenTemplate",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "vote",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "voteTemplate",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "whiteList",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/Template/Istanbul10/logic/Router.sol": "Router"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol": {
+			"keccak256": "0xc15eeb888d421aa4dedf46768a0502590d88911cfe5750d3ab9f644a7e5ada95",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2f270653fd8d1a109e3e3aa77d5035a52f175b66604f924e0db1f71a5b38e708",
+				"dweb:/ipfs/QmNiP7PvV47ahSvMwxCifeUExVNhyVXdd8Zu2hGz4XC32j"
+			]
+		},
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0xf8e8d118a7a8b2e134181f7da655f6266aa3a0f9134b2605747139fcb0c5d835",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9ec48567e7ad06acb670980d5cdf3fd7f3949bf12894f02d68c3bb43e75aa84f",
+				"dweb:/ipfs/QmaG3R2J9cz92YT77vFjYrjMNU2wHp4ypwYD62HqDUqS5U"
+			]
+		},
+		"contracts/InitializedProxy.sol": {
+			"keccak256": "0x504e2faa466facb03fe92b29171dc79524477ea33cf4687378e838dce0862777",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b614983ab56b3c595fff9d4986954d63bbef5f89b507590555c7136693acf928",
+				"dweb:/ipfs/QmekNJUTVJTZgLF4CdoEGLSdBGTFjBhDuYJeQuoBc6AGVe"
+			]
+		},
+		"contracts/Interface/IDivision.sol": {
+			"keccak256": "0xff66ef0bc2803b618e0e3f9a3eb08754ffd3b2841c6e9f2e82781193654f1367",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://dcae343310256552d4f1b39497cbf3a165164a9cb88f7cc6e3a90455a0cdd061",
+				"dweb:/ipfs/QmQ9pRRw4LzoKFuq5hW5HCzSFLRkFJ2hNPFiwobaYSBJJg"
+			]
+		},
+		"contracts/Interface/IFactory.sol": {
+			"keccak256": "0x85f645c1a87f047459acc4526202f14e87740327a9a114396bfd9355e7bb8c18",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://ba66996e3c459adb159dea8cb7eb458fb580014fe382910d71fafc3bc10886b2",
+				"dweb:/ipfs/QmcrJuEpaqkpDtaoaiyTxdoki2Sc1V3TBdU442g9i8vXqF"
+			]
+		},
+		"contracts/Interface/ISettings.sol": {
+			"keccak256": "0x4960456f01f02fe14b95416b251a8471a7352cdb2f7d259a2ca6b49eabbe9ef1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://eae30b8166a2a5dcc0f1f6e6e63bdcae9675283bef72a0e1093d8e12718fe7eb",
+				"dweb:/ipfs/QmTQirnMe2VE8Dv2Y3ki4b34yGU6sttV4wh73FyzK469KH"
+			]
+		},
+		"contracts/Interface/IVault.sol": {
+			"keccak256": "0x7456c3e6695e67ce0a542f1a25bd56e778c23d43e226411481f860a9631083a2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://79a0d6ee771ed53ae1483d004991e725396b9d272851cc21c77087b35c87b70a",
+				"dweb:/ipfs/QmT1eu7L2TfwAnPiC4n4rgd1bKfRs57AbdKMhGdJrkALbH"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IAuction.sol": {
+			"keccak256": "0xd9a45d2cfcc7211e5b1f257a2460c7d31d68117172aee75fe8ff87448334af01",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://201d9165e030ea6ff47a272b21bebb90b1233ff9179d313aa7dd7dc93b1e4966",
+				"dweb:/ipfs/QmQW2fAh345rJZnisrnvhpKRHauiurLKrL3GjDko8gKyQR"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IRouter.sol": {
+			"keccak256": "0x4830f2cf82cb1ca440d94989aa3f4c76ee2c40653afd2268c4d9def4295ce093",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://01b206365590b23f2072c01a519c65a711edfc8486104dfe04713820413e792b",
+				"dweb:/ipfs/QmNp3Hx2qeUCfMHxjb7jzwQ1vq9jiEaykcCZV7vpFzMTbP"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IRouterData.sol": {
+			"keccak256": "0x7c7b3758b8809dbeab2af25edbce1bbaf0035a15ec4c5b7b390bbe862123dc4e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://bb530310b35a4feaaba26fde788298435107e12ce9bf220ab9bb8cb0e6050b5b",
+				"dweb:/ipfs/QmPTZxPoUmGwnLERqDswSGPy9yZgwBL6rm1CbhGXdSB6Vj"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IVote.sol": {
+			"keccak256": "0x4c2259a5823e16f8885e3bff938e2fa78aaf51251383726f87a0cb75acff84a4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://95a8d45411ec3999c5f92c32c1c6492f0fb68d7fa6894c42581bd991c8d0dd2d",
+				"dweb:/ipfs/QmQy7MkjUiw8FTV2bgV2hhtuDFvS9yRMg24SFae2vhtrNS"
+			]
+		},
+		"contracts/Template/Istanbul10/data/RouterData.sol": {
+			"keccak256": "0xb7fd687bf5a69c08d7b3ff35d6e1228e491bfe9c1c818fd3c17446aa2058761b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://19635fb7a27f44904e672f011ce8798aca03a500a276b38306b21c842e6b6b44",
+				"dweb:/ipfs/QmRNJ8BLnLwdhJNyVhdMsP3PotMmhuKgZQgKBCXrbJWgfy"
+			]
+		},
+		"contracts/Template/Istanbul10/logic/Router.sol": {
+			"keccak256": "0xd9c044949c714d4616efa1892dcbf5ba60cb9ef9381822a3439c2d4bbb38b89f",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://608275561b1295b25a85a19b44d432bcfdfd6d476435e2c9997dfcc800a38389",
+				"dweb:/ipfs/QmU5PDAfR6fV87ZckM8GptLo9V9WiY6y6AqvNw34R6M96D"
+			]
+		},
+		"contracts/utils/State.sol": {
+			"keccak256": "0xfd9df2ec38b6b962ce03db54d8b44fcfa334dcb94ddba838c39f28587db3020b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://29ade40c10450b2799962f6430ac157d21b026c75dddbd3819d77e7059036958",
+				"dweb:/ipfs/QmQcVKi3a2uo92NEdeLj4r37dJb3Ztfef3RdQeueDWWRzU"
+			]
+		}
+	},
+	"version": 1
+}

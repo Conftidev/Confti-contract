@@ -4,6 +4,7 @@ import "../data/VaultData.sol";
 import "../Interface/IVault.sol";
 import "../Interface/IVeToken.sol";
 import "../Interface/IRouterData.sol";
+import "../../../Interface/IFactory.sol";
 import "../../../Interface/ISettings.sol";
 import "../../../Interface/IDivision.sol";
 import "../../../Interface/IWETH.sol";
@@ -230,7 +231,8 @@ contract Vault is IVault , VaultData {
         require(IERC20(getDivision()).totalSupply() != 0, "redeem :: The number of fragments is zero");
         require(getEntireVaultState() != State.NftState.leave, "redeem :: NFT does not exist");
         require(redeemable, "redeem :: Unable to remedy");
-        address govAddress = ISettings(IRouterData(router).settings()).feeReceiver();
+        IFactory _factory = IFactory(IRouterData(router).factory());
+        address govAddress = ISettings(_factory.settings()).feeReceiver();
         uint256 govBalance = IERC20(getDivision()).balanceOf(govAddress);
         uint256 accountBalance = IERC20(getDivision()).balanceOf(msg.sender);
 
@@ -239,6 +241,7 @@ contract Vault is IVault , VaultData {
         require(accountBalance >= _totalAmount - govBalance ,"redeem :: Not enough to burn");
 
         IDivision(getDivision()).burnDivision(msg.sender,accountBalance);
+        IDivision(getDivision()).burnDivision(govAddress,govBalance);
 
         _sendAllFreedomNFTAsset(msg.sender);
  

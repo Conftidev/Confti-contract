@@ -3,9 +3,7 @@ pragma solidity ^0.8.0;
 
 interface IRouterData {
     // ---------------    address  ------------------------
-    function factory() view external returns(address);  
-    
-    function settings() external view returns(address);
+    function factory() view external returns(address);   
 
     function vault() view external returns(address); 
     

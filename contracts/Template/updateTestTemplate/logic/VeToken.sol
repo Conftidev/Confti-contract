@@ -1025,7 +1025,7 @@ contract VeTokenV2 is IVeToken , VeTokenDataV2 {
 
     function stopReward() external override isWhiteList{
         checkpointSupply();
-        oldChangesTotalReward.push(ChangesTotalReward({changeUser:msg.sender,beforeTotalReward:totalReward,ts:block.timestamp}));
+        oldChangesTotalReward.push(ChangesTotalReward({changeUser:msg.sender,beforeTotalReward:totalReward,currentTotalReward:0,ts:block.timestamp}));
         
         totalReward =  0;
     }   

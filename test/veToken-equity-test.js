@@ -121,9 +121,10 @@ describe("测式VeToken合约", async ()=> {
         console.log("【curatorDeposit】");
         await deposit.wait(1);
       
-        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",10,utils.parseUnits("1000",18),6048000,6048000,gas)
+        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",1000,utils.parseUnits("100",18),6048000,6048000,gas)
         console.log("【issue】");
         await tx.wait(1);
+    
         // ----------------------------------------------------------
 
         const [deployer] = await ethers.getSigners();
@@ -137,11 +138,13 @@ describe("测式VeToken合约", async ()=> {
         let balanceOfMe = await token.balanceOf(deployerAddress)
         console.log(String(balanceOfMe))
 
-        //生成 vetoken 合约 
-        // const newVeTokenAddress = await newRouterContracy.veToken();
-        // veToken = await veTokenContract.attach(newVeTokenAddress);
-        // console.log("vetokenAddress = ",veToken.address);
+        //获得vetoken的代理合约
+        const newVeTokenAddress = await newRouterContracy.veToken();
+        veToken = await veTokenContract.attach(newVeTokenAddress);
+        console.log("vetokenAddress = ",veToken.address);
         // console.log(veToken);
+        console.log("totalReward=",await veToken.totalReward());
+        console.log("maxPledgeDuration=",await veToken.maxPledgeDuration());
         
     })
 
@@ -150,74 +153,76 @@ describe("测式VeToken合约", async ()=> {
     })
     // 场景1,常规验证用户个人权益
     it("->执行质押操作：场景1-常规验证用户个人权益",async ()=>{
-        const amount = 100000000000000000000;
-        //token授权给veToken
-        // let approveTx = await token.approve(veToken.address,amount+"");
-        // let approveResult =  await approveTx.wait();
-        // console.log("授权成功！");
-        // let mybalance = await token.balanceOf(deployerAddress)
-        // console.log(mybalance)
-        // await token.transfer(veToken.address,1000000000)
+        const amount = ethers.utils.parseUnits("100");
+        console.log("amount=",amount);
 
-        //  mybalance = await token.balanceOf(deployerAddress)
-        // console.log(mybalance)
+        console.log("veToken.address=",veToken.address);
+
+        let mybalance = await token.balanceOf(deployerAddress)
+        console.log("个人token余额：",ethers.utils.formatEther(mybalance))
+
+        //token授权给veToken
+        let approveTx = await token.approve(veToken.address,amount+"");
+        let approveResult =  await approveTx.wait();
+        console.log("授权成功！");
+   
 
         //质押
-        // let TotalR = await veToken.totalReward();
-        // console.log(TotalR)
-        // let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 5;
-        // console.log("质押锁定时间：",unLockedTime);
-        // console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
-        // let tx = await veToken.createLock(amount+"",unLockedTime);
-        // let tx2 = await tx.wait();
+        let TotalR = await veToken.totalReward();
+        console.log("TotalR = ",TotalR)
+        let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 5;
+        console.log("质押锁定时间：",unLockedTime);
+        console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
+        let tx = await veToken.createLock(amount+"",unLockedTime);
+        let tx2 = await tx.wait();
 
-        // console.log("刚质押数据： ",await veToken.userPointHistory(deployerAddress,1));
+        console.log("刚质押数据： ",await veToken.userPointHistory(deployerAddress,1));
 
         //查询个人当前VE权益
-        // let lastBlkTime = blockInfo();
-        // let ve = await veToken.userOfEquity(deployerAddress);
-        // console.log("bias = " +(await veToken.userPointHistory(deployerAddress,1)).bias);
-        // console.log("VE权益=",ve.toString());
+        let lastBlkTime = blockInfo();
+        let ve = await veToken.userOfEquity(deployerAddress);
+        console.log("bias = " +(await veToken.userPointHistory(deployerAddress,1)).bias);
+        console.log("VE权益=",ve.toString());
 
         //移动1周后
-        // moveTime(DELAY_WEEK * 1);
-        // await moveBlock(1);
-        // //查询1周后个人当前VE权益
-        // blockInfo();
-        // let veOfAfterWeek = await veToken.userOfEquity(deployerAddress);
-        // console.log("一周后VE权益=",veOfAfterWeek.toString());
+        moveTime(DELAY_WEEK * 1);
+        await moveBlock(1);
+        //查询1周后个人当前VE权益
+        blockInfo();
+        let veOfAfterWeek = await veToken.userOfEquity(deployerAddress);
+        console.log("一周后VE权益=",veOfAfterWeek.toString());
 
-        // //移动2周后
-        // moveTime(DELAY_WEEK * 1);
-        // await moveBlock(1);
-        // //查询2周后个人当前VE权益
-        // blockInfo();
-        // let veOfAfter2Week = await veToken.userOfEquity(deployerAddress);
-        // console.log("二周后VE权益=",veOfAfter2Week.toString());
+        //移动2周后
+        moveTime(DELAY_WEEK * 1);
+        await moveBlock(1);
+        //查询2周后个人当前VE权益
+        blockInfo();
+        let veOfAfter2Week = await veToken.userOfEquity(deployerAddress);
+        console.log("二周后VE权益=",veOfAfter2Week.toString());
 
-        // //移动3周后
-        // moveTime(DELAY_WEEK * 1);
-        // await moveBlock(1);
-        // //查询3周后个人当前VE权益
-        // blockInfo();
-        // let veOfAfter3Week = await veToken.userOfEquity(deployerAddress);
-        // console.log("三周后VE权益=",veOfAfter3Week.toString());
+        //移动3周后
+        moveTime(DELAY_WEEK * 1);
+        await moveBlock(1);
+        //查询3周后个人当前VE权益
+        blockInfo();
+        let veOfAfter3Week = await veToken.userOfEquity(deployerAddress);
+        console.log("三周后VE权益=",veOfAfter3Week.toString());
 
-        // //移动3周后
-        // moveTime(DELAY_WEEK * 1);
-        // await moveBlock(1);
-        // //查询3周后个人当前VE权益
-        // blockInfo();
-        // let veOfAfter4Week = await veToken.userOfEquity(deployerAddress);
-        // console.log("四周后VE权益=",veOfAfter4Week.toString());
+        //移动3周后
+        moveTime(DELAY_WEEK * 1);
+        await moveBlock(1);
+        //查询3周后个人当前VE权益
+        blockInfo();
+        let veOfAfter4Week = await veToken.userOfEquity(deployerAddress);
+        console.log("四周后VE权益=",veOfAfter4Week.toString());
 
-        // //移动3周后
-        // moveTime(DELAY_WEEK * 1);
-        // await moveBlock(1);
-        // //查询3周后个人当前VE权益
-        // blockInfo();
-        // let veOfAfter5Week = await veToken.userOfEquity(deployerAddress);
-        // console.log("五周后VE权益=",veOfAfter5Week.toString());
+        //移动3周后
+        moveTime(DELAY_WEEK * 1);
+        await moveBlock(1);
+        //查询3周后个人当前VE权益
+        blockInfo();
+        let veOfAfter5Week = await veToken.userOfEquity(deployerAddress);
+        console.log("五周后VE权益=",veOfAfter5Week.toString());
 
     });
 

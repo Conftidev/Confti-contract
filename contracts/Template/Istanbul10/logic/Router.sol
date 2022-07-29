@@ -8,6 +8,7 @@ import "../Interface/IVault.sol";
 import "../Interface/IVote.sol";
 import "../../../Interface/IDivision.sol";
 import "../Interface/IAuction.sol";
+import "../Interface/IVeToken.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {InitializedProxy} from "../../../InitializedProxy.sol";
@@ -46,7 +47,7 @@ contract Router is RouterData , IRouter{
     }
     
 
-    function initialize(address curator_,address settings_,string memory name) override external {
+    function initialize(address curator_,string memory name) override external {
         require(!initializer,"initialize :: Already initialized");
         initializer = !initializer;
         factory = msg.sender;
@@ -62,7 +63,6 @@ contract Router is RouterData , IRouter{
 
         setWhiteList(address(this), true);
         curator = curator_;
-        settings = settings_;
         emit Initialize(curator,vault);
     }
 
@@ -81,6 +81,7 @@ contract Router is RouterData , IRouter{
         require(reserveRatio_ <= 9900, "issue :: Incorrect reserve ratio");
         open = true;
 
+        reserveRatio = reserveRatio_;
         
         bytes memory _divisionInitializationCallData = abi.encodeWithSignature(
             "initialize(string,string)",
@@ -117,8 +118,6 @@ contract Router is RouterData , IRouter{
         lastClaimed = block.timestamp;
         fee = 0;
 
-        reserveRatio = reserveRatio_;
-
         IAuction(auction).setPrice(address(0),0,entireVaultPrice);
         emit Issue( supply_ , daoName , symbol , reserveRatio , entireVaultPrice, depositLength , rewardLength , veToken , auction , vote , division);
     }
@@ -135,7 +134,8 @@ contract Router is RouterData , IRouter{
         uint256 _targetAmount = supply_ - _govAmount - _reserveAmount;
 
         reserveAmount += _reserveAmount; // change call veToken
-        address govAddress = ISettings(settings).feeReceiver();
+        address _settings = IFactory(factory).settings();
+        address govAddress = ISettings(_settings).feeReceiver();
         IDivision(division).mintDivision(govAddress,_govAmount);
         IDivision(division).mintDivision(mintTo,_targetAmount);
         return _reserveAmount;
@@ -163,13 +163,22 @@ contract Router is RouterData , IRouter{
         require( IVault(vault).getEntireVaultState() == State.NftState.leave, "end :: The vault is still open" );
         uint256 bal = IERC20(division).balanceOf(msg.sender);
         require(bal > 0, "cash:no tokens to cash out");
-        uint256 share = bal * address(vault).balance / IERC20(division).totalSupply();
+        uint256 share = bal * address(vault).balance / IERC20(division).totalSupply() + IVeToken(veToken).totalClaimable();
         IDivision(division).burnDivision(msg.sender, bal);
         IVault(vault).sendETH(payable(msg.sender), share);
         emit Cash(msg.sender, share); 
     }
 
-
+    function cashAmount() view external returns(uint256){
+        uint256 bal = IERC20(division).balanceOf(msg.sender);
+        if(bal == 0) {
+            return 0;
+        }
+        require(bal > 0, "cash:no tokens to cash out");
+        uint256 share = bal * address(vault).balance / (IERC20(division).totalSupply() + IVeToken(veToken).totalClaimable());
+        return share;
+    }
+    
     function versionInfo() external pure override returns(string memory,uint16){
         return (VERSION_NAME , VERSION_NUMBER);
     }

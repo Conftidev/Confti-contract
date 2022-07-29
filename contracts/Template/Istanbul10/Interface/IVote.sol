@@ -10,7 +10,6 @@ interface IVote {
     ///param  codeModel_  GovernanceTemplate ID.
     function createVote(
         string memory voteTopic_,
-        string memory describe_,
         uint256  codeModel_,
         uint256  valaue_
         ) external returns(uint256);
@@ -45,7 +44,6 @@ interface IVote {
     event CreateVoteEvent(
         uint256 indexed voteId_,
         string indexed voteTopic_,
-        string indexed describe_,
         uint256 codeModel_,
         uint256 valaue_
     );

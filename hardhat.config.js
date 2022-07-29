@@ -28,7 +28,7 @@ module.exports = {
       }
     },
     localNode: {
-      url: "http://127.0.0.1:8545/",
+      url: "http://192.168.67.46:7545",
       accounts: [private_Key]
     },
     kovan: {
@@ -40,7 +40,11 @@ module.exports = {
       accounts: [private_Key]
     },
     ropsten: {
-      url: "https://ropsten.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
+      url : "https://ropsten.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
+      accounts: [private_Key]
+    },
+    mainNet:{
+      url : "https://mainnet.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
       accounts: [private_Key]
     }
   },

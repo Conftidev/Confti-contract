@@ -46,7 +46,7 @@ contract RouterV2 is RouterDataV2 , IRouter{
     }
     
 
-    function initialize(address curator_,address settings_,string memory name) override external {
+    function initialize(address curator_,string memory name) override external {
         require(!initializer,"initialize :: Already initialized");
         initializer = !initializer;
         factory = msg.sender;
@@ -61,8 +61,7 @@ contract RouterV2 is RouterDataV2 , IRouter{
         setWhiteList(vault, true);
 
         setWhiteList(address(this), true);
-        curator = curator_;
-        settings = settings_;
+        curator = curator_; 
         emit Initialize(curator,vault);
     }
 
@@ -81,6 +80,7 @@ contract RouterV2 is RouterDataV2 , IRouter{
         require(reserveRatio_ <= 9900, "issue :: Incorrect reserve ratio");
         open = true;
 
+        reserveRatio = reserveRatio_;
         
         bytes memory _divisionInitializationCallData = abi.encodeWithSignature(
             "initialize(string,string)",
@@ -119,7 +119,6 @@ contract RouterV2 is RouterDataV2 , IRouter{
         lastClaimed = block.timestamp;
         fee = 0;
 
-        reserveRatio = reserveRatio_;
 
         IAuction(auction).setPrice(address(0),0,entireVaultPrice);
         emit Issue( supply_ , daoName , symbol , reserveRatio , entireVaultPrice, depositLength , rewardLength , veToken , auction , vote , division);
@@ -137,7 +136,8 @@ contract RouterV2 is RouterDataV2 , IRouter{
         uint256 _targetAmount = supply_ - _govAmount - _reserveAmount;
 
         reserveAmount += _reserveAmount; // change call veToken
-        address govAddress = ISettings(settings).feeReceiver();
+        address _settings = IFactory(factory).settings();
+        address govAddress = ISettings(_settings).feeReceiver();
         IDivision(division).mintDivision(govAddress,_govAmount);
         IDivision(division).mintDivision(mintTo,_targetAmount);
         return _reserveAmount;

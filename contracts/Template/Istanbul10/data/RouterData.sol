@@ -4,9 +4,7 @@ import "../Interface/IRouterData.sol";
 
 contract RouterData is IRouterData{
     // ---------------    Dao Address  ------------------------
-    address override public factory;
-    
-    address override public settings;
+    address override public factory; 
 
     address override public vault;
 

@@ -1,16 +1,23 @@
+
  
-const { ethers ,utils} = require("ethers");
+const { utils} = require("ethers");
+const { expect } = require("chai");
+const { ethers,network,deployments} = require("hardhat");
 const hre = require("hardhat");
+const { concat } = require("ethers/lib/utils");
 const { provider } = waffle;
+ 
 const gas ={
   gasPrice:1097302934,
   gasLimit:20000000
 }
 
+const DELAY_WEEK = 604800; // 1 week 
+
 async function moveTime(amount) {
-  console.log("Moving blocks increaseTime...")
-  await hre.network.provider.send("evm_increaseTime",[amount])
-  console.log(`Moved forward in time ${amount} seconds`)
+    console.log("Moving blocks increaseTime...")
+    await hre.network.provider.send("evm_increaseTime",[amount])
+    console.log(`Moved forward in time ${amount} seconds`)
 }
 
 async function moveBlock(amount) {
@@ -24,25 +31,18 @@ async function moveBlock(amount) {
     console.log(`Moved ${amount} blocks`)
 }
 
-async function blockInfo(){
-  console.log("区块号：",await provider.getBlockNumber());
-  console.log("区块时间：",(await provider.getBlock()).timestamp);
-  return (await provider.getBlock()).timestamp;
-}
+var deployerAddress
+
 
 async function main() {
-  const amount = 100000000000000000000; 
-  const DELAY_WEEK = 604800; // 1 week
-  // 质押
-  let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 4;
-  
-  const [deployer] = await hre.ethers.getSigners();
+     
+  const [deployer] = await ethers.getSigners();
   deployerAddress = deployer.address;
   console.log(deployerAddress)
 
   const VeToken = await hre.ethers.getContractFactory("VeToken");
   const veTokenContract = await VeToken.deploy();
-  await veTokenContract.deployed();
+  await veTokenContract.deployed(); 
   console.log("veTokenContract deployed to:", veTokenContract.address);
 
   const vote = await hre.ethers.getContractFactory("Vote");
@@ -83,30 +83,40 @@ async function main() {
   await factoryContract.setLogic(routerContract.address,true,gas);
  
   let test =await factoryContract.mint(routerContract.address,"test",gas);
-  await test.wait(1);
-
+  let routerMint = await test.wait(1); 
+  let routerMintGas = Number(routerMint.cumulativeGasUsed) * Number(routerMint.effectiveGasPrice)
+  console.log("-------------------------------------cumulativeGasUsed",Number(routerMint.cumulativeGasUsed));
+  console.log("-------------------------------------effectiveGasPrice",Number(routerMint.effectiveGasPrice));
+  console.log("-------------------------------------routerMintGas",routerMintGas);
+  
   const newRouterAddress = await factoryContract.routers(0)
+  
   const newRouterContracy = await router.attach(newRouterAddress)
   console.log("newRouterAddress : ",newRouterAddress)
   
-  //--------------------------------Vault------------------------------------
+  const newVaultAddress = await newRouterContracy.vault()
+  
+  // //--------------------------------Vault------------------------------------
   const TestERC11555 = await hre.ethers.getContractFactory("contracts/test/ERC1155.sol:TestERC1155"); 
   const TestERC1155Contract = await  TestERC11555.deploy();
+  console.log("deployed NFT");
 
   await TestERC1155Contract.deployed();
  
   const mint1 = await TestERC1155Contract.mint(deployerAddress,1,10,gas)
   await mint1.wait(1);
-
+  console.log("mint NFT 1");
+  
   const mint2 = await TestERC1155Contract.mint(deployerAddress,2,10,gas)
   await mint2.wait(1);
+  console.log("mint NFT 2");
   
   const mint3 = await TestERC1155Contract.mint(deployerAddress,3,10,gas)
   await mint3.wait(1);
+  console.log("mint NFT 3");
 
-  let newVaultAddress =  await newRouterContracy.vault();
   console.log("newVaultAddress : ",newVaultAddress);
-   const setApprovalForAll= await TestERC1155Contract.setApprovalForAll(newVaultAddress,true,gas);
+  const setApprovalForAll= await TestERC1155Contract.setApprovalForAll(newVaultAddress,true,gas);
   console.log("【aprove】");
   await setApprovalForAll.wait(1);
 
@@ -115,61 +125,36 @@ async function main() {
     [1,2,3],
     [10,10,10]
     ,gas);
-    await deposit.wait(1);
   console.log("【curatorDeposit】");
-
-  let tx  = await newRouterContracy.issue(utils.parseUnits("10000",18) ,"Tcoin",0,utils.parseUnits("1",18),6048000,6048000,gas)
-  // const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",0,utils.parseUnits("1000",18),6048000,6048000,gas)
-  await tx.wait(1);
-  console.log("【issue】");
-  //--------------------------------Vote------------------------------------
- 
-  //生成 token合约 (Division)
-  const newDivisionAddress = await newRouterContracy.division();
-  token = await divisionContract.attach(newDivisionAddress);
-  console.log("tokenAddress = ",token.address);
- 
- 
-  const newVeTokenContractAddress = await newRouterContracy.veToken();
-  newVeToken = await VeToken.attach(newVeTokenContractAddress);
- 
-  // token授权给veToken
-  let approveTx = await token.approve(newVeToken.address,amount+"");
-  let approveResult =  await approveTx.wait();
-  console.log("授权成功！");
-
-  console.log(unLockedTime);
-  let createLock = await newVeToken.createLock(amount+"",unLockedTime,gas);
-  await createLock.wait(1);
-  console.log("createLock");
-
-  //移动1周后
-  moveTime(DELAY_WEEK * 1);
-  await moveBlock(1);
-  console.log("移动1周后");
-
- 
-  const newVote = await newRouterContracy.vote();
-  const newVoteContract = await vote.attach(newVote);
-
-  let createVote  = await newVoteContract.createVote("setVeTokenAmount","describeSet",1,30,gas);
-  console.log("【createVote】");
-  await createVote.wait(1);
-
-  let toVote  = await newVoteContract.toVote(1,true,gas);
-  console.log("[投票成功]");
-  await createVote.wait(1);
+  let curatorDepositInfo = await deposit.wait(1); 
+  let curatorDepositInfoGas = Number(curatorDepositInfo.cumulativeGasUsed) * Number(curatorDepositInfo.effectiveGasPrice)
+  console.log("-------------------------------------cumulativeGasUsed",Number(curatorDepositInfo.cumulativeGasUsed));
+  console.log("-------------------------------------effectiveGasPrice",Number(curatorDepositInfo.effectiveGasPrice));
+  console.log("-------------------------------------curatorDepositInfoGas ----- 3 NFT",curatorDepositInfoGas);
   
-  const result  = await newVoteContract.winningProposal(1);
-  console.log(result);
-
-  const  execute = await newVoteContract.execute(1,gas);
-  console.log(execute)
- }
+  let tx  = await newRouterContracy.issue(utils.parseUnits("10000",18) ,"Tcoin",5000,utils.parseUnits("1",18),6048000,6048000,gas)
+  let issueInfo = await tx.wait(1); 
+  console.log("【issue】"); 
+  let issueInfoGas = Number(issueInfo.cumulativeGasUsed) * Number(issueInfo.effectiveGasPrice)
+  console.log("-------------------------------------effectiveGasPrice",Number(issueInfo.effectiveGasPrice));
+  console.log("-------------------------------------cumulativeGasUsed",Number(issueInfo.cumulativeGasUsed));
+  console.log("-------------------------------------issueInfoGas",issueInfoGas);
+ 
+  const newVaultContract = vaultContract.attach(newVaultAddress);
+  
+  let redeem = await newVaultContract.redeem()
+  console.log("redeem function")
+  let redeemInfo = await redeem.wait(); 
+  let redeemInfoGas = Number(redeemInfo.cumulativeGasUsed) * Number(redeemInfo.effectiveGasPrice)
+  console.log("-------------------------------------effectiveGasPrice",Number(redeemInfo.effectiveGasPrice));
+  console.log("-------------------------------------cumulativeGasUsed",Number(redeemInfo.cumulativeGasUsed));
+  console.log("-------------------------------------redeemInfoGas",redeemInfoGas);  
+}
 
 main()
   .then(() => process.exit(0))
   .catch((error) => {
+
     console.error(error);
     process.exit(1);
   });

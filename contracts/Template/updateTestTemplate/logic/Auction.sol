@@ -129,7 +129,8 @@ contract AuctionV2 is IAuction, AuctionDataV2 {
     }
 
     function getSettings() public view returns(ISettings) {
-        return ISettings(IRouterData(router).settings());
+        IFactory _factory = IFactory(IRouterData(router).factory());
+        return ISettings(_factory.settings());
     }
     
     function updateAuction(address _updataTemplate) external override{

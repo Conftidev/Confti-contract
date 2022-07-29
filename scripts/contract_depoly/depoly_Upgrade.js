@@ -66,8 +66,9 @@ async function main() {
   const newRouterAddress = await factoryContract.routers(0)
   const newRouterContracy = await router.attach(newRouterAddress)
   console.log("newRouterAddress : ",newRouterAddress)
+
   
-  //--------------------------------Vault------------------------------------
+  // //--------------------------------Vault------------------------------------
   const TestERC11555 = await hre.ethers.getContractFactory("contracts/test/ERC1155.sol:TestERC1155"); 
   const TestERC1155Contract = await  TestERC11555.deploy();
 
@@ -96,9 +97,16 @@ async function main() {
   console.log("【curatorDeposit】");
   await deposit.wait(1);
 
-  let tx  = await newRouterContracy.issue(utils.parseUnits("10000",18) ,"Tcoin",0,utils.parseUnits("1",18),6048000,6048000,gas)
+  let tx  = await newRouterContracy.issue(utils.parseUnits("10000",18) ,"Tcoin",5000,utils.parseUnits("1",18),6048000,6048000,gas)
   console.log("【issue】");
   await tx.wait(1);
+  
+  const newDivisionContractAddress = await newRouterContracy.division();
+  const newDivisionContract = await divisionContract.attach(newDivisionContractAddress);
+  let totalSupply = await newDivisionContract.totalSupply();
+  let mybalance = await newDivisionContract.balanceOf(deployerAddress)
+  console.log("division",mybalance)
+  console.log("totalSupply",totalSupply)
 
   //-------------------------------Deposit----------------------------------
   const newVeTokenContractAddress = await newRouterContracy.veToken();
@@ -111,12 +119,10 @@ async function main() {
   console.log("depositTime：",unLockedTime);
   console.log("depositTimeToWeek：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
   
-  const newDivisionContractAddress = await newRouterContracy.division();
-  const newDivisionContract = await divisionContract.attach(newDivisionContractAddress);
 
   tx  = await newDivisionContract.approve(newVeTokenContractAddress,utils.parseUnits("9900",18))
   await tx.wait(1);
-  let mybalance = await newDivisionContract.balanceOf(deployerAddress)
+  mybalance = await newDivisionContract.balanceOf(deployerAddress)
   console.log("division",mybalance)
 
   const newAuctionContractAddress = await newRouterContracy.auction();

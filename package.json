@@ -1,5 +1,11 @@
 {
   "name": "hardhat-project",
+  "scripts": {
+    "main_Config": "node  ./scripts/config/mainNet/MainNetConfig.js",
+    "TestNet_Config": "node  ./scripts/config/testNet/TestNetConfig.js",
+    "main_depoly": "npx hardhat run ./scripts/contract_depoly/depoly.js --network mainNet",
+    "rinkeby_depoly": "npx hardhat run ./scripts/contract_depoly/depoly.js --network rinkeby"
+  },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",

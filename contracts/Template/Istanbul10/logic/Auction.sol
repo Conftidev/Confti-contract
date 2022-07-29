@@ -80,7 +80,7 @@ contract Auction is IAuction, AuctionData {
         // If bid is within 15 minutes of auction end, extend auction
         if (_auction.auctionEnd - block.timestamp <= 15 minutes) {
             // auctionEnd += 15 minutes;
-            _auction.auctionEnd += 0 minutes;
+            _auction.auctionEnd += 15 minutes;
         }
 
         payable(getVault()).transfer(msg.value);
@@ -130,7 +130,8 @@ contract Auction is IAuction, AuctionData {
     }
 
     function getSettings() public view returns(ISettings) {
-        return ISettings(IRouterData(router).settings());
+        IFactory _factory = IFactory(IRouterData(router).factory());
+        return ISettings(_factory.settings());
     }
     
     function updateAuction(address _updataTemplate) external override{

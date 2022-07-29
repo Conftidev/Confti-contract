@@ -4,7 +4,7 @@ const hre = require("hardhat");
  
 const gas ={
   gasPrice:1097302934,
-  gasLimit:20000000
+  gasLimit:6721975
 }
 
 async function main() {
@@ -51,13 +51,6 @@ async function main() {
   console.log("routerContract deployed to:", routerContract.address);
 
   await factoryContract.setLogic(routerContract.address,true,gas);
- 
-  let test =await factoryContract.mint(routerContract.address,"test",gas);
-  await test.wait(1);
-
-  const newRouterAddress = await factoryContract.routers(0)
-  const newRouterContracy = await router.attach(newRouterAddress)
-  console.log("newRouterAddress : ",newRouterAddress)
    
  }
 

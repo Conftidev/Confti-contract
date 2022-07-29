@@ -13,6 +13,7 @@ contract Vote is IVote,VoteData {
         router = msg.sender;
         veToken = IVeToken(getVeToken());
         emit InitializeEvent(router);
+        minimumQuantity = 5;
     }
 
     function getVeToken() public view returns(address){
@@ -26,7 +27,6 @@ contract Vote is IVote,VoteData {
  
     function createVote(
         string memory voteTopic_,
-        string memory describe_,
         uint256  templateID_,
         uint256  valaue_
          ) external override returns(uint256 voteId){
@@ -43,12 +43,11 @@ contract Vote is IVote,VoteData {
         _VoteStruct.voteId = voteTatola;
         _VoteStruct.time = block.timestamp + voteTime;
         _VoteStruct.initiator = msg.sender;
-        _VoteStruct.describe = describe_;
         _VoteStruct.status = VoteStatus.isvoting;
         _VoteStruct.codeModel = templateID_;
         _VoteStruct.value = valaue_;
         
-        emit CreateVoteEvent(voteTatola,voteTopic_,describe_,templateID_,valaue_);
+        emit CreateVoteEvent(voteTatola,voteTopic_,templateID_,valaue_);
         
         return voteTatola;
     }
@@ -100,7 +99,8 @@ contract Vote is IVote,VoteData {
         require(veToken.userOfEquity(msg.sender) >= _totalsupply,"Too few tokens are held");
 
         VoteStruct storage  _vote = voteMapp[voteId_];
-
+        require(_vote.againstPopel+_vote.supPopel >= _vote.totalsupply * 30 / 100,"votes is less than 30 percent");
+        require(_vote.supPopel *  100 / (_vote.againstPopel + _vote.supPopel)  >= 60,"Less than 60% of the votes passed");
         require(block.timestamp >= _vote.time && block.timestamp < _vote.time + bufferTime, "Still in the voting phase");
         require(_vote.status == VoteStatus.isvoting,"Not at the voting stage");
 
@@ -156,7 +156,9 @@ contract Vote is IVote,VoteData {
         _updateCall(IRouterData(router).auction(),"updateAuction(address)",_updataTemplate);
         _updateCall(IRouterData(router).vault(),"updateVault(address)",_updataTemplate);
         updateVote(_updataTemplate); 
-       } 
+       }else if(templateID_ == 5){
+        getGovernanceTemplateforEntireVaultPrice(value_);
+       }
     }
 
     function updateVote(address _updataTemplate) private{
@@ -176,8 +178,8 @@ contract Vote is IVote,VoteData {
         minimumQuantity = value_;
      }
 
-    function getTemplate()public view  returns(GgovernanceTemplate[] memory re){
-        GgovernanceTemplate[]  memory arr = new GgovernanceTemplate[] (3);
+     function getTemplate()public  view  returns(GgovernanceTemplate[] memory arr){
+        GgovernanceTemplate[]  memory arr = new GgovernanceTemplate[] (5);
 
         GgovernanceTemplate memory _Template = template[0];
         _Template.templateId = 1;
@@ -193,9 +195,22 @@ contract Vote is IVote,VoteData {
         _Template3.templateId = 3;
         _Template3.functionName = "updateMaxRewardDuration";
         _Template3.toppic = "Modify the maximun pledage reward";
+        
+        GgovernanceTemplate memory _Template4 = template[3];
+        _Template4.templateId = 4;
+        _Template4.functionName = "updateContract";
+        _Template4.toppic = "Contract upgrade to the next version";
+
+        GgovernanceTemplate memory _Template5 = template[4];
+        _Template5.templateId = 5;
+        _Template5.functionName = "setPrice";
+        _Template5.toppic = "update price of entire vault";
+
         arr[0] = _Template;
         arr[1] = _Template2;
         arr[2] = _Template3;
+        arr[3] = _Template4;
+        arr[4] = _Template5;
         return arr;
     }
 
@@ -227,6 +242,11 @@ contract Vote is IVote,VoteData {
 
     function getGovernanceTemplateforMaxRewardDuration(uint256 value_) private {
         _governanceTemplate(address(veToken),"updateMaxRewardDuration(uint256)",value_);
+    }
+
+    function getGovernanceTemplateforEntireVaultPrice(uint256 value_) private {
+        (bool _ok, bytes memory returnData) = getAuction().call(abi.encodeWithSignature("setPrice(address,uint256,uint256)",address(0),0,value_));
+        require(_ok, string(returnData));
     }
 
     function _governanceTemplate(address tarGet,string memory functionName ,uint256  valaue) private {
@@ -266,5 +286,7 @@ contract Vote is IVote,VoteData {
     function getVault() public view returns(address){
         return IRouterData(router).vault();
     }
-
+    function getAuction() public view returns(address){
+        return IRouterData(router).auction();
+    }
 }

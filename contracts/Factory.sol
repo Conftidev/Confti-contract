@@ -20,7 +20,7 @@ contract Factory is Ownable, Pausable {
   mapping(address => address) public calibrationTemplate;
 
   /// @notice a setting contract controlled by governance
-  address public immutable setting;
+  address public settings;
   
   /// @notice the TokenVault logic contract
   mapping (address => bool) public routerTemplateMap;
@@ -38,21 +38,24 @@ contract Factory is Ownable, Pausable {
     reentry = false;
   }
 
-  constructor(address setting_) {
-    setting = setting_;
+  constructor(address settings_) {
+    settings = settings_;
   } 
 
   function setUpdateUtilsAddres(string memory versionsName,uint16 versions,address updataTemplate) external onlyOwner{
     updateUtilsAddres[versionsName][versions] = updataTemplate;
   }
 
+  function setSetting(address newSettings) external onlyOwner{
+    settings = newSettings;
+  }
+
   function mint(address routerTemplate,string memory name) external whenNotPaused nonReentrant returns(uint256) {
     require(routerTemplateMap[routerTemplate], "Factory :: Incorrect template address");
 
     bytes memory _initializationCalldata = abi.encodeWithSignature(
-      "initialize(address,address,string)",
+      "initialize(address,string)",
       msg.sender,
-      setting,
       name
     );
 

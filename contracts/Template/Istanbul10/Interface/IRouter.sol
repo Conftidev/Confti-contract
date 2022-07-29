@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 interface IRouter {
-    function initialize(address,address,string memory) external;
+    function initialize(address,string memory) external;
 
     function curatorDeposit(address[] memory,uint256[] memory,uint256[] memory) external;
 

@@ -20,7 +20,7 @@ import "../Interface//IVeToken.sol";
     mapping(uint256 => VoteStruct) voteMapp;
     mapping(uint256=> GgovernanceTemplate) template;
     mapping(uint256 => bool) public executeQueueMap;
-    uint256  public minimumQuantity = 5 ;
+    uint256  public minimumQuantity ;
     struct VoteStruct{
         uint256 totalsupply;
         uint256 voteId;

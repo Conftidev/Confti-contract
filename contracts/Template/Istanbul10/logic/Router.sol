@@ -5,12 +5,13 @@ import "../Interface/IRouter.sol";
 import "../../../Interface/IFactory.sol";
 import "../../../Interface/ISettings.sol";
 import "../Interface/IVault.sol";
+import "../Interface/IVeToken.sol";
 import "../Interface/IVote.sol";
 import "../../../Interface/IDivision.sol";
 import "../Interface/IAuction.sol";
 import "../Interface/IVeToken.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
+import "hardhat/console.sol";
 import {InitializedProxy} from "../../../InitializedProxy.sol";
 import "@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol";
 
@@ -67,8 +68,11 @@ contract Router is RouterData , IRouter{
     }
 
     function curatorDeposit(address[] memory nft,uint256[] memory nftId,uint256[] memory amount) override external nonReentrant {
+ 
         require(!open, "curatorDeposit :: Token is already active");
+ 
         require(msg.sender == curator, "curatorDeposit :: Only curator can deposit NFT");
+  
         IVault(vault).depositNFTAsset(nft,nftId,amount,msg.sender,10000);
         emit CuratorDeposit(nft,nftId,amount);
     }
@@ -163,7 +167,7 @@ contract Router is RouterData , IRouter{
         require( IVault(vault).getEntireVaultState() == State.NftState.leave, "end :: The vault is still open" );
         uint256 bal = IERC20(division).balanceOf(msg.sender);
         require(bal > 0, "cash:no tokens to cash out");
-        uint256 share = bal * address(vault).balance / IERC20(division).totalSupply() + IVeToken(veToken).totalClaimable();
+        uint256 share = bal * address(vault).balance / (IERC20(division).totalSupply() + IVeToken(veToken).totalClaimable());
         IDivision(division).burnDivision(msg.sender, bal);
         IVault(vault).sendETH(payable(msg.sender), share);
         emit Cash(msg.sender, share); 
@@ -178,7 +182,7 @@ contract Router is RouterData , IRouter{
         uint256 share = bal * address(vault).balance / (IERC20(division).totalSupply() + IVeToken(veToken).totalClaimable());
         return share;
     }
-    
+
     function versionInfo() external pure override returns(string memory,uint16){
         return (VERSION_NAME , VERSION_NUMBER);
     }

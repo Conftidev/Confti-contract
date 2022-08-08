@@ -4,15 +4,15 @@ const { inputToConfig } = require("@ethereum-waffle/compiler");
 const { expect, assert } = require("chai");
 const { ethers,network,deployments} = require("hardhat");
 const { provider } = waffle;
-
 const { utils} = require("ethers");
 
-const DELAY_WEEK = 604800; // 1 week 
-
+ 
+const DELAY_WEEK = 604800; // 1 week
 const gas ={
     gasPrice:1097302934,
-    gasLimit:20000000
-  }
+    gasLimit:6000000
+}
+ 
   
 async function moveTime(amount) {
   console.log("Moving blocks increaseTime...")
@@ -43,6 +43,15 @@ describe("测式VeToken合约", async ()=> {
     let deployerAddress;
 
     before(async () => {
+ 
+ 
+
+        const [deployer] = await ethers.getSigners();
+        deployerAddress = deployer.address;
+
+ 
+        console.log("deployerAddress=",deployer.address);
+
         const VeToken = await hre.ethers.getContractFactory("VeToken");
         const veTokenContract = await VeToken.deploy();
         await veTokenContract.deployed();
@@ -98,13 +107,13 @@ describe("测式VeToken合约", async ()=> {
       
         await TestERC1155Contract.deployed();
        
-        const mint1 = await TestERC1155Contract.mint("0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",1,10,gas)
+        const mint1 = await TestERC1155Contract.mint(deployerAddress,1,10,gas)
         await mint1.wait(1);
       
-        const mint2 = await TestERC1155Contract.mint("0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",2,10,gas)
+        const mint2 = await TestERC1155Contract.mint(deployerAddress,2,10,gas)
         await mint2.wait(1);
         
-        const mint3 = await TestERC1155Contract.mint("0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",3,10,gas)
+        const mint3 = await TestERC1155Contract.mint(deployerAddress,3,10,gas)
         await mint3.wait(1);
       
         let newVaultAddress =  await newRouterContracy.vault();
@@ -121,14 +130,11 @@ describe("测式VeToken合约", async ()=> {
         console.log("【curatorDeposit】");
         await deposit.wait(1);
       
-        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",1000,utils.parseUnits("100",18),6048000,6048000,gas)
+        const tx  = await newRouterContracy.issue(utils.parseUnits("10000",18) ,"Tcoin",10,utils.parseUnits("10",18),31449600,31449600,gas)
         console.log("【issue】");
         await tx.wait(1);
-    
         // ----------------------------------------------------------
 
-        const [deployer] = await ethers.getSigners();
-        deployerAddress = deployer.address;
 
         //生成 token合约 (Division)
         const newDivisionAddress = await newRouterContracy.division();
@@ -138,22 +144,228 @@ describe("测式VeToken合约", async ()=> {
         let balanceOfMe = await token.balanceOf(deployerAddress)
         console.log(String(balanceOfMe))
 
-        //获得vetoken的代理合约
+ 
         const newVeTokenAddress = await newRouterContracy.veToken();
         veToken = await veTokenContract.attach(newVeTokenAddress);
         console.log("vetokenAddress = ",veToken.address);
         // console.log(veToken);
-        console.log("totalReward=",await veToken.totalReward());
-        console.log("maxPledgeDuration=",await veToken.maxPledgeDuration());
-        
+ 
+ 
     })
 
     afterEach(()=>{
 
     })
     
-    it("->",async ()=>{
-      const amount = ethers.utils.parseUnits("100");
+ 
+    // it("->常规测式",async ()=>{
+    //     const amount = 100000000000000000000; 
+        
+    //     //token授权给veToken
+    //     let approveTx = await token.approve(veToken.address,amount+"");
+    //     let approveResult =  await approveTx.wait();
+    //     console.log("授权成功！");
+
+    //     //质押
+    //     let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 4;
+    //     // console.log("质押锁定时间：",unLockedTime);
+    //     console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
+    //     let tx = await veToken.createLock(amount+"",unLockedTime);
+    //     // console.log("tx=",tx);
+    //     // let tx2 = await tx.wait();
+    //     // console.log("tx2=",tx2);
+    //     let datas = await veToken.userPointHistory(deployerAddress,1);
+    //     console.log("刚质押数据： ",datas);
+
+    //     //查询当前用户可领取奖励数量
+    //     await blockInfo();
+    //     await veToken._checkpointTotalSupply();
+    //     console.log("个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    //     //移动1周后
+    //     await moveTime(DELAY_WEEK * 1);
+    //     await moveBlock(1);
+    //     await blockInfo();
+    //     let tx01 = await veToken._checkpointTotalSupply();
+    //     // let tx01a = await tx01.wait();
+    //     // console.log("tx01a=",tx01a);
+    //     let tt1 = parseInt((parseInt(datas.ts) + DELAY_WEEK-1)/DELAY_WEEK) * DELAY_WEEK;
+    //     console.log("tt1 = ",tt1);
+    //     console.log(await veToken.veSupply(tt1));
+    //     console.log("移动一周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    //     //移动2周后
+    //     await moveTime(DELAY_WEEK * 1);
+    //     await moveBlock(1);
+    //     let tx02 = await veToken._checkpointTotalSupply();
+    //     // let tx02a = await tx02.wait();
+    //     // console.log("tx02a=",tx02a);
+    //     await blockInfo();
+    //     let tt2 = parseInt((parseInt(datas.ts) + DELAY_WEEK * 2-1)/DELAY_WEEK) * DELAY_WEEK;
+    //     console.log("tt2 = ",tt2);
+    //     console.log(await veToken.veSupply(tt2));
+    //     console.log("移动二周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    //     //移动3周后
+    //     await moveTime(DELAY_WEEK * 1);
+    //     await moveBlock(1);
+    //     let tx03 = await veToken._checkpointTotalSupply();
+    //     // let tx03a = await tx03.wait();
+    //     // console.log("tx03a=",tx03a);
+    //     await blockInfo();
+    //     let tt3 = parseInt((parseInt(datas.ts) + DELAY_WEEK*3-1)/DELAY_WEEK) * DELAY_WEEK;
+    //     console.log("tt3 = ",tt3);
+    //     console.log(await veToken.veSupply(tt3));
+    //     console.log("移动三周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    //     //移动4周后
+    //     await moveTime(DELAY_WEEK * 1);
+    //     await moveBlock(1);
+    //     let tx04 = await veToken._checkpointTotalSupply();
+    //     // let tx04a = await tx04.wait();
+    //     // console.log("tx04a=",tx04a);
+    //     await blockInfo();
+    //     let tt4 = parseInt((parseInt(datas.ts) + DELAY_WEEK*4-1)/DELAY_WEEK) * DELAY_WEEK;
+    //     console.log("tt4 = ",tt4);
+    //     console.log(await veToken.veSupply(tt4));
+    //     console.log("移动四周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    //     // //移动5周后
+    //     await moveTime(DELAY_WEEK * 5);
+    //     await moveBlock(1);
+    //     let tx11 = await veToken._checkpointTotalSupply();
+    //     // let tx11a = await tx11.wait();
+    //     // console.log("tx11a=",tx11a);
+    //     await blockInfo();
+    //     let tt5 = parseInt((parseInt(datas.ts) + DELAY_WEEK*5-1)/DELAY_WEEK) * DELAY_WEEK;
+    //     console.log("tt5 = ",tt5);
+    //     console.log(await veToken.veSupply(tt5));
+    //     console.log("移动五周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    // });
+
+    // it("->追加质押数量",async ()=>{
+    //     const amount = 100000000000000000000; 
+        
+    //     // token授权给veToken
+    //     let approveTx = await token.approve(veToken.address,amount+"");
+    //     let approveResult =  await approveTx.wait();
+    //     console.log("授权成功！");
+
+    //     // 质押
+    //     let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 10;
+    //     console.log("质押锁定时间：",unLockedTime);
+    //     console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
+    //     let tx = await veToken.createLock(amount+"",unLockedTime);
+    //     console.log("tx=",tx);
+    //     let tx2 = await tx.wait();
+    //     console.log("tx2=",tx2);
+    //     let datas = await veToken.userPointHistory(deployerAddress,1);
+    //     console.log("刚质押数据： ",datas);
+
+    //     // 查询当前用户可领取奖励数量
+    //     await blockInfo();
+    //     await veToken._checkpointTotalSupply();
+    //     console.log("个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    //     // 移动1周后
+    //     await moveTime(DELAY_WEEK * 1);
+    //     await moveBlock(1);
+    //     await blockInfo();
+    //     let tx01 = await veToken._checkpointTotalSupply();
+    //     let tx01a = await tx01.wait();
+    //     console.log("tx01a=",tx01a);
+    //     let tt1 = parseInt((parseInt(datas.ts) + DELAY_WEEK-1)/DELAY_WEEK) * DELAY_WEEK;
+    //     console.log("tt1 = ",tt1);
+    //     console.log(await veToken.veSupply(tt1));
+    //     console.log("移动一周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+    //     // 追加质押数量
+    //     let tx02 = await veToken.increaseAmount(amount+"");
+    //     let tx02a = await tx02.wait();
+    //     console.log("tx02a=",tx02a);
+
+    //     // 延长质押时间
+    //     let t = unLockedTime + DELAY_WEEK * 5;
+    //     let tx03 = await veToken.increaseUnlockTime(unLockedTime+"");
+    //     let tx03a = await tx03.wait();
+    //     console.log("tx03a=",tx03a);
+
+    //     // 提现
+    //     await moveTime(DELAY_WEEK * 10);
+    //     await moveBlock(1);
+    //     await blockInfo();
+    //     let tx04 = await veToken.withdraw();
+    //     let tx04a = await tx04.wait();
+    //     console.log("tx04a=",tx04a);
+
+    // });
+
+    // it("->延长质押时间",async ()=>{
+    //     const amount = 100000000000000000000; 
+ 
+        
+        // token授权给veToken
+        // let approveTx = await token.approve(veToken.address,amount+"");
+        // let approveResult =  await approveTx.wait();
+        // console.log("授权成功！");
+
+ 
+        //质押
+        // let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 10;
+        // console.log("质押锁定时间：",unLockedTime);
+        // console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
+        // let tx = await veToken.createLock(amount+"",unLockedTime);
+        // console.log("tx=",tx);
+        // let tx2 = await tx.wait();
+        // console.log("tx2=",tx2);
+        // let datas = await veToken.userPointHistory(deployerAddress,1);
+        // console.log("刚质押数据： ",datas);
+
+        //查询当前用户可领取奖励数量
+        // await blockInfo();
+        // await veToken._checkpointTotalSupply();
+        // console.log("个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+        //移动1周后
+        // await moveTime(DELAY_WEEK * 1);
+        // await moveBlock(1);
+        // await blockInfo();
+        // let tx01 = await veToken._checkpointTotalSupply();
+        // let tx01a = await tx01.wait();
+        // console.log("tx01a=",tx01a);
+        // let tt1 = parseInt((parseInt(datas.ts) + DELAY_WEEK-1)/DELAY_WEEK) * DELAY_WEEK;
+        // console.log("tt1 = ",tt1);
+        // console.log(await veToken.veSupply(tt1));
+        // console.log("移动一周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
+
+        //追加质押数量
+        // let tx02 = await veToken.increaseAmount(amount+"");
+        // let tx02a = await tx02.wait();
+        // console.log("tx02a=",tx02a);
+
+        //延长质押时间
+        // let t = unLockedTime + DELAY_WEEK * 5;
+        // let tx03 = await veToken.increaseUnlockTime(unLockedTime+"");
+        // let tx03a = await tx03.wait();
+        // console.log("tx03a=",tx03a);
+
+        //提现
+        // await moveTime(DELAY_WEEK * 10);
+        // await moveBlock(1);
+        // await blockInfo();
+        // let tx04 = await veToken.withdraw();
+        // let tx04a = await tx04.wait();
+        // console.log("tx04a=",tx04a);
+
+    // });
+
+    it("->提现测式",async ()=>{
+        await moveTime(3600);
+        await moveBlock(1);
+        let current = await blockInfo();
+        console.log("当前区块时间：",current);
+        const amount = utils.parseUnits("1000"); 
         
         // token授权给veToken
         let approveTx = await token.approve(veToken.address,amount+"");
@@ -161,74 +373,59 @@ describe("测式VeToken合约", async ()=> {
         console.log("授权成功！");
 
         // 质押
-        let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 4;
-        // console.log("质押锁定时间：",unLockedTime);
+        // let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 4;
+        let unLockedTime = current + DELAY_WEEK * 4;
+        console.log("质押锁定时间：",unLockedTime);
         console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
         let tx = await veToken.createLock(amount+"",unLockedTime);
+        // console.log("tx=",tx);
         let tx2 = await tx.wait();
+        // console.log("tx2=",tx2);
         let datas = await veToken.userPointHistory(deployerAddress,1);
         console.log("刚质押数据： ",datas);
+        console.log("锁定的数据：",await veToken.locked(deployerAddress));
 
-        // 查询当前用户可领取奖励数量
+        // // 查询当前用户可领取奖励数量
         await blockInfo();
-        await veToken._checkpointTotalSupply();
-        console.log("个人当前奖励=",await veToken.claimableTokenTestByAll(deployerAddress));
+        // await veToken._checkpointTotalSupply();
+        console.log("个人当前奖励=",await veToken.claimableToken(deployerAddress));
 
-        // 移动1周后
-        await moveTime(DELAY_WEEK * 1);
+        // 移动2周后
+        await moveTime(DELAY_WEEK * 5);
         await moveBlock(1);
         await blockInfo();
-        await veToken._checkpointTotalSupply();
+        console.log("维护帐本前总帐本最大纪元=",await veToken.epoch());
+        // console.log(`当前总帐本检查点=`,await veToken.supplyPointHistory(await veToken.epoch()));
+        console.log(`当前用户检查点=`,await veToken.userPointHistory(deployerAddress,await veToken.userPointEpoch(deployerAddress)));
+        let tx01 = await veToken._checkpointTotalSupply();
+        let tx01a = await tx01.wait();
+        let maxEpoch = await veToken.epoch();
+        console.log("维护帐本后总帐本最大纪元=",maxEpoch);
+        // for(var i=1;i<=maxEpoch;i++){
+        //     console.log(`总帐本第${i}个检查点=`,await veToken.supplyPointHistory(maxEpoch));
+        // }
+
+        // console.log("tx01a=",tx01a);
         let tt1 = parseInt((parseInt(datas.ts) + DELAY_WEEK-1)/DELAY_WEEK) * DELAY_WEEK;
-        console.log("tt1 = ",tt1);
-        console.log(await veToken.veSupply(tt1));
-        console.log("移动一周后个人当前奖励=",await veToken.claimableTokenTestByAll(deployerAddress));
+        let tt2 = Number(tt1)+DELAY_WEEK;
+        let tt3 = Number(tt2)+DELAY_WEEK;
+        let tt4 = Number(tt3)+DELAY_WEEK;
+        // console.log("tt1 = ",tt1);
+        console.log(`tt1[${tt1}]=`,await veToken.veSupply(tt1));
+        console.log(`tt2[${tt2}]=`,await veToken.veSupply(tt2));
+        console.log(`tt3[${tt3}]=`,await veToken.veSupply(tt3));
+        console.log(`tt4[${tt4}]=`,await veToken.veSupply(tt4));
+        console.log("移动四周后个人当前奖励=",await veToken.claimableToken(deployerAddress));
 
-        //移动2周后
-        await moveTime(DELAY_WEEK * 1);
-        await moveBlock(1);
-        await veToken._checkpointTotalSupply();
-        await blockInfo();
-        let tt2 = parseInt((parseInt(datas.ts) + DELAY_WEEK * 2-1)/DELAY_WEEK) * DELAY_WEEK;
-        console.log("tt2 = ",tt2);
-        console.log(await veToken.veSupply(tt2));
-        console.log("移动二周后个人当前奖励=",await veToken.claimableTokenTestByAll(deployerAddress));
+        // await moveTime(DELAY_WEEK * 4);
+        // await moveBlock(4);
+        // await blockInfo();
 
-        //移动3周后
-        await moveTime(DELAY_WEEK * 1);
-        await moveBlock(1);
-        await veToken._checkpointTotalSupply();
-        await blockInfo();
-        let tt3 = parseInt((parseInt(datas.ts) + DELAY_WEEK*3-1)/DELAY_WEEK) * DELAY_WEEK;
-        console.log("tt3 = ",tt3);
-        console.log(await veToken.veSupply(tt3));
-        console.log("移动三周后个人当前奖励=",await veToken.claimableTokenTestByAll(deployerAddress));
+        // let aa = await veToken._checkpointTotalSupply();
+        // let aa2 = await aa.wait();
 
-        //移动4周后
-        await moveTime(DELAY_WEEK * 1);
-        await moveBlock(1);
-        await veToken._checkpointTotalSupply();
-        await blockInfo();
-        let tt4 = parseInt((parseInt(datas.ts) + DELAY_WEEK*4-1)/DELAY_WEEK) * DELAY_WEEK;
-        console.log("tt4 = ",tt4);
-        console.log(await veToken.veSupply(tt4));
-        console.log("移动四周后个人当前奖励=",await veToken.claimableTokenTestByAll(deployerAddress));
-
-        //移动5周后
-        await moveTime(DELAY_WEEK * 1);
-        await moveBlock(1);
-        await veToken._checkpointTotalSupply();
-        await blockInfo();
-        let tt5 = parseInt((parseInt(datas.ts) + DELAY_WEEK*5-1)/DELAY_WEEK) * DELAY_WEEK;
-        console.log("tt5 = ",tt5);
-        console.log(await veToken.veSupply(tt5));
-        console.log("移动五周后个人当前奖励=",await veToken.claimableTokenTestByAll(deployerAddress));
-
-
-        //总的奖励
-        console.log("总奖励数：",utils.formatEther(await veToken.totalReward()));
-        console.log("已领取奖励总数：",await veToken.totalClaimedReward());
-        console.log("未领取奖励总数：",utils.formatEther(await veToken.totalClaimable()));
+        // console.log("移动8周后个人当前奖励=",await veToken.claimableTokenTestByAll(deployerAddress));
+ 
 
     });
 

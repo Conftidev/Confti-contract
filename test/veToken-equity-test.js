@@ -121,7 +121,9 @@ describe("测式VeToken合约", async ()=> {
         console.log("【curatorDeposit】");
         await deposit.wait(1);
       
-        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",1000,utils.parseUnits("100",18),6048000,6048000,gas)
+ 
+        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",10,utils.parseUnits("1000",18),6048000,6048000,gas)
+ 
         console.log("【issue】");
         await tx.wait(1);
     
@@ -164,12 +166,18 @@ describe("测式VeToken合约", async ()=> {
         //token授权给veToken
         let approveTx = await token.approve(veToken.address,amount+"");
         let approveResult =  await approveTx.wait();
-        console.log("授权成功！");
-   
+        console.log("授权成功！"); 
+        let mybalance2 = await token.balanceOf(deployerAddress)
+        console.log(mybalance2)
+        await token.transfer(veToken.address,1000000000)
+
+         mybalance = await token.balanceOf(deployerAddress)
+        console.log(mybalance)
 
         //质押
         let TotalR = await veToken.totalReward();
-        console.log("TotalR = ",TotalR)
+        console.log(TotalR)
+ 
         let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 5;
         console.log("质押锁定时间：",unLockedTime);
         console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);

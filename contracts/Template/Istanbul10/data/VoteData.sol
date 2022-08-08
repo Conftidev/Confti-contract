@@ -2,15 +2,17 @@
 pragma solidity ^0.8.0;
  
 import "../Interface//IVeToken.sol";
+import "../data/VeTokenData.sol";
+
   contract VoteData{ 
   
     enum VoteStatus {uninitialized, isvoting, succeed,
       faild,bufferTime,secondBallot,executeTime}
  
     //This field records the voting time
-    uint256 constant   voteTime = 3 minutes;
+    uint256 constant   voteTime = 4 minutes;
     //This field records the counterview
-    uint256 constant bufferTime = 4 minutes;
+    uint256 constant bufferTime = 3 minutes;
     
     address public router;
     IVeToken public veToken;
@@ -22,7 +24,8 @@ import "../Interface//IVeToken.sol";
     mapping(uint256 => bool) public executeQueueMap;
     uint256  public minimumQuantity ;
     struct VoteStruct{
-        uint256 totalsupply;
+        uint256 veTokenTotalSupply;
+        uint256 tokenTotalSupply;
         uint256 voteId;
         uint256 time;
         string  voteTopic;
@@ -56,5 +59,8 @@ import "../Interface//IVeToken.sol";
         string toppic;
         string functionName; 
     }
-  
+    
+    // 1 = setPrice
+    mapping(uint => bool) public templateState;
+   
 }  

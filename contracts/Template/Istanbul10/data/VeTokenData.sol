@@ -17,6 +17,7 @@ contract VeTokenData{
     // Proxy Address
     address public router;
     bool public initializer;
+    bool public isReentry;
 
     uint256 public totalReward;
     // uint256 public surplusTotalReward;

@@ -77,6 +77,9 @@ contract Factory is Ownable, Pausable {
   }
 
   function setLogic(address router, bool ratify) external onlyOwner {
+    uint256 size;
+    assembly { size := extcodesize(router)}
+    require(size > 0,"Only smart contract address can be set");
     routerTemplateMap[router] = ratify;
   }
 

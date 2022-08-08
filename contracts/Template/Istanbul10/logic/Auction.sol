@@ -10,7 +10,7 @@ import "../Interface/IVault.sol";
 import "../Interface/IVaultData.sol";
 import "../../../Interface/IFactory.sol";
 import "../Interface/IVeToken.sol";
-
+import "../Interface/IVoteData.sol";
 
 contract Auction is IAuction, AuctionData {
 
@@ -25,7 +25,7 @@ contract Auction is IAuction, AuctionData {
         require(!initializer,"initialize :: Already initialized");
         initializer = !initializer;
         router = msg.sender;
-        auctionLength = 2 minutes;
+        auctionLength = 3 days;
     }
 
     function setPrice(address nft,uint256 nftId,uint256 price_) override external nonReentrant {
@@ -47,7 +47,8 @@ contract Auction is IAuction, AuctionData {
 
     /// @notice kick off an auction. Must send reservePrice in ETH
     function start() override external payable nonReentrant {
-        AuctionInfo storage _auction = auctions[0];
+        AuctionInfo storage _auction = auctions[0]; 
+        require(!IVoteData(getVote()).templateState(1),"The price is being set now");
         require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "start :: no auction starts");
         require(_auction.price != 0,"start :: Entire vault price is zore");
         require(msg.value >= _auction.price, "start :: too low bid");
@@ -64,7 +65,7 @@ contract Auction is IAuction, AuctionData {
         IVault(getVault()).noncallable(); 
         IVeToken(getVeToken()).stopReward();
         
-        emit Start(_auction.winning, _auction.livePrice);
+        emit Start(_auction.winning, _auction.livePrice,_auction.auctionEnd);
     }
 
     /// @notice an external function to bid on purchasing the vaults NFT. The msg.value is the bid amount
@@ -79,7 +80,6 @@ contract Auction is IAuction, AuctionData {
     
         // If bid is within 15 minutes of auction end, extend auction
         if (_auction.auctionEnd - block.timestamp <= 15 minutes) {
-            // auctionEnd += 15 minutes;
             _auction.auctionEnd += 15 minutes;
         }
 
@@ -89,7 +89,7 @@ contract Auction is IAuction, AuctionData {
 
         _auction.winning = payable(msg.sender);
         _auction.livePrice = msg.value;
-        emit Bid(_auction.winning, _auction.livePrice);
+        emit Bid(_auction.winning, _auction.livePrice,_auction.auctionEnd);
     }
 
     /// @notice an external function to end an auction after the timer has run out
@@ -123,6 +123,10 @@ contract Auction is IAuction, AuctionData {
 
     function getVault() public view returns(address){
         return IRouterData(router).vault();
+    }
+
+    function getVote() public view returns(address){
+        return IRouterData(router).vote();
     }
 
     function getVeToken() public view returns(address){

@@ -1,0 +1,2942 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Division.sol": {
+      "lastModificationDate": 1658717341469,
+      "contentHash": "1707527ce2019f82daed9bbf41713723",
+      "sourceName": "contracts/Division.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Template/Istanbul10/Interface/IRouterData.sol",
+        "./Interface/IDivision.sol",
+        "./Interface/IWETH.sol",
+        "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Division"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IRouterData.sol": {
+      "lastModificationDate": 1659324745141,
+      "contentHash": "18b479d351681e98194d89480af25815",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IRouterData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IRouterData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Interface\\IDivision.sol": {
+      "lastModificationDate": 1658308415406,
+      "contentHash": "bf07d5c47173d4003e674a2c938b89ae",
+      "sourceName": "contracts/Interface/IDivision.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IDivision"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Interface\\IWETH.sol": {
+      "lastModificationDate": 1657184677438,
+      "contentHash": "162f178a9a7e6f7e1bc175434e5cd855",
+      "sourceName": "contracts/Interface/IWETH.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IWETH"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\ERC20Upgradeable.sol": {
+      "lastModificationDate": 1656913313065,
+      "contentHash": "29654eff1edfdb21cc90cfeda3bd5824",
+      "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20Upgradeable.sol",
+        "./extensions/IERC20MetadataUpgradeable.sol",
+        "../../utils/ContextUpgradeable.sol",
+        "../../proxy/utils/Initializable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20Upgradeable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\IERC20Upgradeable.sol": {
+      "lastModificationDate": 1656913313204,
+      "contentHash": "ef26cabe448ad1a07091ad97534e320a",
+      "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20Upgradeable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts-upgradeable\\token\\ERC20\\extensions\\IERC20MetadataUpgradeable.sol": {
+      "lastModificationDate": 1656913313196,
+      "contentHash": "751ef4b010fddf04a9e90de13fe1ffe7",
+      "sourceName": "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC20Upgradeable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20MetadataUpgradeable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol": {
+      "lastModificationDate": 1656913312915,
+      "contentHash": "5db4a258f3590dd5f09601c755ff7cc5",
+      "sourceName": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../proxy/utils/Initializable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ContextUpgradeable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol": {
+      "lastModificationDate": 1656913313277,
+      "contentHash": "76309b022d76aa52bb1830b7bf515e9e",
+      "sourceName": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Initializable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\logic\\Vault.sol": {
+      "lastModificationDate": 1659324745354,
+      "contentHash": "3aec7f5194c6d0b068918f80638035e8",
+      "sourceName": "contracts/Template/updateTestTemplate/logic/Vault.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/VaultData.sol",
+        "../Interface/IVault.sol",
+        "../Interface/IVeToken.sol",
+        "../Interface/IRouterData.sol",
+        "../../../Interface/IFactory.sol",
+        "../../../Interface/ISettings.sol",
+        "../../../Interface/IDivision.sol",
+        "../../../Interface/IWETH.sol",
+        "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol",
+        "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VaultV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\data\\VaultData.sol": {
+      "lastModificationDate": 1659320324133,
+      "contentHash": "9335a3127d87e45c8ae5d6b631943f8d",
+      "sourceName": "contracts/Template/updateTestTemplate/data/VaultData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../Istanbul10/data/VaultData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VaultDataV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IVault.sol": {
+      "lastModificationDate": 1659320324127,
+      "contentHash": "e7df5ba237c32bd700b5190a827287a0",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IVault.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../../utils/State.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVault"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IVeToken.sol": {
+      "lastModificationDate": 1659320324129,
+      "contentHash": "cc6c2197c10b58ae7bc6ba7ec37d1b1c",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IVeToken.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVeToken"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IRouterData.sol": {
+      "lastModificationDate": 1659324745294,
+      "contentHash": "9ae157bd84c5be8d8fda04c1c08548ac",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IRouterData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IRouterData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Interface\\IFactory.sol": {
+      "lastModificationDate": 1659320324067,
+      "contentHash": "b962f1b559c37851184a7eb6f8e725da",
+      "sourceName": "contracts/Interface/IFactory.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IFactory"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Interface\\ISettings.sol": {
+      "lastModificationDate": 1657184677435,
+      "contentHash": "d4dfeb17446f7f84a3eb65354031ae92",
+      "sourceName": "contracts/Interface/ISettings.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ISettings"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165Checker.sol": {
+      "lastModificationDate": 1650532026691,
+      "contentHash": "a65c606ba9eda6f9d0135c28683d1595",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC165Checker"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\IERC721.sol": {
+      "lastModificationDate": 1650532026854,
+      "contentHash": "93a5aa8a276e028a4f46f22b5d8f7bd3",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155.sol": {
+      "lastModificationDate": 1650532026824,
+      "contentHash": "79f5ef33a7ed00ffb7dfdcd4339a946c",
+      "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\IERC20.sol": {
+      "lastModificationDate": 1650532026845,
+      "contentHash": "c7492a9ab60ba083d345f893d5e0f33c",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\data\\VaultData.sol": {
+      "lastModificationDate": 1658904328124,
+      "contentHash": "6033d71dab65d39bed5a797dda39a46e",
+      "sourceName": "contracts/Template/Istanbul10/data/VaultData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../../utils/State.sol",
+        "../Interface/IVaultData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VaultData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\utils\\State.sol": {
+      "lastModificationDate": 1657853105822,
+      "contentHash": "aa3c779315d0be8643cb53e799ed50b9",
+      "sourceName": "contracts/utils/State.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "State"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IVaultData.sol": {
+      "lastModificationDate": 1658398826575,
+      "contentHash": "06d2866499f07b823a60c778a36b5223",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IVaultData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVaultData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
+      "lastModificationDate": 1650532026837,
+      "contentHash": "9a04322bb8f6b8f2767d8358d1d2537b",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\extensions\\IERC20Metadata.sol": {
+      "lastModificationDate": 1650532026849,
+      "contentHash": "aa1be06992a99bb7393b26a6af3c4dfb",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20Metadata"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC20\\ERC20.sol": {
+      "lastModificationDate": 1650532026706,
+      "contentHash": "715cc034a225c8fc445e2f4299111d75",
+      "sourceName": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC20.sol",
+        "./extensions/IERC20Metadata.sol",
+        "../../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC20"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1650532026637,
+      "contentHash": "bc047f55d4e6dcc5a9c7ee096f530312",
+      "sourceName": "@openzeppelin/contracts/utils/Context.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Context"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\ERC721.sol": {
+      "lastModificationDate": 1650532026733,
+      "contentHash": "8fc7506d6ee32c5fbc527b0c42f0e615",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC721.sol",
+        "./IERC721Receiver.sol",
+        "./extensions/IERC721Metadata.sol",
+        "../../utils/Address.sol",
+        "../../utils/Context.sol",
+        "../../utils/Strings.sol",
+        "../../utils/introspection/ERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC721"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\IERC721Receiver.sol": {
+      "lastModificationDate": 1650532026864,
+      "contentHash": "e6d69a0b5b95ac1112eb4746a2d66f3e",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Receiver"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\extensions\\IERC721Metadata.sol": {
+      "lastModificationDate": 1650532026861,
+      "contentHash": "75cedcb24edaec014d2071ed59a03ff3",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC721.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC721Metadata"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\utils\\Address.sol": {
+      "lastModificationDate": 1650532026621,
+      "contentHash": "37103cdc416efc2601c6f6734044b559",
+      "sourceName": "@openzeppelin/contracts/utils/Address.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Address"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\utils\\Strings.sol": {
+      "lastModificationDate": 1650532026929,
+      "contentHash": "e575d915a7dbf0decd510699a7fd53dc",
+      "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Strings"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
+      "lastModificationDate": 1650532026688,
+      "contentHash": "a9a5319dff9088c6ffe757ea1c2a6729",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC165"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155Receiver.sol": {
+      "lastModificationDate": 1650532026830,
+      "contentHash": "4c2325989961abc760910c904c6cde62",
+      "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155Receiver"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\ERC1155.sol": {
+      "lastModificationDate": 1650532026669,
+      "contentHash": "940bb9269223a34da904c64c50abdffd",
+      "sourceName": "@openzeppelin/contracts/token/ERC1155/ERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC1155.sol",
+        "./IERC1155Receiver.sol",
+        "./extensions/IERC1155MetadataURI.sol",
+        "../../utils/Address.sol",
+        "../../utils/Context.sol",
+        "../../utils/introspection/ERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC1155"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\extensions\\IERC1155MetadataURI.sol": {
+      "lastModificationDate": 1650532026827,
+      "contentHash": "f67c3445291b9506fdff7d6527c9e552",
+      "sourceName": "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../IERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC1155MetadataURI"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\test\\TestERC1155.sol": {
+      "lastModificationDate": 1657269166638,
+      "contentHash": "d52dc59c6f3bfd8e625e984458315496",
+      "sourceName": "contracts/test/TestERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC1155/ERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "TestERC1155"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\logic\\Vault.sol": {
+      "lastModificationDate": 1659324745237,
+      "contentHash": "ab6465ba42a4cb61dcea91e0b7253f1e",
+      "sourceName": "contracts/Template/Istanbul10/logic/Vault.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/VaultData.sol",
+        "../Interface/IVault.sol",
+        "../Interface/IVeToken.sol",
+        "../Interface/IRouterData.sol",
+        "../../../Interface/IFactory.sol",
+        "../../../Interface/ISettings.sol",
+        "../../../Interface/IDivision.sol",
+        "../../../Interface/IWETH.sol",
+        "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol",
+        "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Vault"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IVault.sol": {
+      "lastModificationDate": 1659320324101,
+      "contentHash": "e7df5ba237c32bd700b5190a827287a0",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IVault.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../../utils/State.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVault"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IVeToken.sol": {
+      "lastModificationDate": 1659347587520,
+      "contentHash": "cc6c2197c10b58ae7bc6ba7ec37d1b1c",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IVeToken.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVeToken"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\logic\\VeToken.sol": {
+      "lastModificationDate": 1659324745364,
+      "contentHash": "5db3810a0d63e5dbb45436b2bb04bab6",
+      "sourceName": "contracts/Template/updateTestTemplate/logic/VeToken.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/VeTokenData.sol",
+        "../Interface/IRouterData.sol",
+        "../Interface/IVeToken.sol",
+        "../Interface/IVault.sol",
+        "../../../utils/State.sol",
+        "../../../Interface/IDivision.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VeTokenV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\data\\VeTokenData.sol": {
+      "lastModificationDate": 1659320324133,
+      "contentHash": "070a6027659bef79f51b07214512027b",
+      "sourceName": "contracts/Template/updateTestTemplate/data/VeTokenData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../Istanbul10/data/VeTokenData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VeTokenDataV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\data\\VeTokenData.sol": {
+      "lastModificationDate": 1659324745185,
+      "contentHash": "7b362a3cf38eca83030326ef915410a8",
+      "sourceName": "contracts/Template/Istanbul10/data/VeTokenData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VeTokenData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\logic\\Auction.sol": {
+      "lastModificationDate": 1659324745311,
+      "contentHash": "0be10301443c36aba1a432d03d1510e8",
+      "sourceName": "contracts/Template/updateTestTemplate/logic/Auction.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../Interface/IRouter.sol",
+        "../Interface/IRouterData.sol",
+        "../Interface/IAuction.sol",
+        "../data/AuctionData.sol",
+        "../../../utils/State.sol",
+        "../../../Interface/ISettings.sol",
+        "../Interface/IVault.sol",
+        "../Interface/IVaultData.sol",
+        "../../../Interface/IFactory.sol",
+        "../Interface/IVeToken.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "AuctionV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IRouter.sol": {
+      "lastModificationDate": 1659324745287,
+      "contentHash": "725125627edff83c836d5f712cb4be3a",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IRouter.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IRouter"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IAuction.sol": {
+      "lastModificationDate": 1659320324123,
+      "contentHash": "ca43a82fe06d56815553b6410b5683cf",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IAuction.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IAuction"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\data\\AuctionData.sol": {
+      "lastModificationDate": 1659320324131,
+      "contentHash": "6e7c0d74af3af986ed43647bd95c7c5a",
+      "sourceName": "contracts/Template/updateTestTemplate/data/AuctionData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../Istanbul10/data/AuctionData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "AuctionDataV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IVaultData.sol": {
+      "lastModificationDate": 1659320324128,
+      "contentHash": "06d2866499f07b823a60c778a36b5223",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IVaultData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVaultData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\data\\AuctionData.sol": {
+      "lastModificationDate": 1658308415421,
+      "contentHash": "511be13490543c1a76aa17f12892746c",
+      "sourceName": "contracts/Template/Istanbul10/data/AuctionData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../Interface/IAuctionData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "AuctionData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IAuctionData.sol": {
+      "lastModificationDate": 1658308415412,
+      "contentHash": "7f43d814790ae01be1f4c0b8b69631da",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IAuctionData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IAuctionData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\logic\\Vote.sol": {
+      "lastModificationDate": 1659349276341,
+      "contentHash": "cb7ca54d2f9015c7d4111e707a05b2f1",
+      "sourceName": "contracts/Template/updateTestTemplate/logic/Vote.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/VoteData.sol",
+        "../Interface/IVote.sol",
+        "../Interface/IRouterData.sol",
+        "../Interface/IRouter.sol",
+        "../../../Interface/IFactory.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VoteV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\data\\VoteData.sol": {
+      "lastModificationDate": 1659320324134,
+      "contentHash": "34b92de9232f81f493220352d6bb7b2a",
+      "sourceName": "contracts/Template/updateTestTemplate/data/VoteData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../Istanbul10/data/VoteData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VoteDataV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IVote.sol": {
+      "lastModificationDate": 1659320324130,
+      "contentHash": "019aba495893f8b350df429f61a0b0a0",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IVote.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVote"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\data\\VoteData.sol": {
+      "lastModificationDate": 1659348348104,
+      "contentHash": "efb20ea4900b5ec3a1166c237d1cb7c6",
+      "sourceName": "contracts/Template/Istanbul10/data/VoteData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../Interface//IVeToken.sol",
+        "../data/VeTokenData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VoteData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\logic\\Router.sol": {
+      "lastModificationDate": 1659324745328,
+      "contentHash": "f7b0040f7c605ad1dca9183a7ad03fbc",
+      "sourceName": "contracts/Template/updateTestTemplate/logic/Router.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/RouterData.sol",
+        "../Interface/IRouter.sol",
+        "../../../Interface/IFactory.sol",
+        "../../../Interface/ISettings.sol",
+        "../Interface/IVault.sol",
+        "../Interface/IVote.sol",
+        "../../../Interface/IDivision.sol",
+        "../Interface/IAuction.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "../../../InitializedProxy.sol",
+        "@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "RouterV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\data\\RouterData.sol": {
+      "lastModificationDate": 1659320324132,
+      "contentHash": "8726fb639a846c4617fbee1d870ef0e4",
+      "sourceName": "contracts/Template/updateTestTemplate/data/RouterData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../Istanbul10/data/RouterData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "RouterDataV2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\InitializedProxy.sol": {
+      "lastModificationDate": 1657872067827,
+      "contentHash": "c8be5613bb94b6765e5d109d098d3885",
+      "sourceName": "contracts/InitializedProxy.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "InitializedProxy"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts-upgradeable\\utils\\StorageSlotUpgradeable.sol": {
+      "lastModificationDate": 1656913313395,
+      "contentHash": "92db084d1a7fc35176205dae79fa7da0",
+      "sourceName": "@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "StorageSlotUpgradeable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\data\\RouterData.sol": {
+      "lastModificationDate": 1659324745167,
+      "contentHash": "05cfd6a02471125069e4a4805c502ca6",
+      "sourceName": "contracts/Template/Istanbul10/data/RouterData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../Interface/IRouterData.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "RouterData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\updateUtils\\v1Tov2.sol": {
+      "lastModificationDate": 1659320324121,
+      "contentHash": "de9ffcebc61574b77379662c85c77f97",
+      "sourceName": "contracts/Template/Istanbul10/updateUtils/v1Tov2.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "v1Tov2"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\logic\\Router.sol": {
+      "lastModificationDate": 1659324913690,
+      "contentHash": "f9b0f1b7acb4a4e5e9ebf0029aa1b788",
+      "sourceName": "contracts/Template/Istanbul10/logic/Router.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/RouterData.sol",
+        "../Interface/IRouter.sol",
+        "../../../Interface/IFactory.sol",
+        "../../../Interface/ISettings.sol",
+        "../Interface/IVault.sol",
+        "../Interface/IVote.sol",
+        "../../../Interface/IDivision.sol",
+        "../Interface/IAuction.sol",
+        "../Interface/IVeToken.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "../../../InitializedProxy.sol",
+        "@openzeppelin/contracts-upgradeable/utils/StorageSlotUpgradeable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Router"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IRouter.sol": {
+      "lastModificationDate": 1659324745131,
+      "contentHash": "725125627edff83c836d5f712cb4be3a",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IRouter.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IRouter"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IVote.sol": {
+      "lastModificationDate": 1659346858873,
+      "contentHash": "2cc8a590b22c2e46ac87bc5b9f419b48",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IVote.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IVote"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\Interface\\IAuction.sol": {
+      "lastModificationDate": 1659320324099,
+      "contentHash": "ca43a82fe06d56815553b6410b5683cf",
+      "sourceName": "contracts/Template/Istanbul10/Interface/IAuction.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IAuction"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Factory.sol": {
+      "lastModificationDate": 1659324745120,
+      "contentHash": "73448daefb5a4c8600d35a4b6334a2b2",
+      "sourceName": "contracts/Factory.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "./utils/Pausable.sol",
+        "./InitializedProxy.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Factory"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\access\\Ownable.sol": {
+      "lastModificationDate": 1650532026888,
+      "contentHash": "17d9f40220b0ab370db2c77e7c92c4ef",
+      "sourceName": "@openzeppelin/contracts/access/Ownable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Ownable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\utils\\Pausable.sol": {
+      "lastModificationDate": 1656901882546,
+      "contentHash": "1459eadb836e54518935e5401a956465",
+      "sourceName": "contracts/utils/Pausable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Pausable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Settings.sol": {
+      "lastModificationDate": 1659324745121,
+      "contentHash": "986879f44bf3cef8a9350150795ed256",
+      "sourceName": "contracts/Settings.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/access/Ownable.sol",
+        "./Interface/ISettings.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Settings"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\logic\\Auction.sol": {
+      "lastModificationDate": 1659324745204,
+      "contentHash": "fb68e49fca31cc90482be4d5d23d09c5",
+      "sourceName": "contracts/Template/Istanbul10/logic/Auction.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../Interface/IRouter.sol",
+        "../Interface/IRouterData.sol",
+        "../Interface/IAuction.sol",
+        "../data/AuctionData.sol",
+        "../../../utils/State.sol",
+        "../../../Interface/ISettings.sol",
+        "../Interface/IVault.sol",
+        "../Interface/IVaultData.sol",
+        "../../../Interface/IFactory.sol",
+        "../Interface/IVeToken.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Auction"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\logic\\VeToken.sol": {
+      "lastModificationDate": 1659324913663,
+      "contentHash": "1b18fba903439a8d998be233cdf48ad1",
+      "sourceName": "contracts/Template/Istanbul10/logic/VeToken.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/VeTokenData.sol",
+        "../Interface/IRouterData.sol",
+        "../Interface/IVeToken.sol",
+        "../Interface/IVault.sol",
+        "../../../utils/State.sol",
+        "../../../Interface/IDivision.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VeToken"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\Istanbul10\\logic\\Vote.sol": {
+      "lastModificationDate": 1659349059437,
+      "contentHash": "aaa5a2d7db1c890e31b56501f386dd6c",
+      "sourceName": "contracts/Template/Istanbul10/logic/Vote.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../data/VoteData.sol",
+        "../Interface/IVote.sol",
+        "../Interface/IRouterData.sol",
+        "../Interface/IRouter.sol",
+        "../../../utils/State.sol",
+        "../../../Interface/IFactory.sol",
+        "../Interface/IVault.sol",
+        "@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "Vote"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\test\\ERC1155.sol": {
+      "lastModificationDate": 1657184677452,
+      "contentHash": "53aeade735eca02eaf05b8fcd972eac0",
+      "sourceName": "contracts/test/ERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC1155/ERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "TestERC1155"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\node_modules\\@openzeppelin\\contracts\\token\\ERC721\\extensions\\ERC721Burnable.sol": {
+      "lastModificationDate": 1650532026736,
+      "contentHash": "c451d6197061b5e0d446b7171af0dc01",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../ERC721.sol",
+        "../../../utils/Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC721Burnable"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\test\\ERC721.sol": {
+      "lastModificationDate": 1657184677453,
+      "contentHash": "96b9932cc360f4f6a13af2a64c3bce63",
+      "sourceName": "contracts/test/ERC721.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol"
+      ],
+      "versionPragmas": [
+        "0.8.5"
+      ],
+      "artifacts": [
+        "TestERC721"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\test\\TestERC20.sol": {
+      "lastModificationDate": 1657872067896,
+      "contentHash": "33e03c75bb4f2b391244769b36f3bbfa",
+      "sourceName": "contracts/test/TestERC20.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "TestErc20"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\Template\\updateTestTemplate\\Interface\\IAuctionData.sol": {
+      "lastModificationDate": 1659320324124,
+      "contentHash": "7f43d814790ae01be1f4c0b8b69631da",
+      "sourceName": "contracts/Template/updateTestTemplate/Interface/IAuctionData.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IAuctionData"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\test\\VeTokenTest.sol": {
+      "lastModificationDate": 1658308415443,
+      "contentHash": "2fd87f35ddc71c65aa268dd2263d41ba",
+      "sourceName": "contracts/test/VeTokenTest.sol",
+      "solcConfig": {
+        "version": "0.8.5",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "VeTokenTest"
+      ]
+    },
+    "F:\\company\\chuangkuai\\code\\contract_v2\\contracts\\wETH.sol": {
+      "lastModificationDate": 1658461835640,
+      "contentHash": "c0a5abaa95a7733a4f0b262ed9b04de9",
+      "sourceName": "contracts/wETH.sol",
+      "solcConfig": {
+        "version": "0.4.11",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 999999
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "0.4.11"
+      ],
+      "artifacts": [
+        "EtherToken",
+        "SafeMath",
+        "StandardToken",
+        "Token",
+        "UnlimitedAllowanceToken"
+      ]
+    }
+  }
+}

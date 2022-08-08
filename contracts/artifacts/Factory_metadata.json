@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.0+commit.c7dfd78e"
+		"version": "0.8.15+commit.e14f2714"
 	},
 	"language": "Solidity",
 	"output": {
@@ -9,7 +9,7 @@
 				"inputs": [
 					{
 						"internalType": "address",
-						"name": "setting_",
+						"name": "settings_",
 						"type": "address"
 					}
 				],
@@ -247,6 +247,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "newSettings",
+						"type": "address"
+					}
+				],
+				"name": "setSetting",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "string",
 						"name": "versionsName",
 						"type": "string"
@@ -260,21 +273,16 @@
 						"internalType": "address",
 						"name": "updataTemplate",
 						"type": "address"
-					},
-					{
-						"internalType": "bool",
-						"name": "isOpen",
-						"type": "bool"
 					}
 				],
-				"name": "setUpdataAddresCalibration",
+				"name": "setUpdateUtilsAddres",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
 				"inputs": [],
-				"name": "setting",
+				"name": "settings",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -316,19 +324,14 @@
 						"internalType": "uint16",
 						"name": "",
 						"type": "uint16"
-					},
+					}
+				],
+				"name": "updateUtilsAddres",
+				"outputs": [
 					{
 						"internalType": "address",
 						"name": "",
 						"type": "address"
-					}
-				],
-				"name": "updataAddresCalibration",
-				"outputs": [
-					{
-						"internalType": "bool",
-						"name": "",
-						"type": "bool"
 					}
 				],
 				"stateMutability": "view",
@@ -375,7 +378,7 @@
 				"routers(uint256)": {
 					"notice": "the mapping of vault number to vault router contract"
 				},
-				"setting()": {
+				"settings()": {
 					"notice": "a setting contract controlled by governance"
 				},
 				"vaultRouterCount()": {
@@ -389,7 +392,7 @@
 		"compilationTarget": {
 			"contracts/Factory.sol": "Factory"
 		},
-		"evmVersion": "istanbul",
+		"evmVersion": "london",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -426,19 +429,19 @@
 			]
 		},
 		"contracts/Factory.sol": {
-			"keccak256": "0x89ec11f4dd67805f44b471a2c4947e280cf96c28bb9713e58eece0ee5f3a5a62",
+			"keccak256": "0x385d091bf30c622d182de5aff3ec7c1beeed43d8facf125c2e799e731538bd3c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bc01db56cb0362c437c1d55c261969ad28c21e32a8cf54d6518175df883b8841",
-				"dweb:/ipfs/QmYhEcmY5DdXp1v6UNzoFj8s32hoJuD1Nd328tJUEHrnrB"
+				"bzz-raw://ee56d02146a690de47ff30bfaf83c938cafed43afa0c49635e9db2985af7e697",
+				"dweb:/ipfs/QmQYv3CbmanqWpSXphsfKqTVBeC3qJhyAtMvirHzwvy3PW"
 			]
 		},
 		"contracts/InitializedProxy.sol": {
-			"keccak256": "0x504e2faa466facb03fe92b29171dc79524477ea33cf4687378e838dce0862777",
+			"keccak256": "0x4abe4021336fabfc3fd2630bb8c421b06a0580c83958f932dbd825aa283c0d5e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b614983ab56b3c595fff9d4986954d63bbef5f89b507590555c7136693acf928",
-				"dweb:/ipfs/QmekNJUTVJTZgLF4CdoEGLSdBGTFjBhDuYJeQuoBc6AGVe"
+				"bzz-raw://a7f0c5b5827851372a0abbb480814ac981062ae21f8836723d74e3cb8d7f6ec4",
+				"dweb:/ipfs/Qme9j35nSP73dvfiSysYMuysUMHLNFC491bsZusiZvxhfG"
 			]
 		},
 		"contracts/utils/Pausable.sol": {

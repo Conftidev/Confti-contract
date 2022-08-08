@@ -1,7 +1,8 @@
 const path = require('path')
 const fs = require('fs')
 require('dotenv').config()
-const { fee_receiver, weth } = process.env
+ 
+ 
 
 async function setChainConfig() {
  
@@ -20,8 +21,9 @@ const Settings = await fs.promises.readFile(
     'utf8'
   )
   
-  let Settings2 = Settings.replace(/feeReceiver(\s+)=(\s+)payable(\S+)/, 'feeReceiver = payable(0x8B3e5ab10b12822784E4E2d380D5fC1b55716c81);')
-  let auction2 = auction.replace(/auctionLength(\s+)=(\s+)\d+\s+\S*/, 'auctionLength = 2 minutes;')
+ 
+  let Settings2 = Settings.replace(/feeReceiver(\s+)=(\s+)payable(\S+)/, 'feeReceiver = payable(0xAEb639aa794055Bc1992fB06545fdF2cFF53DC10);')
+  let auction2 = auction.replace(/auctionLength(\s+)=(\s+)\d+\s+\S*/, 'auctionLength = 3 days;')
   let Vault2 = Vault.replace('0x6085A86303E362c2A7434a7EA270d60A125B183c', '0x6085A86303E362c2A7434a7EA270d60A125B183c')
   
   await fs.promises.writeFile(

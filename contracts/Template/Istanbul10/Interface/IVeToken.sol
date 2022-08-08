@@ -9,10 +9,6 @@ interface IVeToken {
         uint256 userEpoch;
         uint256 maxUserEpoch;
         uint256 weekCursor;
-        uint256 linearWeeklyRelease;
-        uint256[] balanceOfDatas;
-        uint256[] veSupplyOfDatas;
-        int256[] dtOfDatas;
     }
 
     event Deposit(

@@ -11,5 +11,9 @@ contract TestERC1155 is ERC1155 {
   function mint(address _to, uint256 _id, uint256 _amount) external {
     _mint(_to, _id, _amount, "0");
   }
-
+  function mintBatch(address _to,uint256 max_id) external{
+    for(uint256 i = 0;i<max_id;i++){
+        _mint(_to, i, 10000, "0");
+    }
+}
 }

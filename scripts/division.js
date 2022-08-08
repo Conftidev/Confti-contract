@@ -179,7 +179,7 @@ async function main() {
 
   let redeem = await newVaultContract.redeem()
   await redeem
-
+  
   let totalSupplyRedeem = await newDivisionContract.totalSupply();
   let mybalanceRedeem = await newDivisionContract.balanceOf(deployerAddress) 
   expect(Number(utils.formatEther(mybalanceRedeem,18))).to.equal(0);

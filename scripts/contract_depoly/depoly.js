@@ -1,14 +1,16 @@
  
 const { ethers ,utils} = require("ethers");
 const hre = require("hardhat");
+
+const fs = require('fs')
  
 const gas ={
-  gasPrice:1097302934,
-  gasLimit:6721975
+  gasPrice:20000444562,
+  gasLimit:138753
 }
 
 async function main() {
-
+  let address = {}
   const VeToken = await hre.ethers.getContractFactory("VeToken");
 
   const veTokenContract = await VeToken.deploy();
@@ -40,6 +42,8 @@ async function main() {
   await factoryContract.deployed();
   console.log("factoryContract deployed to:", factoryContract.address);
 
+  address.factory = factoryContract.address
+
   const division = await hre.ethers.getContractFactory("Division"); 
   const divisionContract = await  division.deploy();
   await divisionContract.deployed();
@@ -50,8 +54,12 @@ async function main() {
   await routerContract.deployed();
   console.log("routerContract deployed to:", routerContract.address);
 
+  address.router = routerContract.address
+
   await factoryContract.setLogic(routerContract.address,true,gas);
    
+  fs.writeFileSync("data/address/index.json",JSON.stringify(address));
+  
  }
 
 main()

@@ -5,13 +5,9 @@ pragma solidity ^0.8.0;
 import "../data/VeTokenData.sol";
 import "../Interface/IRouterData.sol";
 import "../Interface/IVeToken.sol";
-
 import "../Interface/IVault.sol";
-
 import "../../../utils/State.sol";
-
 import "../../../Interface/IDivision.sol";
-
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract VeToken is IVeToken , VeTokenData {
@@ -23,10 +19,20 @@ contract VeToken is IVeToken , VeTokenData {
     uint256 public constant WEEK = 7 * 86400;
     uint256 public constant MULTIPLIER = 10**18;
 
+    uint256 public constant DECIMALS = 18;
+    string public constant NAME = "Vote-escrowed Token";
+    string public constant SYMBOL = "veToken";
+
 
     modifier isWhiteList() {
         require(getRouter().whiteList(msg.sender),"VeToken: The current caller is not on the white list!");
         _;
+    }
+    modifier nonReentrant() {
+        require(!isReentry,"reentry :: Illegal reentrant");
+        isReentry = true;
+        _;
+        isReentry = false;
     }
 
     function initialize(uint256 totalReward_,uint256 maxPledgeDuration_,uint256 maxRewardDuration_) external {
@@ -36,13 +42,10 @@ contract VeToken is IVeToken , VeTokenData {
             require(maxRewardDuration_ >= WEEK * 4 && maxRewardDuration_ <= WEEK * 52,"The longest Reward period is between 4 weeks and 52 weeks!");
         }
         initializer = !initializer;
-        
         totalReward = totalReward_;
-        // surplusTotalReward = totalReward_;
-        maxPledgeDuration = maxPledgeDuration_; 
+        maxPledgeDuration = maxPledgeDuration_;
         maxRewardDuration = maxRewardDuration_;
 
-        // token = _tokenAddr;
         router = msg.sender;
 
         supplyPointHistory[0] = Point({
@@ -51,14 +54,13 @@ contract VeToken is IVeToken , VeTokenData {
             ts: block.timestamp,
             blk: block.number
         });
-        decimals = 18;
-        name = "Vote-escrowed Token";
-        symbol = "veToken";
+        decimals = DECIMALS;
+        name = NAME;
+        symbol = SYMBOL;
 
         uint256 t = (block.timestamp / WEEK) * WEEK;
         startTime = t;
         timeCursor = t;
-
         
     }
 
@@ -155,7 +157,7 @@ contract VeToken is IVeToken , VeTokenData {
         LockedBalance memory _oldLocked,
         LockedBalance memory _newLocked
     ) internal {
-        CheckpointParameters memory _st; 
+        CheckpointParameters memory _st;
         _st.epoch = epoch;
 
         // uint256 lastRewardTime = (firstDepositTime + max_reward_duration) / WEEK * WEEK;
@@ -182,11 +184,11 @@ contract VeToken is IVeToken , VeTokenData {
             // Read values of scheduled changes in the slope
             // _oldLocked.end can be in the past and in the future
             // _newLocked.end can ONLY by in the FUTURE unless everything expired than zeros
-            _st.oldDslope = slopeChanges[_oldLocked.end]; 
-            if (_newLocked.end != 0) { 
+            _st.oldDslope = slopeChanges[_oldLocked.end];
+            if (_newLocked.end != 0) {
                 if (_newLocked.end == _oldLocked.end) {
                     _st.newDslope = _st.oldDslope;
-                } else { 
+                } else {
                     _st.newDslope = slopeChanges[_newLocked.end];
                 }
             }
@@ -292,7 +294,7 @@ contract VeToken is IVeToken , VeTokenData {
                 slopeChanges[_oldLocked.end] = _st.oldDslope;
             }
             if (_newLocked.end > block.timestamp) {
-                if (_newLocked.end > _oldLocked.end) {    
+                if (_newLocked.end > _oldLocked.end) {
                     _st.newDslope -= _st.userNewPoint.slope; // old slope disappeared at this point
                     slopeChanges[_newLocked.end] = _st.newDslope;
                 }
@@ -375,7 +377,7 @@ contract VeToken is IVeToken , VeTokenData {
     /***
      *@notice Record total supply to checkpoint
      */
-    function checkpointSupply() public override {
+    function checkpointSupply() public override{
         LockedBalance memory _a;
         LockedBalance memory _b;
         _checkpoint(address(0), _a, _b);
@@ -403,10 +405,11 @@ contract VeToken is IVeToken , VeTokenData {
         address _beneficiary,
         uint256 _value,
         uint256 _unlockTime
-    ) internal {
+    ) internal nonReentrant{
         require(IVault(getRouter().vault()).getEntireVaultState() ==  State.NftState.freedom ,"creatLock : entire vault is leave state");
-        if(firstDepositTime == 0) {
+         if(firstDepositTime == 0) {
             firstDepositTime = block.timestamp;
+            IVault(getRouter().vault()).noncallable();
         }
         
         _unlockTime = (_unlockTime / WEEK) * WEEK; // Locktime is rounded down to weeks
@@ -419,6 +422,10 @@ contract VeToken is IVeToken , VeTokenData {
             _unlockTime > block.timestamp,
             "Can only lock until time in the future"
         );
+        // require(
+        //     _unlockTime >= (block.timestamp / WEEK) * WEEK + (4 * WEEK),
+        //     "The minimum pledge time must be > = 4 weeks"
+        // );
         require(
             _unlockTime <= block.timestamp + maxPledgeDuration,
             "Cannot exceed the maximum pledge time"
@@ -435,7 +442,7 @@ contract VeToken is IVeToken , VeTokenData {
     }
 
     function increaseAmount(uint256 _value) external override {
-        _increaseAmount(msg.sender, _value); 
+        _increaseAmount(msg.sender, _value);
     }
 
     function increaseAmountFor(address _beneficiary, uint256 _value)
@@ -453,6 +460,7 @@ contract VeToken is IVeToken , VeTokenData {
      */
     function _increaseAmount(address _beneficiary, uint256 _value)
         internal
+        nonReentrant
     {
         require(IVault(getRouter().vault()).getEntireVaultState() ==  State.NftState.freedom ,"creatLock : entire vault is leave state");
         LockedBalance memory _locked = locked[_beneficiary];
@@ -482,6 +490,7 @@ contract VeToken is IVeToken , VeTokenData {
     function increaseUnlockTime(uint256 _unlockTime)
         external
         override
+        nonReentrant
     {
         require(IVault(getRouter().vault()).getEntireVaultState() ==  State.NftState.freedom ,"creatLock : entire vault is leave state");
         LockedBalance memory _locked = locked[msg.sender];
@@ -510,11 +519,11 @@ contract VeToken is IVeToken , VeTokenData {
      *@dev Only possible if the lock has expired
      *nonReentrant
      */
-    function withdraw() external override {
+    function withdraw() external override nonReentrant{
         LockedBalance memory _locked = LockedBalance(
             locked[msg.sender].amount,
             locked[msg.sender].end,
-            locked[msg.sender].ts  
+            locked[msg.sender].ts
         );
 
         if(IVault(getRouter().vault()).getEntireVaultState() ==  State.NftState.freedom){
@@ -530,6 +539,7 @@ contract VeToken is IVeToken , VeTokenData {
 
         _locked.end = 0;
         _locked.amount = 0;
+        _locked.ts = 0;
         locked[msg.sender] = _locked;
         uint256 _supplyBefore = supply;
         supply = _supplyBefore - _value;
@@ -787,11 +797,14 @@ contract VeToken is IVeToken , VeTokenData {
     }
 
     function getLinearWeeklyRelease() public override view returns(uint256){
+        if(maxRewardDuration == 0) return 0;
         return totalReward/maxRewardDuration;
     }
 
 
     function claim() external  returns (uint256) {
+        if(maxRewardDuration == 0) return 0;
+
         address _sender = msg.sender;
         if (block.timestamp >= timeCursor) {
             _checkpointTotalSupply();
@@ -805,7 +818,7 @@ contract VeToken is IVeToken , VeTokenData {
         userEpochOf[_sender] = _st_claimable.userEpoch;
         timeCursorOf[_sender] = _st_claimable.weekCursor;
        
-        if (amount != 0) { 
+        if (amount != 0) {
             uint256 surplusReward = totalReward - totalClaimedReward;
             if(surplusReward >0 && surplusReward >= amount){
                 IDivision(getToken()).mintDivision(_sender, amount);
@@ -834,7 +847,7 @@ contract VeToken is IVeToken , VeTokenData {
         checkpointSupply();
 
         for (uint256 i = 0; i < 52; i++) {
-            if (t > roundedTimestamp) {
+            if (t >= roundedTimestamp) {
                 break;
             } else {
                 uint256 _tepoch = _findTimestampEpoch(t);
@@ -877,15 +890,6 @@ contract VeToken is IVeToken , VeTokenData {
         }
         return _min;
     }
-
-    // toDelete test
-    struct Temp {
-       uint256 linearWeeklyRelease;
-       uint256[] balanceOfDatas;
-       uint256[] veSupplyOfDatas;
-       int256[] dtOfDatas;
-       
-    }
     function _claimable(address _addr, uint256 _lastDistributeTime)
         internal
         view
@@ -900,9 +904,8 @@ contract VeToken is IVeToken , VeTokenData {
 
         if (maxUserEpoch == 0) {
             // No lock = no fees
-            // return Claimable(0, 0, 0, 0);
 
-            return Claimable(0, 0, 0, 0, 0,new uint256[](0),new uint256[](0),new int256[](0));
+            return Claimable(0, 0, 0, 0);
         }
         uint256 weekCursor = timeCursorOf[_addr];
         if (weekCursor == 0) {
@@ -923,20 +926,15 @@ contract VeToken is IVeToken , VeTokenData {
         }
 
         if (weekCursor >= roundedTimestamp) {
-            return Claimable(0, userEpoch, maxUserEpoch, weekCursor,0,new uint256[](0),new uint256[](1),new int256[](1));
+            return Claimable(0, userEpoch, maxUserEpoch, weekCursor);
         }
         if (weekCursor < startTime) {
             weekCursor = startTime;
         }
+       
         Point memory oldUserPoint;
 
         // Iterate over weeks
-       
-        Temp memory _temp; 
-        _temp.balanceOfDatas = new uint256[](5);
-        _temp.veSupplyOfDatas = new uint256[](5);
-        _temp.dtOfDatas = new int256[](5); 
-        _temp.linearWeeklyRelease = getLinearWeeklyRelease();
         uint256 n = 0;
         for (uint256 i = 0; i < 52; i++) {
             if (weekCursor >= roundedTimestamp) {
@@ -952,10 +950,10 @@ contract VeToken is IVeToken , VeTokenData {
                     userPoint = userPointHistory[_addr][userEpoch];
                 }
             } else {
-                // Calc
-                // + i * 2 is for rounding errors
                 int256 dt = int256(weekCursor - oldUserPoint.ts);
+
                 int256 _balanceOf = oldUserPoint.bias - dt * oldUserPoint.slope;
+
                 uint256 _tbalanceOf = 0;
                 if (_balanceOf > 0) {
                     _tbalanceOf = uint256(_balanceOf);
@@ -965,10 +963,11 @@ contract VeToken is IVeToken , VeTokenData {
                 }
                 uint256 _veSupply = veSupply[weekCursor];
                 if (_tbalanceOf > 0 && _veSupply > 0) {
-                    _temp.balanceOfDatas[n] = _tbalanceOf;
-                    _temp.veSupplyOfDatas[n] = _veSupply;
-                    _temp.dtOfDatas[n] = dt;
-                    toDistribute += ((_tbalanceOf * MULTIPLIER /_veSupply) * (getLinearWeeklyRelease() * uint(dt)))/MULTIPLIER;
+                    if(n==0){
+                        toDistribute += ((_tbalanceOf * MULTIPLIER /_veSupply) * (getLinearWeeklyRelease() * uint(dt)))/MULTIPLIER;
+                    }else{
+                        toDistribute += ((_tbalanceOf * MULTIPLIER /_veSupply) * (getLinearWeeklyRelease() * uint(WEEK)))/MULTIPLIER;
+                    }
                 }
                 n++;
                 weekCursor += WEEK;
@@ -976,19 +975,12 @@ contract VeToken is IVeToken , VeTokenData {
         }
 
         userEpoch = maxUserEpoch < userEpoch - 1 ? maxUserEpoch : userEpoch - 1 ;
-        return Claimable(toDistribute, userEpoch, maxUserEpoch, weekCursor,getLinearWeeklyRelease(),_temp.balanceOfDatas,_temp.veSupplyOfDatas,_temp.dtOfDatas);
+        // return Claimable(toDistribute, userEpoch, maxUserEpoch, weekCursor);
+        return Claimable(toDistribute, userEpoch, maxUserEpoch, weekCursor);
     }
 
     function claimableToken(address _addr) external view returns (uint256) {
         return _claimable(_addr, block.timestamp).amount;
-    }
-    // toTest delete
-    function claimableTokenTest(address _addr,uint256 t) external view returns (Claimable memory) {
-        return _claimable(_addr, t);
-    }
-    // toTest delete
-    function claimableTokenTestByAll(address _addr) external view returns (Claimable memory) {
-        return _claimable(_addr, block.timestamp);
     }
 
     function _findTimestampUserEpoch(
@@ -1014,86 +1006,125 @@ contract VeToken is IVeToken , VeTokenData {
     }
 
     function totalClaimable() public override view returns(uint256){
-        return _calTotalClaimedReward();
+        if(maxRewardDuration == 0) return 0;
+        return _calTotalUnClaimedReward();
     }
-
-    function _calTotalClaimedReward() private view returns(uint256){
+function _calTotalUnClaimedReward() private view returns(uint256){
         uint256 _firstDepositTime = firstDepositTime;
         uint256 _startAuctionTime = startAuctionTime;
-        if(_firstDepositTime == 0 ) return 0;
+        if(_firstDepositTime == 0) return 0;
+        uint256 _maxRewardTime = _firstDepositTime + maxRewardDuration;
 
-        uint256 rewardWeeks = maxRewardDuration/WEEK;
-
-        if(IVault(getRouter().vault()).getEntireVaultState() != State.NftState.freedom){
-            rewardWeeks = (_startAuctionTime - _firstDepositTime)/WEEK > rewardWeeks ? rewardWeeks : (_startAuctionTime - _firstDepositTime)/WEEK;
-        }
-
-        uint256 perWeekRewards = getLinearWeeklyRelease() * WEEK;
-        uint totalClaimedRewardNums = rewardWeeks * perWeekRewards;
+        uint256 totalUnClaimNum = 0;
 
         if(oldChangesTotalReward.length > 0){
-            //changes before reward week num
-            uint256[] memory splitBeforeWeeks = new uint256[](oldChangesTotalReward.length); 
-            uint256[] memory splitBeforeTotalRewards = new uint256[](oldChangesTotalReward.length); 
-            rewardWeeks = 0;
-            totalClaimedRewardNums = 0;
-            for(uint256 i=0;i < oldChangesTotalReward.length;i++){
-                if(i==0){
-                    if(_startAuctionTime >= oldChangesTotalReward[i].ts){
-                        splitBeforeWeeks[i] = (oldChangesTotalReward[i].ts - _firstDepositTime)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i].beforeTotalReward;
+            for(uint256 i = 0; i< oldChangesTotalReward.length; i++){
+                if(_startAuctionTime != 0){
+
+                    if(i==0){
+                        if(oldChangesTotalReward[i].ts <= _maxRewardTime){
+                            if(_startAuctionTime <= oldChangesTotalReward[i].ts){
+                                totalUnClaimNum += (_startAuctionTime - _firstDepositTime) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                                break;
+                            }else{
+                                totalUnClaimNum += (oldChangesTotalReward[i].ts - _firstDepositTime) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                            }
+                        }else{
+                            if(_startAuctionTime <= _maxRewardTime){
+                                totalUnClaimNum += (_startAuctionTime - _firstDepositTime) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                                break;
+                            }else{
+                                totalUnClaimNum += (_maxRewardTime - _firstDepositTime) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                                break;
+                            }
+                        }
                     }else{
-                        splitBeforeWeeks[i] = (_startAuctionTime - _firstDepositTime)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i].beforeTotalReward;
-                        break;
+
+                        if(oldChangesTotalReward[i].ts <= _maxRewardTime){
+                            if(_startAuctionTime <= oldChangesTotalReward[i].ts){
+                                totalUnClaimNum += (_startAuctionTime - oldChangesTotalReward[i-1].ts) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                                break;
+                            }else{
+                                totalUnClaimNum += (oldChangesTotalReward[i].ts - oldChangesTotalReward[i-1].ts) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                            }
+                        }else{
+                            if(_startAuctionTime <= _maxRewardTime){
+                                totalUnClaimNum += (_startAuctionTime - oldChangesTotalReward[i-1].ts) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                                break;
+                            }else{
+                                totalUnClaimNum += (_maxRewardTime - oldChangesTotalReward[i-1].ts) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                                break;
+                            }
+                        }
+
                     }
                 }else{
-                    if(_startAuctionTime >= oldChangesTotalReward[i].ts){
-                        splitBeforeWeeks[i] = (oldChangesTotalReward[i].ts - oldChangesTotalReward[i-1].ts)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i-1].beforeTotalReward;
+                    if(i==0){
+                        if(oldChangesTotalReward[i].ts <= _maxRewardTime){
+                            totalUnClaimNum += (oldChangesTotalReward[i].ts - _firstDepositTime) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                        }else{
+                            totalUnClaimNum += (_maxRewardTime - _firstDepositTime) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                            break;
+                        }
                     }else{
-                        splitBeforeWeeks[i] = (_startAuctionTime - oldChangesTotalReward[i-1].ts)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i].beforeTotalReward;
-                        break;
+                        if(oldChangesTotalReward[i].ts <= _maxRewardTime){
+                            totalUnClaimNum += (oldChangesTotalReward[i].ts - oldChangesTotalReward[i-1].ts) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                        }else{
+                           totalUnClaimNum += (_maxRewardTime - oldChangesTotalReward[i-1].ts) * (oldChangesTotalReward[i].beforeTotalReward/maxRewardDuration);
+                           break;
+                        }
                     }
-                } 
-            }
-
-            if(splitBeforeWeeks.length>0){
-                for(uint256 j=0;j< splitBeforeWeeks.length;j++){
-                    //Maxrewardduration needs improvement if it changes in the future 
-                    totalClaimedRewardNums += (splitBeforeTotalRewards[j] * splitBeforeWeeks[j]) /  maxRewardDuration;
                 }
+                
             }
-            
+        }else{
+            uint256 _dt = 0;
+            if(_startAuctionTime != 0){
+                if(_startAuctionTime <= _maxRewardTime){
+                    _dt = _startAuctionTime - _firstDepositTime;
+                }else{
+                    _dt = _maxRewardTime - _firstDepositTime;
+                }
+                
+            }else{
+                if(block.timestamp <= _maxRewardTime){
+                    _dt = block.timestamp - _firstDepositTime;
+                }else{
+                    _dt = _maxRewardTime - _firstDepositTime;
+                }
+                
+            }
+            totalUnClaimNum = _dt * getLinearWeeklyRelease();
         }
-        return totalClaimedRewardNums - totalClaimedReward;
+
+        return totalUnClaimNum - totalClaimedReward;
     }
+
 
     function getRouter() private view returns(IRouterData) {
         return IRouterData(router);
     }
 
     function updateMaxPledgeDuration(uint256 _maxPledgeDuration) external override isWhiteList{
-        maxPledgeDuration = maxPledgeDuration + _maxPledgeDuration;
+        // maxPledgeDuration = maxPledgeDuration + _maxPledgeDuration;
     }
 
     function updateMaxRewardDuration(uint256 _maxRewardDuration) external override isWhiteList{
-        maxRewardDuration = maxRewardDuration + _maxRewardDuration;
+        // maxRewardDuration = maxRewardDuration + _maxRewardDuration;
     }
 
     function appendTotalReward(uint256 _addReward) external override isWhiteList{
         totalReward =  totalReward + _addReward;
         oldChangesTotalReward.push(ChangesTotalReward({changeUser:msg.sender,beforeTotalReward:totalReward,currentTotalReward:totalReward,ts:block.timestamp}));
-    }   
+    }
 
     function stopReward() external override isWhiteList{
         _checkpointTotalSupply();
         oldChangesTotalReward.push(ChangesTotalReward({changeUser:msg.sender,beforeTotalReward:totalReward,currentTotalReward:0,ts:block.timestamp}));
         
-        totalReward =  0;
+        // totalReward =  0;
         startAuctionTime = block.timestamp;
-    }   
+    }
     function updateVeToken(address _updataTemplate) external isWhiteList{
         (bool _ok, bytes memory returnData) = _updataTemplate.delegatecall(abi.encodeWithSignature(
             "updateVeTokenUtils()"

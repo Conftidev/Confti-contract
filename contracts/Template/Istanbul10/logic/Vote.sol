@@ -1,12 +1,15 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 import "../data/VoteData.sol";
+import "../data/VeTokenData.sol";
 import "../Interface/IVote.sol";
 import "../Interface/IRouterData.sol";
 import "../Interface/IRouter.sol";
 import "../../../utils/State.sol";
 import "../../../Interface/IFactory.sol";
 import "../Interface/IVault.sol";
+import "../Interface/IVeToken.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract Vote is IVote,VoteData {
 
     function initialize() override public{
@@ -15,39 +18,44 @@ contract Vote is IVote,VoteData {
         emit InitializeEvent(router);
         minimumQuantity = 5;
     }
-
-    function getVeToken() public view returns(address){
-        return  IRouterData(msg.sender).veToken();
-    }
     
-    // constructor(address veToken_){
-    //     veToken = VeTokenTest(veToken_);
-    //      router = msg.sender;
-    //  }
- 
     function createVote(
         string memory voteTopic_,
-        uint256  templateID_,
+        string memory  describe_,
+        string memory link_,
+        uint256  condeModel_,
         uint256  valaue_
          ) external override returns(uint256 voteId){
         require(veToken.totalSupply() != 0, " veTokenSupply == 0");
-        uint256 _totalsupply = veToken.totalSupply() * minimumQuantity / 100;
-        require(veToken.userOfEquity(msg.sender) >= _totalsupply,"Too few tokens are held");
+        uint256 tokenSu_ =  getTokenSup() * minimumQuantity / 100;
         require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "The vault and the auction");
-        require(getTemplate().length >= templateID_," template be empty");
- 
+        require(veToken.userOfEquity(msg.sender) >= tokenSu_,"Too few tokens are held");
+        require(getTemplate().length >= condeModel_," template be empty");
+        require(condeModel_ > 0 ,"template be empty");
+
+        if(condeModel_ == 3 ){
+            require(getVeTokenMaxRewardDuration() < valaue_,"only set it to be larger than the original");
+        }
+
+        if(condeModel_ == 5 ){
+           require(IRouterData(router).curator() == msg.sender, "No permission to create");
+            //update state 
+            templateState[1] = true;
+        }
+
         voteTatola ++;
         VoteStruct  storage _VoteStruct = voteMapp[voteTatola];
-        _VoteStruct.totalsupply = _totalsupply;
+        _VoteStruct.veTokenTotalSupply = veToken.totalSupply();
+        _VoteStruct.tokenTotalSupply = getTokenSup();
         _VoteStruct.voteTopic = voteTopic_;
         _VoteStruct.voteId = voteTatola;
         _VoteStruct.time = block.timestamp + voteTime;
         _VoteStruct.initiator = msg.sender;
         _VoteStruct.status = VoteStatus.isvoting;
-        _VoteStruct.codeModel = templateID_;
+        _VoteStruct.codeModel = condeModel_;
         _VoteStruct.value = valaue_;
         
-        emit CreateVoteEvent(voteTatola,voteTopic_,templateID_,valaue_);
+        emit CreateVoteEvent(voteTatola,voteTopic_,msg.sender,describe_,condeModel_,valaue_,link_,block.timestamp + voteTime, block.timestamp + voteTime + bufferTime,getTokenSup(),veToken.totalSupply());
         
         return voteTatola;
     }
@@ -56,11 +64,14 @@ contract Vote is IVote,VoteData {
     function toVote(uint256 voteId_,bool result_) external override {
         uint256 weight;
         VoteStruct storage _vote = voteMapp[voteId_];
-        require(_vote.status != VoteStatus.uninitialized,"VoteId is null");
+
+        require(_vote.status != VoteStatus.uninitialized,"VoteId is null");   
+        require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "The vault and the auction");
+    
         //In the vote
         if(_vote.status == VoteStatus.isvoting){
         require(!_vote.VoterAddress[msg.sender].voted,"Vote before");
-        require(veToken.userOfEquity(msg.sender) >= 1,"veToken less than 1 ");
+        require(veToken.userOfEquity(msg.sender) >= 1*10**18,"veToken less than 1 ");
         require(block.timestamp < _vote.time,"Not within the allotted time");
         _vote.VoterAddress[msg.sender].voted = true;
         
@@ -70,10 +81,10 @@ contract Vote is IVote,VoteData {
                     weight += veToken.userOfEquity(deleAdd);
                 }
         }
-        if(result_){ 
-            _vote.supPopel =   weight + veToken.userOfEquity(msg.sender);
+        if(result_){
+            _vote.supPopel += weight + veToken.userOfEquity(msg.sender);
         }else{
-            _vote.againstPopel =  weight + veToken.userOfEquity(msg.sender);
+            _vote.againstPopel += weight + veToken.userOfEquity(msg.sender);
         }
         //secondBallot
         }else if(_vote.status == VoteStatus.secondBallot) {
@@ -86,20 +97,27 @@ contract Vote is IVote,VoteData {
                     weight += veToken.userOfEquity(deleAdd);
                 }
             }
-          _vote.svote.supPopel = weight + veToken.userOfEquity(msg.sender);
+            if(result_){
+                _vote.svote.supPopel += weight + veToken.userOfEquity(msg.sender);
+            }else{
+                _vote.svote.againstPopel +=  weight + veToken.userOfEquity(msg.sender);
+            }
+         
         }else{
-            _vote.svote.againstPopel =  weight + veToken.userOfEquity(msg.sender);
+            revert('Can not vote');
         }
-        emit ToVoteEvent(voteId_,result_,msg.sender);
+        emit ToVoteEvent(voteId_,result_,msg.sender,weight + veToken.userOfEquity(msg.sender),_vote.status);
     }
   
     //@dev You can veto a vote if you are not happy with it
-    function reject(uint256 voteId_,string memory reasons_) external override {
-        uint256 _totalsupply = veToken.totalSupply() * minimumQuantity / 100;
-        require(veToken.userOfEquity(msg.sender) >= _totalsupply,"Too few tokens are held");
-
+    function reject(uint256 voteId_,string memory reasons_,string memory link_) external override {
         VoteStruct storage  _vote = voteMapp[voteId_];
-        require(_vote.againstPopel+_vote.supPopel >= _vote.totalsupply * 30 / 100,"votes is less than 30 percent");
+        uint256 _totalsupply =  _vote.tokenTotalSupply * minimumQuantity / 100;
+    
+        require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "The vault and the auction");   
+        
+        require(veToken.userOfEquity(msg.sender) >= _totalsupply,"Too few tokens are held");
+        require(_vote.againstPopel+_vote.supPopel >= _vote.tokenTotalSupply  * 30 / 100,"votes is less than 30 percent");
         require(_vote.supPopel *  100 / (_vote.againstPopel + _vote.supPopel)  >= 60,"Less than 60% of the votes passed");
         require(block.timestamp >= _vote.time && block.timestamp < _vote.time + bufferTime, "Still in the voting phase");
         require(_vote.status == VoteStatus.isvoting,"Not at the voting stage");
@@ -108,7 +126,7 @@ contract Vote is IVote,VoteData {
         _vote.svote.describe = reasons_;
         _vote.svote.vetoer = msg.sender;
         _vote.time = block.timestamp + bufferTime;
-        emit RejectEvent(voteId_,reasons_);
+        emit RejectEvent(voteId_,msg.sender,reasons_,block.timestamp + bufferTime,link_);
     }
     
     //@dev When the vote is completed, manual click to execute
@@ -116,22 +134,51 @@ contract Vote is IVote,VoteData {
         VoteStruct storage _vote = voteMapp[voteId_];
         require(!executeQueueMap[voteId_],"repetitive execution");
         require(_vote.status != VoteStatus.uninitialized,"VoteId is null");
-        if(_vote.status == VoteStatus.isvoting){
 
+        require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "The vault and the auction");   
+        require(IVault(getVault()).getEntireVaultState() != State.NftState.leave, "The vault is closed");
+ 
+        if(_vote.status == VoteStatus.isvoting){
             require(block.timestamp > _vote.time + bufferTime,"Still in the voting phase");
-            require(_vote.againstPopel+_vote.supPopel >= _vote.totalsupply * 30 / 100,"votes is less than 30 percent");
+
+            if(_vote.codeModel == 5 ){
+                templateState[1] = false;
+                if(_vote.againstPopel + _vote.supPopel < _vote.tokenTotalSupply * 30 / 100 || _vote.supPopel *  100 / (_vote.againstPopel + _vote.supPopel)  < 60 ){
+                    _vote.status = VoteStatus.faild;
+                    executeQueue.push(voteId_);
+                    executeQueueMap[voteId_] = true;
+                    return;
+                }
+            }
+
+            require(_vote.againstPopel + _vote.supPopel >= _vote.tokenTotalSupply * 30 / 100,"votes is less than 30 percent");
             require(_vote.supPopel *  100 / (_vote.againstPopel + _vote.supPopel)  >= 60,"Less than 60% of the votes passed");
              _vote.status = VoteStatus.succeed;
              _execute(voteId_,_vote.codeModel,_vote.value);
        } else  if(_vote.status == VoteStatus.secondBallot){
-            require(block.timestamp >= _vote.time,"Still in the voting phase");
-            require(_vote.svote.supPopel >= _vote.supPopel,"The vote passed with fewer votes than the original");
+            require(block.timestamp > _vote.time,"Still in the voting phase");
+            if(_vote.codeModel == 5){
+                _vote.status = VoteStatus.faild;
+                IVault(getVault()).safeSetState(address(0),0,State.NftState.freedom,"vote");
+                executeQueue.push(voteId_);
+                executeQueueMap[voteId_] = true;
+                return;
+            }
+
+            require(_vote.svote.supPopel < _vote.supPopel,"The vote passed with fewer votes than the original");
+            if(_vote.svote.supPopel < _vote.supPopel){
+                _vote.status = VoteStatus.faild;
+                IVault(getVault()).safeSetState(address(0),0,State.NftState.freedom,"vote");
+                return;
+            }
+
+            require(_vote.svote.supPopel > _vote.supPopel,"The vote passed with fewer votes than the original");
             _vote.status = VoteStatus.succeed;
             _execute(voteId_,_vote.codeModel,_vote.value);
+
         }else{
             revert("Still in the voting phase");
         }
-
         emit ExecuteEvent(voteId_);
     } 
     
@@ -150,7 +197,7 @@ contract Vote is IVote,VoteData {
         IFactory _factory = IFactory(IRouterData(router).factory());
         address _updataTemplate = _factory.updateUtilsAddres(_name,_version);
 
-        require(_updataTemplate != address(0),"error update template address"); 
+        require(_updataTemplate != address(0),"error update template address");
         _updateCall(router,"updateRouter(address)",_updataTemplate);
         _updateCall(IRouterData(router).veToken(),"updateVeToken(address)",_updataTemplate);
         _updateCall(IRouterData(router).auction(),"updateAuction(address)",_updataTemplate);
@@ -184,7 +231,7 @@ contract Vote is IVote,VoteData {
         GgovernanceTemplate memory _Template = template[0];
         _Template.templateId = 1;
         _Template.functionName = "setMinimumQuantity";
-        _Template.toppic = "Modify the minimum number of tokens";
+        _Template.toppic = "Modify the minimum number of tokens held";
                
         GgovernanceTemplate memory _Template2 = template[1];
         _Template2.templateId = 2;
@@ -194,7 +241,7 @@ contract Vote is IVote,VoteData {
         GgovernanceTemplate memory _Template3 = template[2];
         _Template3.templateId = 3;
         _Template3.functionName = "updateMaxRewardDuration";
-        _Template3.toppic = "Modify the maximun pledage reward";
+        _Template3.toppic = "Modify the Pledge reward";
         
         GgovernanceTemplate memory _Template4 = template[3];
         _Template4.templateId = 4;
@@ -237,11 +284,11 @@ contract Vote is IVote,VoteData {
     }
 
     function getGovernanceTemplateforMaxPledgeDuration(uint256 value_) private {
-        _governanceTemplate(address(veToken),"updateMaxPledgeDuration(uint256)",value_);
+        _governanceTemplate(getVeToken(),"updateMaxPledgeDuration(uint256)",value_);
     }
-
+    
     function getGovernanceTemplateforMaxRewardDuration(uint256 value_) private {
-        _governanceTemplate(address(veToken),"updateMaxRewardDuration(uint256)",value_);
+        _governanceTemplate(getVeToken(),"updateMaxRewardDuration(uint256)",value_);
     }
 
     function getGovernanceTemplateforEntireVaultPrice(uint256 value_) private {
@@ -289,4 +336,19 @@ contract Vote is IVote,VoteData {
     function getAuction() public view returns(address){
         return IRouterData(router).auction();
     }
+    function getTokenSup()public view returns(uint256){
+        return IERC20(IRouterData(router).division()).totalSupply();
+    }
+    function getVeToken() public view returns(address){
+        return  IRouterData(router).veToken();
+    }
+ 
+    function getVeTokenMaxRewardDuration() public view returns(uint256){
+        return  VeTokenData(IRouterData(router).veToken()).maxRewardDuration();
+    }
+ 
+    function hashCompareInternal(string memory a, string memory b) public  returns (bool) {
+        return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));
+     }
+
 }

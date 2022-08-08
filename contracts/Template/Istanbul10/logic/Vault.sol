@@ -16,7 +16,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Vault is IVault , VaultData {
 
-    address public constant WETH = 0x6085A86303E362c2A7434a7EA270d60A125B183c;
+    address public constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
   
     bytes4 internal constant ERC1155_INTERFACE_ID = 0xd9b67a26;
  
@@ -88,6 +88,7 @@ contract Vault is IVault , VaultData {
     }
 
     function _depositNFT(address[] memory nft , uint256[] memory nftId , uint256[] memory amount, address sender,uint256 weight_) private {
+        require(nft.length == nftId.length && nft.length == amount.length,"Error in passed parameter");
         require(getEntireVaultState() == State.NftState.freedom,"Vault :: Incorrect vault state");
         for(uint16 i = 0; i < nft.length ; i++) {
             require(MAXIMUM_NUMBER_OF_NFT > freedomNFTInNFTSIndex.length,"Vault :: Exceed maximum limit");
@@ -142,6 +143,7 @@ contract Vault is IVault , VaultData {
     // }
  
     function sendNFTAsset(address[] memory nft,uint256[] memory nftId, address to ) external override checkSender nonReentrant{
+        require(nft.length == nftId.length,"Error in passed parameter");
         for(uint16 i = 0; i < nft.length ; i++) {
             _sendNFTAssetIndex(nftIndex[nft[i]][nftId[i]], to);
         }
@@ -236,7 +238,7 @@ contract Vault is IVault , VaultData {
         uint256 govBalance = IERC20(getDivision()).balanceOf(govAddress);
         uint256 accountBalance = IERC20(getDivision()).balanceOf(msg.sender);
 
-        uint256 _totalAmount = IVeToken(getVeToken()).totalClaimable() + IERC20(getDivision()).totalSupply();
+        uint256 _totalAmount = IERC20(getDivision()).totalSupply();
 
         require(accountBalance >= _totalAmount - govBalance ,"redeem :: Not enough to burn");
 
@@ -286,8 +288,6 @@ contract Vault is IVault , VaultData {
         return IRouterData(router).veToken();
     }
 
-
-    
     function onERC721Received(address, address, uint256, bytes memory) public virtual returns (bytes4) {
         return this.onERC721Received.selector;
     }

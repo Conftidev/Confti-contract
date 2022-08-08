@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.10+commit.fc410830"
+		"version": "0.8.15+commit.e14f2714"
 	},
 	"language": "Solidity",
 	"output": {
@@ -9,19 +9,25 @@
 				"anonymous": false,
 				"inputs": [
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "uint256",
 						"name": "voteId_",
 						"type": "uint256"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
 						"internalType": "string",
 						"name": "voteTopic_",
 						"type": "string"
 					},
 					{
-						"indexed": true,
+						"indexed": false,
+						"internalType": "address",
+						"name": "creator_",
+						"type": "address"
+					},
+					{
+						"indexed": false,
 						"internalType": "string",
 						"name": "describe_",
 						"type": "string"
@@ -35,7 +41,37 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "valaue_",
+						"name": "newValaue_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "link_",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "endTime_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "cacheTime_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "tokenAmount_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "veTokenAmount_",
 						"type": "uint256"
 					}
 				],
@@ -98,8 +134,26 @@
 					},
 					{
 						"indexed": false,
+						"internalType": "address",
+						"name": "creator_",
+						"type": "address"
+					},
+					{
+						"indexed": false,
 						"internalType": "string",
 						"name": "reasons_",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "endTime_",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "link_",
 						"type": "string"
 					}
 				],
@@ -145,23 +199,28 @@
 						"internalType": "bool",
 						"name": "result_",
 						"type": "bool"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "voter",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "enum VoteData.VoteStatus",
+						"name": "state",
+						"type": "uint8"
 					}
 				],
 				"name": "ToVoteEvent",
 				"type": "event"
-			},
-			{
-				"inputs": [],
-				"name": "bufferTime",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			},
 			{
 				"inputs": [
@@ -176,8 +235,13 @@
 						"type": "string"
 					},
 					{
+						"internalType": "string",
+						"name": "link_",
+						"type": "string"
+					},
+					{
 						"internalType": "uint256",
-						"name": "codeModel_",
+						"name": "condeModel_",
 						"type": "uint256"
 					},
 					{
@@ -268,6 +332,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "getAuction",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getTemplate",
 				"outputs": [
 					{
@@ -283,18 +360,13 @@
 								"type": "string"
 							},
 							{
-								"internalType": "address",
-								"name": "targetAddress",
-								"type": "address"
-							},
-							{
 								"internalType": "string",
 								"name": "functionName",
 								"type": "string"
 							}
 						],
 						"internalType": "struct VoteData.GgovernanceTemplate[]",
-						"name": "re",
+						"name": "arr",
 						"type": "tuple[]"
 					}
 				],
@@ -302,24 +374,26 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "voteId_",
-						"type": "uint256"
-					}
-				],
-				"name": "getTest",
+				"inputs": [],
+				"name": "getTokenSup",
 				"outputs": [
 					{
 						"internalType": "uint256",
-						"name": "time",
+						"name": "",
 						"type": "uint256"
-					},
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getVault",
+				"outputs": [
 					{
-						"internalType": "uint256",
-						"name": "voteTime",
-						"type": "uint256"
+						"internalType": "address",
+						"name": "",
+						"type": "address"
 					}
 				],
 				"stateMutability": "view",
@@ -333,6 +407,19 @@
 						"internalType": "address",
 						"name": "",
 						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getVeTokenMaxRewardDuration",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
 				"stateMutability": "view",
@@ -387,6 +474,30 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "a",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "b",
+						"type": "string"
+					}
+				],
+				"name": "hashCompareInternal",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "initialize",
 				"outputs": [],
@@ -417,6 +528,11 @@
 						"internalType": "string",
 						"name": "reasons_",
 						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "link_",
+						"type": "string"
 					}
 				],
 				"name": "reject",
@@ -440,24 +556,20 @@
 			{
 				"inputs": [
 					{
-						"internalType": "string",
-						"name": "topic_",
-						"type": "string"
-					},
-					{
-						"internalType": "address",
-						"name": "targetAddress_",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "functionName_",
-						"type": "string"
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
 					}
 				],
-				"name": "setGovernanceTemplate",
-				"outputs": [],
-				"stateMutability": "nonpayable",
+				"name": "templateState",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -496,7 +608,7 @@
 				"name": "veToken",
 				"outputs": [
 					{
-						"internalType": "contract VeTokenTest",
+						"internalType": "contract IVeToken",
 						"name": "",
 						"type": "address"
 					}
@@ -507,19 +619,6 @@
 			{
 				"inputs": [],
 				"name": "voteTatola",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "voteTime",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -585,20 +684,14 @@
 		"userdoc": {
 			"kind": "user",
 			"methods": {
-				"createVote(string,string,uint256,uint256)": {
-					"notice": "notion createVote. param  codeModel_  GovernanceTemplate ID."
-				},
 				"execute(uint256)": {
 					"notice": "notion If the vote passes execute the proposal. param  voteId_   voteID"
 				},
 				"initialize()": {
 					"notice": "param  _veToken the  value for  connect veToken"
 				},
-				"reject(uint256,string)": {
+				"reject(uint256,string,string)": {
 					"notice": "notion rejecting the proposal. param  _voteId   VoteId param  _reasons   The reasons for rejecting the proposal"
-				},
-				"setGovernanceTemplate(string,address,string)": {
-					"notice": "notion Templates should be set up before voting"
 				},
 				"toVote(uint256,bool)": {
 					"notice": "notion Vote. param  result_   VoteId param  voteId_  false or true"
@@ -623,52 +716,92 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/Template/Istanbul10/Interface/IRouter.sol": {
-			"keccak256": "0x4830f2cf82cb1ca440d94989aa3f4c76ee2c40653afd2268c4d9def4295ce093",
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0xf8e8d118a7a8b2e134181f7da655f6266aa3a0f9134b2605747139fcb0c5d835",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://01b206365590b23f2072c01a519c65a711edfc8486104dfe04713820413e792b",
-				"dweb:/ipfs/QmNp3Hx2qeUCfMHxjb7jzwQ1vq9jiEaykcCZV7vpFzMTbP"
+				"bzz-raw://9ec48567e7ad06acb670980d5cdf3fd7f3949bf12894f02d68c3bb43e75aa84f",
+				"dweb:/ipfs/QmaG3R2J9cz92YT77vFjYrjMNU2wHp4ypwYD62HqDUqS5U"
+			]
+		},
+		"contracts/Interface/IFactory.sol": {
+			"keccak256": "0xbce257d73242df6e8535b9fb5b290998c202d0e92e0506ceba661ba92ba1098b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a24a31faa9305da04095e4e10dada2b6859bde9fa5ea86a962b7837bd258684d",
+				"dweb:/ipfs/QmeJ3BpJ1ZCAAK7svctCK22pMEeczqkjWcwGQGhZPEBbz3"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IRouter.sol": {
+			"keccak256": "0xa7ca49815b780763ea4340d8e8020b9d6d8d137fa995a3314d3dbaa2c168d923",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://459228bf7c1f8e974b3186427e0fedf6f790d4a9662de12d8534376d6056061b",
+				"dweb:/ipfs/QmTAdX2hovc5vc1cxpF39MVv76f8UBz7Cq9W1ijETxszAG"
 			]
 		},
 		"contracts/Template/Istanbul10/Interface/IRouterData.sol": {
-			"keccak256": "0x7c7b3758b8809dbeab2af25edbce1bbaf0035a15ec4c5b7b390bbe862123dc4e",
+			"keccak256": "0xf1f05cbaaa89d71bc191302722ff968a14e10b9aa694109a66ec669252c1e8ac",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bb530310b35a4feaaba26fde788298435107e12ce9bf220ab9bb8cb0e6050b5b",
-				"dweb:/ipfs/QmPTZxPoUmGwnLERqDswSGPy9yZgwBL6rm1CbhGXdSB6Vj"
+				"bzz-raw://00e70066c47e5c69dc13ccf7d6e1865d60edf42e4e0f5d34f585dfe219515add",
+				"dweb:/ipfs/QmRMs4iZdig5A7AwP9kPnoh1Mbp3ecmnx9qCqBypYNHYaz"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IVault.sol": {
+			"keccak256": "0x5b83c535f50b97ad8faea93cb68d70b0c8e16364739d790baf072587d491c455",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6fd6115e56c0ca80f30ac5047a9764a5d85d6b892c5d3a06fd9c70c180992225",
+				"dweb:/ipfs/Qmf2XsXJdXE5pGdZFgz4otpyHXyT3d4ax56aG5oWBHW3M5"
+			]
+		},
+		"contracts/Template/Istanbul10/Interface/IVeToken.sol": {
+			"keccak256": "0x0c2e00e3fb14d024b117c943c111e75e8b82932c434e4e69cbd1e7e70e0263fe",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9a201b844427328085ce095b7a8276fd0314c56b5d1b88bf4ddb320a3ada432d",
+				"dweb:/ipfs/QmTFiDJUoFgqLwBnB5udNMbyqfyYTDMbGQHe4LZpVKmei1"
 			]
 		},
 		"contracts/Template/Istanbul10/Interface/IVote.sol": {
-			"keccak256": "0x4c2259a5823e16f8885e3bff938e2fa78aaf51251383726f87a0cb75acff84a4",
+			"keccak256": "0x0bffe333f481342d8107ae0f8cdb7096e6be95cd5cdfbe32d2239dd2556ca758",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://95a8d45411ec3999c5f92c32c1c6492f0fb68d7fa6894c42581bd991c8d0dd2d",
-				"dweb:/ipfs/QmQy7MkjUiw8FTV2bgV2hhtuDFvS9yRMg24SFae2vhtrNS"
+				"bzz-raw://ddfe6812299c834394451f63b64881d19a26d7c3a7bf065034b417fb42f0826d",
+				"dweb:/ipfs/Qma83TgkkW2xij2LaEBxE98soJ5ebTLvt9iDubh1QGFw3Y"
+			]
+		},
+		"contracts/Template/Istanbul10/data/VeTokenData.sol": {
+			"keccak256": "0x63b6ae311fed2e70e3f7fb0034578b4bad22db47e7ca2f380fce4d3ffdb51202",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://378b5bdbe357b6e3db803fdad7ce050dd68a3e8db588314383b1dd8a2e2b999f",
+				"dweb:/ipfs/QmPHqNmmGvjhJ1W7Rh9H3AWFxXsecbyJ9AHEB5gFBFB2Kg"
 			]
 		},
 		"contracts/Template/Istanbul10/data/VoteData.sol": {
-			"keccak256": "0xe2db4fb2ef2240d765c4eeaaf4776af2d36fd3169e3fa55a04b8f3aa7ef20402",
+			"keccak256": "0xeab2f7b12c827ebf59301bb2df97fe2f38c6dd6ce6c32c7a00fcd0ae5928c7b3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://a31b994f3cfbfc64538c42a714f02ebc19330ca9e82a3b7629a964ace98e184d",
-				"dweb:/ipfs/QmW5CZUEJSXmhFp9xbQ1K97TuGzutxLeu6U4nqWkrdaDvE"
+				"bzz-raw://9234f77d8dcbae1735790bee9413fdfe267de0d21ceac0fc576d834dacc3a0ef",
+				"dweb:/ipfs/QmUrzSq19GsiXdSr4Fnmev5ww9hMcVk2z6iReF76TvPUvd"
 			]
 		},
 		"contracts/Template/Istanbul10/logic/Vote.sol": {
-			"keccak256": "0x9b1bc28b339db03cf4c44084c628490e9bf4df0326d45f4452e9412198ec8a91",
+			"keccak256": "0xa1c05936e598a60d513e5809ea27159d428a49a3164da2b25b561c45a763b247",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://aaa848d38d88f22d125f1e42b69d9b654eaa86dc037b3fba88f66b28a9bd6420",
-				"dweb:/ipfs/QmYP3Pq3Sw9Ew1HU3dB5QBDpcEsd2h5qQdsaGZqRJmyjmB"
+				"bzz-raw://d157784af3faef303c3e2ca56bd224fa9c672b3efb67b69eaef265e5e111e050",
+				"dweb:/ipfs/QmV29j5sAfvpUAv5GMxRweQvEVy2STLGdtcqqAa2VMgDQe"
 			]
 		},
-		"contracts/test/VeTokenTest.sol": {
-			"keccak256": "0x592be011b607d6bcb7cb0f53aba296b6a64dfd4cedce56e5ce4429feefe35a49",
+		"contracts/utils/State.sol": {
+			"keccak256": "0xfd9df2ec38b6b962ce03db54d8b44fcfa334dcb94ddba838c39f28587db3020b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b77d3808c8bebccf198e0fb4d77dd64807920e1d0228360857263c03884c54a8",
-				"dweb:/ipfs/QmdJJxzjDcLdhMQBFiJQNP1i7MbVWfrQV8mepxHUtnbFno"
+				"bzz-raw://29ade40c10450b2799962f6430ac157d21b026c75dddbd3819d77e7059036958",
+				"dweb:/ipfs/QmQcVKi3a2uo92NEdeLj4r37dJb3Ztfef3RdQeueDWWRzU"
 			]
 		}
 	},

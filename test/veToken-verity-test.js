@@ -1,5 +1,7 @@
-// 该js用于验证一下想法
+ 
 //使用说明，在终端执行 npx hardhat test ./test/veToken-verity-test.js
+//个人权益测式角本
+ 
 const { inputToConfig } = require("@ethereum-waffle/compiler");
 const { expect, assert } = require("chai");
 const { ethers,network,deployments} = require("hardhat");
@@ -121,10 +123,11 @@ describe("测式VeToken合约", async ()=> {
         console.log("【curatorDeposit】");
         await deposit.wait(1);
       
-        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",1000,utils.parseUnits("100",18),6048000,6048000,gas)
+ 
+        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",10,utils.parseUnits("1000",18),6048000,6048000,gas)
         console.log("【issue】");
         await tx.wait(1);
-    
+ 
         // ----------------------------------------------------------
 
         const [deployer] = await ethers.getSigners();
@@ -138,13 +141,15 @@ describe("测式VeToken合约", async ()=> {
         let balanceOfMe = await token.balanceOf(deployerAddress)
         console.log(String(balanceOfMe))
 
-        //获得vetoken的代理合约
+ 
+        //生成 vetoken 合约 
+ 
         const newVeTokenAddress = await newRouterContracy.veToken();
         veToken = await veTokenContract.attach(newVeTokenAddress);
         console.log("vetokenAddress = ",veToken.address);
         // console.log(veToken);
-        console.log("totalReward=",await veToken.totalReward());
-        console.log("maxPledgeDuration=",await veToken.maxPledgeDuration());
+ 
+ 
         
     })
 
@@ -152,53 +157,27 @@ describe("测式VeToken合约", async ()=> {
 
     })
     
-    it("->验证_findTimestampEpoch（t）中的t=合约初始化时间时的拿到的纪元",async ()=>{
-      let timeCursor  = await veToken.timeCursor()
-      console.log("合约实始化当周的时间：",await veToken.timeCursor())
+ 
+    it("->校验用户质押<4周时应该报错",async ()=>{
+        const amount = 100000000000000000000;
+        //token授权给veToken
+        let approveTx = await token.approve(veToken.address,amount+"");
+        let approveResult =  await approveTx.wait();
+        console.log("授权成功！");
+        let mybalance = await token.balanceOf(deployerAddress)
+        console.log(mybalance)
 
-
-       //移动0.02周，相当于 移动 3.36小时
-       await moveTime(DELAY_WEEK * 0.02);
-       await moveBlock(1);
-       await blockInfo();
-
-
-
-       //token授权给veToken
-       const amount = ethers.utils.parseUnits("100");
-       console.log("amount=",amount);
-       let approveTx = await token.approve(veToken.address,amount+"");
-       let approveResult =  await approveTx.wait();
-       console.log("授权成功！");
-  
-
-       //质押
-       let TotalR = await veToken.totalReward();
-       console.log("TotalR = ",TotalR)
-       let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 4;
-       console.log("质押锁定时间：",unLockedTime);
-       console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
-       let tx = await veToken.createLock(amount+"",unLockedTime);
-       let tx2 = await tx.wait();
-
-       console.log("刚质押数据： ",await veToken.supplyPointHistory(1));
-
-       //移动3周
-       await moveTime(DELAY_WEEK * 3);
-       await moveBlock(1);
-       await blockInfo();
-
-       let t = await veToken._checkpointTotalSupply();
-       await t.wait();
-       console.log("第一周的总周权益：",await veToken.veSupply(timeCursor))
-       let week2 = Number(timeCursor) + DELAY_WEEK;
-       let week3 = Number(timeCursor)+ DELAY_WEEK*2;
-       console.log("week2="+week2);
-       console.log("第二周的总周权益：",await veToken.veSupply(week2))
-       console.log("week3="+week3);
-       console.log("第三周的总周权益：",await veToken.veSupply(week3))
-
+        //质押
+        let TotalR = await veToken.totalReward();
+        console.log(TotalR)
+        let unLockedTime = Date.parse(new Date())/1000 + DELAY_WEEK * 4;
+        await blockInfo();
+        console.log("质押锁定时间：",unLockedTime);
+        console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
+        let tx = await veToken.createLock(amount+"",unLockedTime);
+        let tx2 = await tx.wait();
 
     });
 
+ 
 });

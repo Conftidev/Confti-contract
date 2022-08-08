@@ -25,10 +25,10 @@ interface IAuction {
     event SetPrice(address nft,uint256 nftId,uint price);
 
     /// @notice An event emitted when an auction starts
-    event Start(address indexed buyer, uint price);
+    event Start(address indexed buyer, uint price, uint auctionEnd);
 
     /// @notice An event emitted when a bid is made
-    event Bid(address indexed buyer, uint price);
+    event Bid(address indexed buyer, uint price, uint auctionEnd);
 
     /// @notice An event emitted when an auction is won
     event Won(address indexed buyer, uint price);

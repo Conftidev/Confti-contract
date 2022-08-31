@@ -1,5 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
-// require('hardhat-abi-exporter');
+require('hardhat-abi-exporter');
 require('dotenv').config()
 const {private_Key} = process.env
 
@@ -20,8 +20,8 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: "local",
-  networks: { local:{
+  networks: { 
+    local:{
     url: 'http://127.0.0.1:8545', //本地RPC地址
     accounts:[
       // 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000 ETH)
@@ -46,22 +46,22 @@ module.exports = {
       '0x92db14e403b83dfe3df233f83dfa3a0d7096f21ca9b0d6d6b8d88b2b4ec1564e'
     ]
   },
-     kovan: {
-      url: "https://kovan.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
-      accounts: [private_Key]
-    },
+    //  kovan: {
+    //   url: "https://kovan.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
+    //   accounts: [private_Key]
+    // },
     rinkeby: {
       url: "https://rinkeby.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
       accounts: [private_Key]
     },
-    ropsten: {
-      url : "https://ropsten.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
-      accounts: [private_Key]
-    },
-    mainNet:{
-      url : "https://mainnet.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
-      accounts: [private_Key]
-    },
+  //   ropsten: {
+  //     url : "https://ropsten.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
+  //     accounts: [private_Key]
+  //   },
+  //   mainNet:{
+  //     url : "https://mainnet.infura.io/v3/5edf63dd8807423f9e95cacfc0560360",
+  //     accounts: [private_Key]
+  //   },
     mainNet: {
       url: "https://mainnet.infura.io/v3/63b48421bb4e468b935489be18d9dbfc",
       accounts: [private_Key]
@@ -99,7 +99,7 @@ module.exports = {
     ],
     },
   abiExporter: {
-    path: './data/abi',
+    path: './abi-address/rinkeby/abi',
     clear: true,
     flat: true,
     only: ["Factory","Auction","Router","Vault","VeToken","Vote"],

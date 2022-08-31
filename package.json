@@ -5,7 +5,7 @@
     "main_Config": "node  ./scripts/config/mainNet/MainNetConfig.js",
     "testNet_Config": "node  ./scripts/config/testNet/TestNetConfig.js",
     "main_depoly": "npx hardhat run ./scripts/contract_depoly/depoly.js --network mainNet",
-    "rinkeby_depoly": "npx hardhat run ./scripts/contract_depoly/depoly.js --network rinkeby"
+    "rinkeby_depoly": "npx hardhat export-abi && npx hardhat run ./scripts/contract_depoly/depoly.js --network rinkeby && cd abi-address && git add . && git commit -m 'change' && git push"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@nomicfoundation/hardhat-network-helpers": "^1.0.3",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "hardhat": "^2.10.2"
   }
 }

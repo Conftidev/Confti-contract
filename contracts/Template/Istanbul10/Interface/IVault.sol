@@ -32,7 +32,7 @@ interface IVault {
 
     function sendERC20(address,address,uint256) external;
     
-    function sendWETH(address, uint256) external;
+    // function sendWETH(address, uint256) external;
 
     function updateVault(address) external;
 

@@ -13,10 +13,9 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-
 contract Vault is IVault , VaultData {
 
-    address public constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
+    // address public constant WETH = 0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2;
   
     bytes4 internal constant ERC1155_INTERFACE_ID = 0xd9b67a26;
  
@@ -30,12 +29,12 @@ contract Vault is IVault , VaultData {
     
 
     modifier checkSender() {
-        require(IRouterData(router).whiteList(msg.sender),"whiteList :: Address check error");
+        require(IRouterData(router).whiteList(msg.sender),"whiteList :: Vault address error!");
         _;
     }
 
     modifier nonReentrant() {
-        require(!reentry,"reentry :: Illegal reentrant");
+        require(!reentry,"reentry :: Illegal commit (reentrancy attack)");
         reentry = true;
         _;
         reentry = false;
@@ -67,28 +66,35 @@ contract Vault is IVault , VaultData {
     // --------------------------------      Asset      -----------------------------------------
 
     function sendETH(address payable who,uint256 amount) external override checkSender nonReentrant {
-        require(who != address(0),"sendETH :: Cannot transfer to zero address");
-        who.transfer(amount);
+        require(address(this).balance >= amount, "Address: insufficient balance");
+
+        // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
+        (bool success, ) = who.call{ value: amount }("");
+        require(success, "Address: unable to send value, recipient may have reverted");
     }
 
     function sendERC20(address token,address to,uint256 amount) external override checkSender nonReentrant {
-        require(to != address(0),"sendERC20 :: Cannot transfer to zero address");
+        require(token != address(0),"invalid address");
+        require(to != address(0),"sendERC20 :: Transaction object address cannot be 0");
+        uint256 beforeBalance = IERC20(token).balanceOf(to);
         IERC20(token).transfer(to,amount);
+        uint256 afterBalance = IERC20(token).balanceOf(to);
+        require(afterBalance - beforeBalance == amount,"Transfer failed");
     }
 
-    function sendWETH(address who, uint256 amount) external override checkSender nonReentrant{
-        require(who != address(0),"sendWETH :: Cannot transfer to zero address");
-        IWETH(WETH).deposit{value: amount}();
-        IWETH(WETH).transfer(who, IWETH(WETH).balanceOf(address(this)));
-    }
+    // function sendWETH(address who, uint256 amount) external override checkSender nonReentrant{
+    //     require(who != address(0),"sendWETH :: Transaction object address cannot be 0");
+    //     IWETH(WETH).deposit{value: amount}();
+    //     IWETH(WETH).transfer(who, IWETH(WETH).balanceOf(address(this)));
+    // }
 
     // ------------------------------      NFT       --------------------------------------------
     function depositNFTAsset(address[] memory nft , uint256[] memory nftId , uint256[] memory amount, address sender,uint256 weight_) external override checkSender nonReentrant{
         _depositNFT(nft , nftId , amount, sender,weight_);
     }
 
-    function _depositNFT(address[] memory nft , uint256[] memory nftId , uint256[] memory amount, address sender,uint256 weight_) private {
-        require(nft.length == nftId.length && nft.length == amount.length,"Error in passed parameter");
+    function _depositNFT(address[] memory nft , uint256[] memory nftId , uint256[] memory amount, address sender,uint256 weight_) private {         
+        require(nft.length == nftId.length && nft.length == amount.length,"Parameter error!");
         require(getEntireVaultState() == State.NftState.freedom,"Vault :: Incorrect vault state");
         for(uint16 i = 0; i < nft.length ; i++) {
             require(MAXIMUM_NUMBER_OF_NFT > freedomNFTInNFTSIndex.length,"Vault :: Exceed maximum limit");
@@ -143,7 +149,7 @@ contract Vault is IVault , VaultData {
     // }
  
     function sendNFTAsset(address[] memory nft,uint256[] memory nftId, address to ) external override checkSender nonReentrant{
-        require(nft.length == nftId.length,"Error in passed parameter");
+        require(nft.length == nftId.length,"Parameter error!");
         for(uint16 i = 0; i < nft.length ; i++) {
             _sendNFTAssetIndex(nftIndex[nft[i]][nftId[i]], to);
         }
@@ -175,7 +181,7 @@ contract Vault is IVault , VaultData {
     }
  
     function _sendNFT(address nft,uint256 nftId,uint256 amount,address sender ,address to) private returns(State.NftType){
-        require(to != address(0),"sendNFT :: Cannot transfer to zero address");
+        require(to != address(0),"sendNFT :: Transaction object address cannot be 0");
         if (ERC165Checker.supportsInterface(nft, ERC1155_INTERFACE_ID)){
             IERC1155(nft).safeTransferFrom(sender, to, nftId ,amount,"");
             return State.NftType.NFT1155;
@@ -230,9 +236,9 @@ contract Vault is IVault , VaultData {
 
     /// @notice an external function to burn all ERC20 tokens to receive the ERC721 token
     function redeem() external override nonReentrant{
-        require(IERC20(getDivision()).totalSupply() != 0, "redeem :: The number of fragments is zero");
+        require(IERC20(getDivision()).totalSupply() != 0, "redeem :: Part token number cannot be 0");
         require(getEntireVaultState() != State.NftState.leave, "redeem :: NFT does not exist");
-        require(redeemable, "redeem :: Unable to remedy");
+        require(redeemable, "redeem :: After a DAO starts operation, redemption is not allowed");
         IFactory _factory = IFactory(IRouterData(router).factory());
         address govAddress = ISettings(_factory.settings()).feeReceiver();
         uint256 govBalance = IERC20(getDivision()).balanceOf(govAddress);
@@ -240,7 +246,7 @@ contract Vault is IVault , VaultData {
 
         uint256 _totalAmount = IERC20(getDivision()).totalSupply();
 
-        require(accountBalance >= _totalAmount - govBalance ,"redeem :: Not enough to burn");
+        require(accountBalance >= _totalAmount - govBalance ,"redeem :: DAO has not been closed, burn is not allowed");
 
         IDivision(getDivision()).burnDivision(msg.sender,accountBalance);
         IDivision(getDivision()).burnDivision(govAddress,govBalance);

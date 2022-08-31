@@ -16,7 +16,7 @@ contract InitializedProxy {
         address logic,
         bytes memory initializationCalldata
     ) { 
-        require(logic != address(0),"Proxy :: Logical contracts cannot be zero addresses");
+        require(logic != address(0),"Proxy :: Wrong proxy contract address");
         StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = logic;
         // Delegatecall into the logic contract, supplying initialization calldata
         (bool _ok, bytes memory returnData) =

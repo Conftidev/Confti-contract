@@ -13,7 +13,6 @@ const gas ={
     gasLimit:6000000
 }
  
-  
 async function moveTime(amount) {
   console.log("Moving blocks increaseTime...")
   await hre.network.provider.send("evm_increaseTime",[amount])
@@ -38,7 +37,6 @@ async function blockInfo(){
 }
 
 async function main() {
-<<<<<<< Updated upstream
   const amount = 100000000000000000000; 
   const DELAY_WEEK = 604800; // 1 week
   // 质押

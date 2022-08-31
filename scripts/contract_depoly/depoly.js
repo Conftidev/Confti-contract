@@ -35,7 +35,7 @@ async function main() {
   const Settings = await hre.ethers.getContractFactory("Settings");
   const SettingsContract = await Settings.deploy();
   await SettingsContract.deployed();
-  console.log("veTokenContract deployed to:", SettingsContract.address);
+  console.log("Settings deployed to:", SettingsContract.address);
 
   const Factory = await hre.ethers.getContractFactory("Factory"); 
   const factoryContract = await  Factory.deploy(SettingsContract.address);
@@ -58,7 +58,7 @@ async function main() {
 
   await factoryContract.setLogic(routerContract.address,true,gas);
    
-  fs.writeFileSync("data/address/index.json",JSON.stringify(address));
+  fs.writeFileSync("abi-address/rinkeby/address/index.json",JSON.stringify(address));
   
  }
 

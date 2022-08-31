@@ -17,7 +17,7 @@ contract Division is ERC20Upgradeable , IDivision {
     
     
     modifier checkSender() {
-        require(routerContract.whiteList(msg.sender),"whiteList :: Address check error");
+        require(routerContract.whiteList(msg.sender),"whiteList :: This contract address has not been whitelisted");
         _;
     }
 

@@ -205,7 +205,7 @@ describe("测式Auction合约", function () {
         console.log("质押成功");
         
 
-        return {router,vault,vetoken,auction,token,vote,user};
+        return {router,vault,vetoken,auction,token,vote,user,ntoken};
     }
 
     it("start:正常流程",async function(){
@@ -326,7 +326,7 @@ describe("测式Auction合约", function () {
 
 
     it("bid:正常竞价",async function(){
-      const {router,vault,vetoken,auction,token,vote} = await loadFixture(deployTokenFixture);
+      const {router,vault,vetoken,auction,token,vote,ntoken} = await loadFixture(deployTokenFixture);
       console.log("check init ----start")
       let auctionInfoBefore = await auction.auctions(0)
       expect(Number(utils.formatEther(auctionInfoBefore.price))).to.equal(1);
@@ -339,10 +339,15 @@ describe("测式Auction合约", function () {
       console.log("winning ok")
       console.log("check init ----end")
 
+      const cash_befor_eth_user = await ethers.provider.getBalance(user.address);
+      console.log("拍卖前user余额:"+ ethers.utils.formatEther(cash_befor_eth_user));
 
-      let auctionStart = await auction.start({value : utils.parseUnits("1.1",18)})
+      let auctionStart = await auction.start({value : utils.parseUnits("1",18)})
       console.log("start function")
       let log = await auctionStart.wait(); 
+
+      const cash_after_eth_user = await ethers.provider.getBalance(user.address);
+      console.log("拍卖后user余额:"+ ethers.utils.formatEther(cash_after_eth_user));
 
       console.log("check start ----start")
       let {timestamp} = await ethers.provider.getBlock(log.blockNumber)  
@@ -352,25 +357,31 @@ describe("测式Auction合约", function () {
       console.log("price ok")
       expect(Number(auctionInfoAfter.auctionEnd)).to.equal(Number(auctionLength) + Number(timestamp)); 
       console.log("auctionEnd ok")
-      expect(Number(utils.formatEther(auctionInfoAfter.livePrice))).to.equal(1.1); 
+      expect(Number(utils.formatEther(auctionInfoAfter.livePrice))).to.equal(1); 
       console.log("livePrice ok")
       expect(auctionInfoAfter.winning).to.equal(await user.address);
       console.log("winning ok")
       console.log("check start ----end")
 
-      let beforeethBalance = Number(utils.formatEther(await provider.getBalance(await user.address))); 
+      let user2 = await getUser(2);
+      const auction2 = auction.connect(user2);
+      console.log("user2,竞拍前余额：" + Number(utils.formatEther(await provider.getBalance(await user2.address)))); 
 
-      let auctionbid =  await auction.bid({value : utils.parseUnits("1.2",18)});
+      let auctionbid =  await auction2.bid({value : utils.parseUnits("2",18)});
       await epass(auctionbid,"bid");
+
+      console.log("user,竞拍后余额：" + Number(utils.formatEther(await provider.getBalance(await user.address)))); 
+
+      console.log("user2,竞拍后余额：" + Number(utils.formatEther(await provider.getBalance(await user2.address)))); 
 
       console.log("check start ----start")
       auctionLength = await auction.auctionLength();
       auctionInfoAfter = await auction.auctions(0)
       expect(Number(utils.formatEther(auctionInfoAfter.price))).to.equal(1); 
       console.log("price ok")
-      expect(Number(utils.formatEther(auctionInfoAfter.livePrice))).to.equal(1.2); 
+      expect(Number(utils.formatEther(auctionInfoAfter.livePrice))).to.equal(2); 
       console.log("livePrice ok")
-      expect(auctionInfoAfter.winning).to.equal(await user.address);
+      expect(auctionInfoAfter.winning).to.equal(await user2.address);
       console.log("winning ok")
       console.log("check start ----end")
 
@@ -379,6 +390,9 @@ describe("测式Auction合约", function () {
 
       let end = await auction.end();
       await epass(end,"END");
+
+      
+      expect(await ntoken.balanceOf(await user2.address,1)).to.equal(5);
     });
 
     it("bid,小于当前价格,应失败",async function(){

@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.15+commit.e14f2714"
+		"version": "0.8.10+commit.fc410830"
 	},
 	"language": "Solidity",
 	"output": {
@@ -108,6 +108,19 @@
 					}
 				],
 				"name": "ExecuteEvent",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "voteId_",
+						"type": "uint256"
+					}
+				],
+				"name": "FailingEvent",
 				"type": "event"
 			},
 			{
@@ -749,11 +762,11 @@
 			]
 		},
 		"contracts/Template/Istanbul10/Interface/IVault.sol": {
-			"keccak256": "0x5b83c535f50b97ad8faea93cb68d70b0c8e16364739d790baf072587d491c455",
+			"keccak256": "0x99ade33b307d604ca717c17455838884468122ff2379bdd2f4ce78d2d39baf9c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6fd6115e56c0ca80f30ac5047a9764a5d85d6b892c5d3a06fd9c70c180992225",
-				"dweb:/ipfs/Qmf2XsXJdXE5pGdZFgz4otpyHXyT3d4ax56aG5oWBHW3M5"
+				"bzz-raw://bdd463b102448797878bf1dfa7f02df6ab4bd4c9510a21be7467f86a70586723",
+				"dweb:/ipfs/QmZHSxNBv4GJCAjv22eJ6UqTirJSxPWHd2fbkUDKj8gCvK"
 			]
 		},
 		"contracts/Template/Istanbul10/Interface/IVeToken.sol": {
@@ -765,11 +778,11 @@
 			]
 		},
 		"contracts/Template/Istanbul10/Interface/IVote.sol": {
-			"keccak256": "0x0bffe333f481342d8107ae0f8cdb7096e6be95cd5cdfbe32d2239dd2556ca758",
+			"keccak256": "0xd21d7b83c37d1ca36220284464a111d51995227e1147dea58dc7e779f8f074cf",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ddfe6812299c834394451f63b64881d19a26d7c3a7bf065034b417fb42f0826d",
-				"dweb:/ipfs/Qma83TgkkW2xij2LaEBxE98soJ5ebTLvt9iDubh1QGFw3Y"
+				"bzz-raw://b31c82df201168e0f1136122efed85a58068029bf7117c3265c358bbddbee605",
+				"dweb:/ipfs/QmWADa8EZZ8XZpUQdGY7qqVEJgwBFsW3Fp35YJbEFnhRuM"
 			]
 		},
 		"contracts/Template/Istanbul10/data/VeTokenData.sol": {
@@ -789,11 +802,11 @@
 			]
 		},
 		"contracts/Template/Istanbul10/logic/Vote.sol": {
-			"keccak256": "0xa1c05936e598a60d513e5809ea27159d428a49a3164da2b25b561c45a763b247",
+			"keccak256": "0x30dcdea43434f5f5cba345aba5daba47bc3923de568cd453b0f1080a134a04cb",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d157784af3faef303c3e2ca56bd224fa9c672b3efb67b69eaef265e5e111e050",
-				"dweb:/ipfs/QmV29j5sAfvpUAv5GMxRweQvEVy2STLGdtcqqAa2VMgDQe"
+				"bzz-raw://e4fbe51bebca786925b9ab6a3da06b53dfb4a05064bd3a686f7c5418af528d0b",
+				"dweb:/ipfs/QmUSmQNj8LM8CtcR6dhiyVRjRQMtHZya1rd65SddvFtHuK"
 			]
 		},
 		"contracts/utils/State.sol": {

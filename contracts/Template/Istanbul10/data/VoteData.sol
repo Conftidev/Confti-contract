@@ -10,9 +10,9 @@ import "../data/VeTokenData.sol";
       faild,bufferTime,secondBallot,executeTime}
  
     //This field records the voting time
-    uint256 constant   voteTime = 4 minutes;
+    uint256 constant  voteTime = 4 days;
     //This field records the counterview
-    uint256 constant bufferTime = 3 minutes;
+    uint256 constant bufferTime = 3 days;
     
     address public router;
     IVeToken public veToken;
@@ -62,5 +62,5 @@ import "../data/VeTokenData.sol";
     
     // 1 = setPrice
     mapping(uint => bool) public templateState;
-   
+    bool internal reentry;
 }  

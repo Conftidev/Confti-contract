@@ -30,20 +30,30 @@ async function moveBlock(amount) {
     console.log(`Moved ${amount} blocks`)
 }
 
-
-async function expectFail(action){
-    console.log("预期错误")
-    let result = false
-    try {
-      await action.wait()
-      result = true;
-      console.log("expect fail , but pass");
-    } catch (error) {
-      console.log("expect fail , right");
-    }finally{
-      if(result==true) throw "expect erro";
-    }
+async function efail(action,name){
+  let result = false
+  try {
+    console.log("异常断言："+name);
+    await action
+    result = true;
+    console.log("预期异常，但是通过:"+name);
+  } catch (error) {
+    console.log("预期异常，结果异常:"+name);
+  }finally{
+    if(result) throw "预期异常, 但是通过:"+name;
   }
+}
+async function epass(action,name){
+  try {
+    console.log("正确断言："+name);
+    await action.wait()
+    console.log("预期正确，结果正确:"+name);
+  } catch (error) {
+    console.log("预期正确，结果错误:"+name);
+    throw "预期正确，结果错误:"+name+error;
+  }
+}
+
   async function getUser(index){
     const accounts = await hre.ethers.getSigners();
     const user = accounts[index];
@@ -142,13 +152,13 @@ describe("测式Factory合约", async ()=> {
     it("setLogic 测试无权限",async ()=>{
         let user = await getUser(1);
         let ufactory = factory.connect(user);
-        let setLogic = await ufactory.setLogic(router.address,false,gas)
-        await expectFail(setLogic);           
+        let setLogic =  ufactory.setLogic(router.address,false)
+        await efail(setLogic,"setLogic");           
     });
     it("setLogic 测试routerTemplate错误，应失败",async ()=>{
         
-        let setLogic = await factory.setLogic(factory.address,true,gas)
-        await expectFail(setLogic);           
+        let setLogic =  factory.setLogic(factory.address,true)
+        await efail(setLogic,"setLogic");           
     });
     it("mint 测试：正常流程", async ()=>{
         let setLogic = await factory.setLogic(router.address,true,gas)
@@ -169,12 +179,12 @@ describe("测式Factory合约", async ()=> {
         let setLogic = await factory.setLogic(router2.address,false,gas)
         await setLogic.wait(1); 
 
-        let mint =await ufactory.mint(router2.address,"test",gas)
-        await expectFail(mint);
+        let mint = ufactory.mint(router2.address,"test")
+        await efail(mint,"mint");
     });
     it("mint 测试, 模板未设置，应失败", async ()=>{
 
-        let mint =await ufactory.mint(router3.address,"test",gas)
-        await expectFail(mint);
+        let mint = ufactory.mint(router3.address,"test")
+        await efail(mint,"mint");
     });
 });

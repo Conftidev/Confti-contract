@@ -33,7 +33,7 @@ contract Router is RouterData , IRouter{
     address public immutable override divisionTemplate; 
     
     modifier nonReentrant() {
-        require(!reentry,"reentry :: Illegal reentrant");
+        require(!reentry,"reentry :: Illegal commit (reentrancy attack)");
         reentry = true;
         _;
         reentry = false;
@@ -71,18 +71,18 @@ contract Router is RouterData , IRouter{
  
         require(!open, "curatorDeposit :: Token is already active");
  
-        require(msg.sender == curator, "curatorDeposit :: Only curator can deposit NFT");
+        require(msg.sender == curator, "curatorDeposit :: DAO creation unsuccessful, only the curator can deposit and withdraw NFTs");
   
         IVault(vault).depositNFTAsset(nft,nftId,amount,msg.sender,10000);
         emit CuratorDeposit(nft,nftId,amount);
     }
 
-    function issue(uint256 supply_ , string memory symbol , uint256 reserveRatio_ , uint256 entireVaultPrice ,uint256 depositLength,uint256 rewardLength) override external nonReentrant {
-        require(IVault(vault).getFreedomNFT().length != 0 ,"issue :: It's an empty vault");
-        require(msg.sender == curator, "issue :: Only curator can issue the tokens");
+    function issue(uint256 supply_ , string memory symbol , uint256 reserveRatio_ , uint256 entireVaultPrice ,uint256 depositLength,uint256 rewardLength ) override external nonReentrant {
+        require(IVault(vault).getFreedomNFT().length != 0 ,"issue :: NFTs does not exist");
+        require(msg.sender == curator, "issue :: DAO creation unsuccessful, Only curator can issue the tokens");
         require(!open, "issue :: Token is already active");
-        require(supply_ >= 10000*(10**18), "issue :: The supply must be greater than 10000");
-        require(reserveRatio_ <= 9900, "issue :: Incorrect reserve ratio");
+        require(supply_ >= 10*(10**18), "issue :: Initial total supply of DAO Parts must be more than 10");
+        require(reserveRatio_ <= 9900, "issue :: Wrong staking reward ratio settings");
         open = true;
 
         reserveRatio = reserveRatio_;
@@ -121,7 +121,9 @@ contract Router is RouterData , IRouter{
 
         lastClaimed = block.timestamp;
         fee = 0;
-
+         
+        //记录拍卖的类型
+        //设置每一个NFT价格
         IAuction(auction).setPrice(address(0),0,entireVaultPrice);
         emit Issue( supply_ , daoName , symbol , reserveRatio , entireVaultPrice, depositLength , rewardLength , veToken , auction , vote , division);
     }
@@ -131,6 +133,7 @@ contract Router is RouterData , IRouter{
     }
 
     function _mintToScale(uint256 supply_ ,address mintTo) private returns(uint256){
+        require(mintTo != address(0),"invalid address");
         supply += supply_;
 
         uint256 _govAmount = supply_ * 100 / 10000;
@@ -146,7 +149,7 @@ contract Router is RouterData , IRouter{
     }
 
     function claimFees() override external nonReentrant {
-        require(IVault(vault).getEntireVaultState() != State.NftState.leave, "claim :: cannot claim after auction ends");
+        require(IVault(vault).getEntireVaultState() != State.NftState.leave, "claim :: DAO has not been closed, ETH swap is not allowed");
         require(open, "claim :: Token not already active");
         // get how much in fees the curator would make in a year
         uint256 currentAnnualFee = fee * IERC20(division).totalSupply() / 1000;
@@ -164,9 +167,9 @@ contract Router is RouterData , IRouter{
 
     // @notice an external function to burn ERC20 tokens to receive ETH from ERC721 token purchase
     function cash() override external nonReentrant {
-        require( IVault(vault).getEntireVaultState() == State.NftState.leave, "end :: The vault is still open" );
+        require( IVault(vault).getEntireVaultState() == State.NftState.leave, "cash :: The vault is still open" );
         uint256 bal = IERC20(division).balanceOf(msg.sender);
-        require(bal > 0, "cash:no tokens to cash out");
+        require(bal > 0, "cash: No claimable assets in the DAO");
         uint256 share = bal * address(vault).balance / (IERC20(division).totalSupply() + IVeToken(veToken).totalClaimable());
         IDivision(division).burnDivision(msg.sender, bal);
         IVault(vault).sendETH(payable(msg.sender), share);
@@ -190,6 +193,7 @@ contract Router is RouterData , IRouter{
 
     // -------------------------------    create contract    -------------------------------
     function createContract(address template,bytes memory code) private returns(address){
+        require(template != address(0),"invalid address");
         return address(
             new InitializedProxy(
                 template,
@@ -199,6 +203,7 @@ contract Router is RouterData , IRouter{
     } 
 
     function setWhiteList(address targetAddress,bool bool_) private {
+        require(targetAddress != address(0),"invalid address");
         whiteList[targetAddress] = bool_;
     }
 

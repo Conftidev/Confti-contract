@@ -61,6 +61,7 @@ interface IVote {
     event InitializeEvent(address indexed  veToken_);
     event ToVoteEvent(uint256 indexed  voteId_, bool result_,address voter,uint256 amount,VoteData.VoteStatus state);
     event RejectEvent(uint256 indexed  voteId_, address creator_, string reasons_,uint256 endTime_,string link_);
+    event FailingEvent(uint256 indexed voteId_);
     event ExecuteEvent(uint256 indexed voteId_);
     event DelegateToEvent(uint256 indexed  voteId_, address to_);
     event SetGovernanceTemplateEvent(string topic_, address targetAddress_, string functionName_);

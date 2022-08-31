@@ -22,10 +22,10 @@ contract VeTokenData{
     uint256 public totalReward;
     // uint256 public surplusTotalReward;
     uint256 public totalClaimedReward;
-    uint256 public maxPledgeDuration; 
+    uint256 public maxPledgeDuration;
     uint256 public maxRewardDuration;
     uint256 public supply;
-    uint256 public firstDepositTime; 
+    uint256 public firstDepositTime;
     uint256 public startAuctionTime;
 
     mapping(address => LockedBalance) public locked;
@@ -39,9 +39,9 @@ contract VeTokenData{
 
 
     // ----------- query --------------
-    string public name;
-    string public symbol;
-    uint256 public decimals;
+    // string public name;
+    // string public symbol;
+    // uint256 public decimals;
 
     uint256 public startTime;
     uint256 public timeCursor;
@@ -55,10 +55,12 @@ contract VeTokenData{
     struct ChangesTotalReward {
         address changeUser;
         uint256 beforeTotalReward;
-        uint256 currentTotalReward;
+        // uint256 currentTotalReward;
         uint256 ts;
     }
 
     ChangesTotalReward[] public oldChangesTotalReward;
+    
+    uint256 public lastUnlockTime;
 
 }

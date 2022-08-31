@@ -32,7 +32,7 @@ contract Factory is Ownable, Pausable {
   event Mint( address indexed router, address indexed template , uint256 vaultRouterCount);
   
   modifier nonReentrant() {
-    require(!reentry,"reentry :: Illegal reentrant");
+    require(!reentry,"reentry :: Illegal commit (reentrancy attack)");
     reentry = true;
     _;
     reentry = false;
@@ -51,7 +51,7 @@ contract Factory is Ownable, Pausable {
   }
 
   function mint(address routerTemplate,string memory name) external whenNotPaused nonReentrant returns(uint256) {
-    require(routerTemplateMap[routerTemplate], "Factory :: Incorrect template address");
+    require(routerTemplateMap[routerTemplate], "Factory :: Wrong upgrade template address");
 
     bytes memory _initializationCalldata = abi.encodeWithSignature(
       "initialize(address,string)",
@@ -79,7 +79,7 @@ contract Factory is Ownable, Pausable {
   function setLogic(address router, bool ratify) external onlyOwner {
     uint256 size;
     assembly { size := extcodesize(router)}
-    require(size > 0,"Only smart contract address can be set");
+    require(size > 0,"Only the main contract can set this parameter");
     routerTemplateMap[router] = ratify;
   }
 

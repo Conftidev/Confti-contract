@@ -11,11 +11,11 @@ import "../Interface/IVaultData.sol";
 import "../../../Interface/IFactory.sol";
 import "../Interface/IVeToken.sol";
 import "../Interface/IVoteData.sol";
-
+import "hardhat/console.sol";
 contract Auction is IAuction, AuctionData {
 
     modifier nonReentrant() {
-        require(!reentry,"reentry :: Illegal reentrant");
+        require(!reentry,"reentry :: Illegal commit (reentrancy attack)");
         reentry = true;
         _;
         reentry = false;
@@ -29,16 +29,16 @@ contract Auction is IAuction, AuctionData {
     }
 
     function setPrice(address nft,uint256 nftId,uint256 price_) override external nonReentrant {
-        require(IRouterData(router).whiteList(msg.sender),"setPrice :: Caller permission error");
+        require(IRouterData(router).whiteList(msg.sender),"setPrice :: No permission to update auction price");
         uint256 _nftInVaultIndex = IVaultData(getVault()).nftIndex(nft,nftId);
         auctions[_nftInVaultIndex].price = price_;
         emit SetPrice(nft,nftId,price_);
     }
     
     function updateAuctionLength(uint256 length) override external nonReentrant {
-        require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "update :: not update");
-        require(msg.sender == IRouterData(router).curator(), "update :: not curator");
-        require(length >= getSettings().minAuctionLength() && length <= getSettings().maxAuctionLength(), "update :: invalid auction length");
+        require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "update :: Unable to upgrade");
+        require(msg.sender == IRouterData(router).curator(), "update :: No permission to start an upgrade");
+        require(length >= getSettings().minAuctionLength() && length <= getSettings().maxAuctionLength(), "update :: Wrong auction duration settings");
 
         auctionLength = length;
         emit UpdateAuctionLength(length);
@@ -49,8 +49,8 @@ contract Auction is IAuction, AuctionData {
     function start() override external payable nonReentrant {
         AuctionInfo storage _auction = auctions[0]; 
         require(!IVoteData(getVote()).templateState(1),"The price is being set now");
-        require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "start :: no auction starts");
-        require(_auction.price != 0,"start :: Entire vault price is zore");
+        require(IVault(getVault()).getEntireVaultState() == State.NftState.freedom, "start :: Auction hasn't started yet");
+        require(_auction.price != 0,"start :: Vault reserve price cannot be 0");
         require(msg.value >= _auction.price, "start :: too low bid");
 
         _auction.auctionEnd = block.timestamp + auctionLength;
@@ -75,8 +75,8 @@ contract Auction is IAuction, AuctionData {
   
         uint256 increase = getSettings().minBidIncrease() + 1000;// 5%
 
-        require(msg.value * 1000 >= _auction.livePrice * increase, "bid :: too low bid");
-        require(block.timestamp < _auction.auctionEnd, "bid :: auction ended");
+        require(msg.value * 1000 >= _auction.livePrice * increase, "bid :: Vault reserve price cannot be less than the current bid");
+        require(block.timestamp < _auction.auctionEnd, "bid :: Auction ended");
     
         // If bid is within 15 minutes of auction end, extend auction
         if (_auction.auctionEnd - block.timestamp <= 15 minutes) {
@@ -94,9 +94,10 @@ contract Auction is IAuction, AuctionData {
 
     /// @notice an external function to end an auction after the timer has run out
     function end() override external nonReentrant {
+        console.log("end xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         AuctionInfo storage _auction = auctions[0];
-        require( IVault(getVault()).getEntireVaultState() == State.NftState.occupied && utilCompareInternal(IVault(getVault()).getEntireVaultActivity(),"Auction"), "end :: vault has already closed" );
-        require(block.timestamp >= _auction.auctionEnd, "end :: auction live");
+        require( IVault(getVault()).getEntireVaultState() == State.NftState.occupied && utilCompareInternal(IVault(getVault()).getEntireVaultActivity(),"Auction"), "end :: DAO has been closed" );
+        require(block.timestamp >= _auction.auctionEnd, "end :: DAO auction ongoing, unable to close");
 
         IRouter(router).claimFees();
 

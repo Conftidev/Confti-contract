@@ -1,4 +1,4 @@
- 
+
 //使用说明，在终端执行 npx hardhat test ./test/veToken-verity-test.js
 //个人权益测式角本
  
@@ -37,6 +37,17 @@ async function blockInfo(){
     console.log("区块号：",await provider.getBlockNumber());
     console.log("区块时间：",(await provider.getBlock()).timestamp);
     return (await provider.getBlock()).timestamp;
+}
+
+function toBN(num){
+  return ethers.BigNumber.from(num);
+}
+
+async function getUser(index){
+  const accounts = await hre.ethers.getSigners();
+  const user = accounts[index];
+  console.log(user.address);
+  return user;
 }
 
 describe("测式VeToken合约", async ()=> {
@@ -124,7 +135,7 @@ describe("测式VeToken合约", async ()=> {
         await deposit.wait(1);
       
  
-        const tx  = await newRouterContracy.issue(utils.parseUnits("100000000000",18) ,"Tcoin",10,utils.parseUnits("1000",18),6048000,6048000,gas)
+        const tx  = await newRouterContracy.issue(utils.parseUnits("10000",18) ,"Tcoin",5000,utils.parseUnits("1000",18),6048000,6048000,gas)
         console.log("【issue】");
         await tx.wait(1);
  
@@ -158,7 +169,7 @@ describe("测式VeToken合约", async ()=> {
     })
     
  
-    it("->校验用户质押<4周时应该报错",async ()=>{
+    xit("->校验用户质押<4周时应该报错",async ()=>{
         const amount = 100000000000000000000;
         //token授权给veToken
         let approveTx = await token.approve(veToken.address,amount+"");
@@ -178,6 +189,243 @@ describe("测式VeToken合约", async ()=> {
         let tx2 = await tx.wait();
 
     });
+    xit("->测式两个用户质押10周，A第1周质押,B用户第3周质押，都是质押10周，最大奖励时长10周，当前时间分别在某个时间点的总的奖励数与未领取数量验证",async ()=>{
+        const amount = ethers.utils.parseUnits("100");
+        console.log("amount = ",amount);
 
+        //token授权给veToken
+        let approveTx = await token.approve(veToken.address,amount+"");
+        let approveResult =  await approveTx.wait();
+        console.log("授权成功！");
+        let mybalance = await token.balanceOf(deployerAddress)
+        console.log(mybalance)
+
+        //默认用户质押10周
+        console.log("总的奖励数：",await veToken.totalReward());
+        let unLockedTime = await blockInfo() + DELAY_WEEK * 10;
+        console.log("质押锁定时间：",unLockedTime);
+        console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
+        let tx = await veToken.createLock(amount,unLockedTime);
+        let tx2 = await tx.wait();
+
+        await moveTime(DELAY_WEEK * 2);
+        await moveBlock(1);
+        // await blockInfo();
+        
+        //用户2质押
+        let user2 = await getUser(1);
+        console.log("user2=",user2.address);
+
+        await (await token.transfer(user2.address,amount)).wait();
+        console.log("用户2的token余额=",await token.balanceOf(user2.address));
+
+        await (await token.connect(user2).approve(veToken.address,amount)).wait();
+
+        unLockedTime = await blockInfo() + DELAY_WEEK * 10;
+        let veToken2 = veToken.connect(user2);
+        await veToken2.createLock(amount,unLockedTime,gas);
+
+        await moveTime(DELAY_WEEK * 1);
+        await moveBlock(1);
+
+        // 用户3质押
+        let user3 = await getUser(2);
+        console.log("user3=",user3.address);
+
+        await (await token.transfer(user3.address,amount)).wait();
+        console.log("用户2的token余额=",await token.balanceOf(user2.address));
+
+        await (await token.connect(user3).approve(veToken.address,amount)).wait();
+
+        unLockedTime = await blockInfo() + DELAY_WEEK * 10;
+        let veToken3 = veToken.connect(user3);
+        await veToken3.createLock(amount,unLockedTime,gas);
+
+        // 第1种场景，移动8周，相当于移动到最后一周
+        // 第N种场景，移动从1~8周之间测式移动，查看公式的准确性
+        await moveTime(DELAY_WEEK * 10);
+        await moveBlock(1);
+        await blockInfo();
+
+        let totalClaimableNum = await veToken.totalClaimable();
+        console.log("当前总的待领取总量：",totalClaimableNum);
+        await veToken._checkpointTotalSupply();
+        let user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+        let user2ClaimableNum = await veToken.claimableToken(user2.address);
+        let user3ClaimableNum = await veToken.claimableToken(user3.address);
+        console.log("总奖励时长：",await veToken.maxRewardDuration());
+        console.log("A用户可领取总量：",user1ClaimableNum);
+        console.log("B用户可领取总量：",user2ClaimableNum);
+        console.log("C用户可领取总量：",user3ClaimableNum);
+        // console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+        console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)).sub(toBN(user2ClaimableNum)).sub(toBN(user3ClaimableNum)));
+        // expect(true).to.equal(totalClaimableNum-user1ClaimableNum-user2ClaimableNum == 0);
+    });
+
+    it("->用户质押常规测式",async ()=>{
+      const amount = ethers.utils.parseUnits("100");
+      console.log("amount = ",amount);
+
+      //token授权给veToken
+      let approveTx = await token.approve(veToken.address,amount+"");
+      await approveTx.wait();
+      console.log(`已授权成功！`);
+      console.log("A 可用余额=",await token.balanceOf(deployerAddress))
+
+      //默认用户质押10周
+      console.log("总的奖励数：",await veToken.totalReward());
+      console.log("总奖励时长：",await veToken.maxRewardDuration());
+      let unLockedTime = await blockInfo() + DELAY_WEEK * 10;
+      console.log("质押锁定时间：",unLockedTime);
+      console.log("质押锁定时间对应周时间：",parseInt(unLockedTime/DELAY_WEEK) * DELAY_WEEK);
+      await (await veToken.createLock(amount,unLockedTime)).wait();
+
+      console.log("----------------1------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+      let totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+      let user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+
+      console.log("----------------2------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------3------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------4------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------5------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------6------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------7------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------8------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------9------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.log("----------------10------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+      console.warn("----------------11------------------")
+      await moveTime(DELAY_WEEK * 1);
+      await moveBlock(1);
+      
+      
+       totalClaimableNum = await veToken.totalClaimable();
+      console.log("当前总的待领取总量：",totalClaimableNum);
+      await veToken._checkpointTotalSupply();
+       user1ClaimableNum = await veToken.claimableToken(deployerAddress);
+      
+      console.log("A用户可领取总量：",user1ClaimableNum);
+      console.log("总的奖励数-所有用户的可领取奖励数：",toBN(totalClaimableNum).sub(toBN(user1ClaimableNum)));
+
+
+      expect(true).to.equal(totalClaimableNum-user1ClaimableNum < 3);
+    });
  
 });

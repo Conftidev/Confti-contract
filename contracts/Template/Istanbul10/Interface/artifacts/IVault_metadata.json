@@ -322,11 +322,11 @@
 	},
 	"sources": {
 		"contracts/Template/Istanbul10/Interface/IVault.sol": {
-			"keccak256": "0x5b83c535f50b97ad8faea93cb68d70b0c8e16364739d790baf072587d491c455",
+			"keccak256": "0x99ade33b307d604ca717c17455838884468122ff2379bdd2f4ce78d2d39baf9c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://6fd6115e56c0ca80f30ac5047a9764a5d85d6b892c5d3a06fd9c70c180992225",
-				"dweb:/ipfs/Qmf2XsXJdXE5pGdZFgz4otpyHXyT3d4ax56aG5oWBHW3M5"
+				"bzz-raw://bdd463b102448797878bf1dfa7f02df6ab4bd4c9510a21be7467f86a70586723",
+				"dweb:/ipfs/QmZHSxNBv4GJCAjv22eJ6UqTirJSxPWHd2fbkUDKj8gCvK"
 			]
 		},
 		"contracts/utils/State.sol": {

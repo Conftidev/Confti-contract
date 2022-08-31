@@ -52,7 +52,7 @@ contract Settings is Ownable, ISettings {
     constructor() {
         maxAuctionLength = 2 weeks;
         minAuctionLength = 15 minutes;
-        feeReceiver = payable(0xAEb639aa794055Bc1992fB06545fdF2cFF53DC10);
+        feeReceiver = payable(0xA2821B9145D989Ff1D2Af196BB8a8296Dacf6CeC);
         minBidIncrease = 50; // 5%
         maxCuratorFee = 100;
         governanceFee = 10;

@@ -39,6 +39,7 @@ contract Factory is Ownable, Pausable {
   }
 
   constructor(address settings_) {
+    require(settings_ != address(0),"Parameters settings_ cannot be a 0 address");
     settings = settings_;
   } 
 
@@ -47,6 +48,7 @@ contract Factory is Ownable, Pausable {
   }
 
   function setSetting(address newSettings) external onlyOwner{
+    require(newSettings != address(0),"Parameters newSettings cannot be a 0 address");
     settings = newSettings;
   }
 

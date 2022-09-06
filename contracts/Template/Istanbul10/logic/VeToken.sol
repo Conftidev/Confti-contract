@@ -1,7 +1,6 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 // pragma abicoder v2;
-// import "hardhat/console.sol";
 
 import "../data/VeTokenData.sol";
 import "../Interface/IRouterData.sol";
@@ -12,6 +11,7 @@ import "../../../Interface/IDivision.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract VeToken is IVeToken , VeTokenData {
+    // uint256 private constant DEPOSIT_FOR_TYPE = 0;
     uint256 private constant CREATE_LOCK_TYPE = 1;
     uint256 private constant INCREASE_LOCK_AMOUNT = 2;
     uint256 private constant INCREASE_UNLOCK_TIME = 3;
@@ -54,9 +54,14 @@ contract VeToken is IVeToken , VeTokenData {
             ts: block.timestamp,
             blk: block.number
         });
+        // decimals = DECIMALS;
+        // name = NAME;
+        // symbol = SYMBOL;
+
         uint256 t = (block.timestamp / WEEK) * WEEK;
         startTime = t;
         timeCursor = t;
+        
     }
 
     function getToken() private view returns(address) {
@@ -92,7 +97,7 @@ contract VeToken is IVeToken , VeTokenData {
     }
 
     function getUserPointHistory(address _userAddress, uint256 _index)
-        public
+        external
         view
         
         returns (Point memory)
@@ -351,14 +356,11 @@ contract VeToken is IVeToken , VeTokenData {
         _checkpoint(_beneficiary, _oldLocked, _locked);
 
         if (_value != 0) {
-            uint256 beforeTransNums = IERC20(getToken()).balanceOf(_provider);
-            IERC20(getToken()).transferFrom(
+            require(IERC20(getToken()).transferFrom(
                 _provider,
                 address(this),
                 _value
-            );
-            uint256 afterTransNums = IERC20(getToken()).balanceOf(_provider);
-            require(beforeTransNums-_value == afterTransNums,"Vetoken:: _depositFor No transfer in failed");
+            ),"_depositFor: Transferfrom failed");
         }
 
         emit Deposit(
@@ -557,9 +559,7 @@ contract VeToken is IVeToken , VeTokenData {
         _checkpoint(msg.sender, _oldLocked, _locked);
 
         if(_value > 0){
-            uint256 beforeTokens = IERC20(getToken()).balanceOf(msg.sender);
-            IERC20(getToken()).transfer(msg.sender, _value);
-            require(beforeTokens - _value == IERC20(getToken()).balanceOf(msg.sender),"vetoken:: withdraw No transfer in failed");
+            require(IERC20(getToken()).transfer(msg.sender, _value),"Transferfrom failed");
             emit Withdraw(msg.sender,_value,block.timestamp);
             emit Supply(_supplyBefore, _supplyBefore - _value);
         }
@@ -819,7 +819,7 @@ contract VeToken is IVeToken , VeTokenData {
             return totalReward/maxRewardDuration;
         }
     }
-    function claim() external nonReentrant returns (uint256) {
+    function claim() external returns (uint256)  {
         if(maxRewardDuration == 0) return 0;
 
         address _sender = msg.sender;
@@ -838,8 +838,8 @@ contract VeToken is IVeToken , VeTokenData {
         if (amount != 0) {
             uint256 surplusReward = totalReward - totalClaimedReward;
             if(surplusReward >0 && surplusReward >= amount){
-                IDivision(getToken()).mintDivision(_sender, amount);
                 totalClaimedReward += amount;
+                IDivision(getToken()).mintDivision(_sender, amount);
             }else{
                 revert("Vetoken: Vetoken has insufficient balance!");
             }
@@ -986,13 +986,13 @@ contract VeToken is IVeToken , VeTokenData {
                     _tbalanceOf = uint256(_balanceOf);
                 }
                 uint256 _veSupply = veSupply[weekCursor];
+                
                 if(dt>0){
-                    // Make up the last week
-                    // if(weekCursor == _maxRewardTimeWeek && uint256(oldUserPoint.bias) - (uint256(dt)-1) * uint256(oldUserPoint.slope) > 0 ){
-                    if(weekCursor == _maxRewardTimeWeek-WEEK && oldUserPoint.bias - (dt-1) * oldUserPoint.slope > 0 ){
+                    if(weekCursor == _maxRewardTimeWeek && oldUserPoint.bias - (dt-1) * oldUserPoint.slope > 0 ){
                         uint _preWeekBalanceOf = uint(oldUserPoint.bias) - (weekCursor-WEEK - oldUserPoint.ts) * uint(oldUserPoint.slope);
                         toDistribute += _preWeekBalanceOf * getLinearWeeklyRelease() * uint256(WEEK)/veSupply[weekCursor-WEEK];
                     }
+                   
                 }
                 if (_tbalanceOf == 0 && userEpoch > maxUserEpoch) {
                     break;
@@ -1058,53 +1058,41 @@ contract VeToken is IVeToken , VeTokenData {
         uint256 totalUnClaimNum = 0;
         if(_firstDepositTime == 0) return 0;
 
-        uint256 rewardWeeks = maxRewardDuration/WEEK;
-
-        if(IVault(getRouter().vault()).getEntireVaultState() != State.NftState.freedom){
-            uint256 _tempRewardWeeks = (_startAuctionTime - _firstDepositTime)/WEEK ;
-            rewardWeeks = _tempRewardWeeks/WEEK > rewardWeeks ? rewardWeeks : _tempRewardWeeks;
-        }
-
-        uint256 perWeekRewards = getLinearWeeklyRelease() * WEEK;
-        uint totalClaimedRewardNums = rewardWeeks * perWeekRewards;
-
-        if(oldChangesTotalReward.length > 0){
-            //changes before reward week num
-            uint256[] memory splitBeforeWeeks = new uint256[](oldChangesTotalReward.length);
-            uint256[] memory splitBeforeTotalRewards = new uint256[](oldChangesTotalReward.length);
-            rewardWeeks = 0;
-            totalClaimedRewardNums = 0;
-            for(uint256 i=0;i < oldChangesTotalReward.length;i++){
-                if(i==0){
-                    if(_startAuctionTime >= oldChangesTotalReward[i].ts){
-                        splitBeforeWeeks[i] = (oldChangesTotalReward[i].ts - _firstDepositTime)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i].beforeTotalReward;
-                    }else{
-                        splitBeforeWeeks[i] = (_startAuctionTime - _firstDepositTime)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i].beforeTotalReward;
-                        break;
-                    }
-                }else{
-                    if(_startAuctionTime >= oldChangesTotalReward[i].ts){
-                        splitBeforeWeeks[i] = (oldChangesTotalReward[i].ts - oldChangesTotalReward[i-1].ts)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i-1].beforeTotalReward;
-                    }else{
-                        splitBeforeWeeks[i] = (_startAuctionTime - oldChangesTotalReward[i-1].ts)/WEEK;
-                        splitBeforeTotalRewards[i] = oldChangesTotalReward[i].beforeTotalReward;
-                        break;
-                    }
-                }
+        if(supply == 0 && epoch == 0) return 0;
+        if(_startAuctionTime > 0 && _startAuctionTime <= _maxRewardTime && _startAuctionTime <= block.timestamp && _startAuctionTime <= _lastUnlockTime){
+            _dt = _startAuctionTime/WEEK * WEEK - _firstDepositTime;
+            _dt = _calPure(_dt);
+        }else if(block.timestamp <= _maxRewardTime  && block.timestamp <= _lastUnlockTime){
+            if(_startAuctionTime > 0 && _startAuctionTime <= block.timestamp){
+                _dt = _startAuctionTime/WEEK * WEEK - _firstDepositTime;
+                _dt = _calPure(_dt);
+            }else{
+                _dt = block.timestamp/WEEK * WEEK - _firstDepositTime;
+                _dt = _calPure(_dt);
             }
 
-            if(splitBeforeWeeks.length>0){
-                for(uint256 j=0;j< splitBeforeWeeks.length;j++){
-                    //Maxrewardduration needs improvement if it changes in the future
-                    totalClaimedRewardNums += (splitBeforeTotalRewards[j] * splitBeforeWeeks[j]) /  maxRewardDuration;
-                }
+        }else if(_lastUnlockTime <= _maxRewardTime && _lastUnlockTime <= block.timestamp){
+            if(_startAuctionTime > 0 && _startAuctionTime <= _lastUnlockTime){
+                _dt = _startAuctionTime/WEEK * WEEK - _firstDepositTime;
+                _dt = _calPure(_dt);
+            }else{
+                _dt = _lastUnlockTime/WEEK * WEEK - _firstDepositTime;
+                _dt = _calPure(_dt);
+            }
+        }else{
+            if(_startAuctionTime > 0 && _startAuctionTime <= _maxRewardTime){
+                _dt = _startAuctionTime/WEEK * WEEK - _firstDepositTime;
+                _dt = _calPure(_dt);
+            }else{
+                _dt = _maxRewardTime/WEEK * WEEK - _firstDepositTime;
+                _dt = _calPure(_dt);
             }
             
         }
-        return totalClaimedRewardNums - totalClaimedReward;
+        totalUnClaimNum = _dt * getLinearWeeklyRelease();
+        return totalUnClaimNum - totalClaimedReward;
+
+        //============ Deal with the change of the total reward amount ============
     }
 
     function getRouter() private view returns(IRouterData) {
@@ -1132,7 +1120,7 @@ contract VeToken is IVeToken , VeTokenData {
         startAuctionTime = block.timestamp;
     }
     function updateVeToken(address _updataTemplate) external isWhiteList{
-        require(_updataTemplate != address(0),"_updataTemplate is zero address");
+        require(_updataTemplate != address(0),"vetoken::updateVeToken Parameters _updataTemplate cannot be a 0 address");
         (bool _ok, bytes memory returnData) = _updataTemplate.delegatecall(abi.encodeWithSignature(
             "updateVeTokenUtils()"
         ));

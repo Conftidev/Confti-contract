@@ -39,7 +39,8 @@ contract Router is RouterData , IRouter{
         reentry = false;
     }
 
-    constructor(address veTokenTemplate_ , address vaultTemplate_ , address auctionTemplate_ , address voteTemplate_ , address divisionTemplate_) { 
+    constructor(address veTokenTemplate_ , address vaultTemplate_ , address auctionTemplate_ , address voteTemplate_ , address divisionTemplate_) {
+        require(veTokenTemplate_ != address(0) && vaultTemplate_!= address(0) && auctionTemplate_!= address(0) && voteTemplate_!= address(0) && divisionTemplate_!= address(0),"Router::constructor Parameters veTokenTemplate_,vaultTemplate_,auctionTemplate_,voteTemplate_,divisionTemplate_ cannot be a 0 address");
         veTokenTemplate = veTokenTemplate_; 
         vaultTemplate = vaultTemplate_;
         auctionTemplate = auctionTemplate_;
@@ -49,6 +50,7 @@ contract Router is RouterData , IRouter{
     
 
     function initialize(address curator_,string memory name) override external {
+        require(curator_!= address(0),"Parameters curator_ cannot be a 0 address");
         require(!initializer,"initialize :: Already initialized");
         initializer = !initializer;
         factory = msg.sender;
@@ -122,8 +124,8 @@ contract Router is RouterData , IRouter{
         lastClaimed = block.timestamp;
         fee = 0;
          
-        //记录拍卖的类型
-        //设置每一个NFT价格
+        //Record the type of auction
+        //Set the price of each NFT
         IAuction(auction).setPrice(address(0),0,entireVaultPrice);
         emit Issue( supply_ , daoName , symbol , reserveRatio , entireVaultPrice, depositLength , rewardLength , veToken , auction , vote , division);
     }
@@ -146,6 +148,18 @@ contract Router is RouterData , IRouter{
         IDivision(division).mintDivision(govAddress,_govAmount);
         IDivision(division).mintDivision(mintTo,_targetAmount);
         return _reserveAmount;
+    }
+
+    function updateContractCurator(address curator_) override external nonReentrant {
+        require(msg.sender == curator, "update:not curator");
+        require(isContract(msg.sender),"Only contracts can be called");
+        require(!isContract(curator_),"The new curator can't be a contract");
+        require(!curatorChange,"You can only change it once");
+        _updateCurator(curator_);
+    }
+
+    function _updateCurator(address _curator) private {
+        curator = _curator;
     }
 
     function claimFees() override external nonReentrant {
@@ -205,6 +219,17 @@ contract Router is RouterData , IRouter{
     function setWhiteList(address targetAddress,bool bool_) private {
         require(targetAddress != address(0),"invalid address");
         whiteList[targetAddress] = bool_;
+    }
+
+    function isContract(address account) private view returns (bool) {
+        // This method relies on extcodesize, which returns 0 for contracts in
+        // construction, since the code is only stored at the end of the
+        // constructor execution.
+
+        uint256 size;
+        // solhint-disable-next-line no-inline-assembly
+        assembly { size := extcodesize(account) }
+        return size > 0;
     }
 
     modifier onlyWhiteList() {

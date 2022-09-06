@@ -16,8 +16,4 @@ contract TestERC721 is ERC721Burnable {
             _mint(_to,tokenIds[i]);
         }
     }
-
-    function destruct() public {
-        selfdestruct(payable(address(0)));
-    }
 }

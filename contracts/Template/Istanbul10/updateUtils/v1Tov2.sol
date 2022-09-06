@@ -14,6 +14,7 @@ contract v1Tov2{
  
 
     constructor (address newVoteTemplate_,address newRouterTemplate_,address newVeTokenTemplate_,address newAuctionTemplate_,address newVaultTemplate_) {
+        require(newVoteTemplate_ != address(0) && newRouterTemplate_!= address(0) && newVeTokenTemplate_!= address(0) && newAuctionTemplate_!= address(0) && newVaultTemplate_!= address(0),"Router::constructor Parameters newVoteTemplate_, newRouterTemplate_, newVeTokenTemplate_, newAuctionTemplate_, newVaultTemplate_ cannot be a 0 address");
         newVoteTemplate = newVoteTemplate_;
         newRouterTemplate = newRouterTemplate_;
         newVeTokenTemplate = newVeTokenTemplate_;
@@ -21,25 +22,25 @@ contract v1Tov2{
         newVaultTemplate = newVaultTemplate_;
     }
 
-    function updateRouterUtils() public{ 
+    function updateRouterUtils() external{ 
         StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newRouterTemplate;
     }
 
-    function updateAuctionUtils() public{ 
+    function updateAuctionUtils() external{ 
         StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newAuctionTemplate;
     }
  
     
-    function updateVaultUtils() public{ 
+    function updateVaultUtils() external{ 
         StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newVaultTemplate;
     }
  
-    function updateVoteUtils() public {
+    function updateVoteUtils() external {
         StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newVoteTemplate;
     }
 
 
-    function updateVeTokenUtils() public{
+    function updateVeTokenUtils() external{
         StorageSlotUpgradeable.getAddressSlot(_IMPLEMENTATION_SLOT).value = newVeTokenTemplate;
     }
  

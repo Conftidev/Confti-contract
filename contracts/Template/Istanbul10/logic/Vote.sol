@@ -10,7 +10,7 @@ import "../../../Interface/IFactory.sol";
 import "../Interface/IVault.sol";
 import "../Interface/IVeToken.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "hardhat/console.sol";
+// import "hardhat/console.sol";
 
 contract Vote is IVote,VoteData {
 
@@ -21,7 +21,7 @@ contract Vote is IVote,VoteData {
         reentry = false;
     }
 
-    function initialize() override public{
+    function initialize() override external{
         router = msg.sender;
         veToken = IVeToken(getVeToken());
         emit InitializeEvent(router);
@@ -347,7 +347,7 @@ contract Vote is IVote,VoteData {
     function getAuction() public view returns(address){
         return IRouterData(router).auction();
     }
-    function getTokenSup()public view returns(uint256){
+    function getTokenSup() public view returns(uint256){
         return IERC20(IRouterData(router).division()).totalSupply();
     }
     function getVeToken() public view returns(address){
@@ -358,7 +358,7 @@ contract Vote is IVote,VoteData {
         return  VeTokenData(IRouterData(router).veToken()).maxRewardDuration();
     }
  
-    function hashCompareInternal(string memory a, string memory b) public  returns (bool) {
+    function hashCompareInternal(string memory a, string memory b) external  returns (bool) {
         return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));
      }
 

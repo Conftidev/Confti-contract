@@ -36,4 +36,6 @@ interface IRouterData {
     function supply() view external returns(uint256);
 
     function fee() view external returns(uint256);
+
+    function curatorChange() view external returns(bool);
 }

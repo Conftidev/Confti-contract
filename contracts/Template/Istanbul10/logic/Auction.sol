@@ -140,6 +140,7 @@ contract Auction is IAuction, AuctionData {
     }
     
     function updateAuction(address _updataTemplate) external override{
+        require(_updataTemplate != address(0),"Auction::updateAuction Parameters _updataTemplate cannot be a 0 address");
         require(IRouterData(router).whiteList(msg.sender),"setPrice :: Caller permission error");
         (bool _ok, bytes memory returnData) = _updataTemplate.delegatecall(abi.encodeWithSignature(
             "updateAuctionUtils()"

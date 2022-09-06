@@ -262,7 +262,7 @@ contract Vault is IVault , VaultData {
         redeemable = false;
     }
  
-    function getNftState(address nft,uint256 nftId) public override view returns(State.NftState){
+    function getNftState(address nft,uint256 nftId) external override view returns(State.NftState){
         uint256 _index = nftIndex[nft][nftId];
         require(_index != NFT_NOT_EXIST,"Vault :: NFT does not exist");
         return nfts[_index].state;
@@ -272,17 +272,17 @@ contract Vault is IVault , VaultData {
         return nfts[ENTIRE_VAULT_INDEX].state;
     }
 
-    function getNftActivity(address nft,uint256 nftId) public override view returns(string memory){
+    function getNftActivity(address nft,uint256 nftId) external override view returns(string memory){
         uint256 _index = nftIndex[nft][nftId];
         require(_index != NFT_NOT_EXIST,"Vault :: NFT does not exist");
         return nfts[_index].activity;
     }
 
-    function getEntireVaultActivity() public override view returns(string memory){ 
+    function getEntireVaultActivity() external override view returns(string memory){ 
         return nfts[ENTIRE_VAULT_INDEX].activity;
     }
 
-    function getFreedomNFT() public override view returns(uint256[] memory) {
+    function getFreedomNFT() external override view returns(uint256[] memory) {
         return freedomNFTInNFTSIndex;
     } 
  
@@ -290,19 +290,19 @@ contract Vault is IVault , VaultData {
         return IRouterData(router).division();
     }
 
-    function getVeToken() public view returns(address) {
+    function getVeToken() external view returns(address) {
         return IRouterData(router).veToken();
     }
 
-    function onERC721Received(address, address, uint256, bytes memory) public virtual returns (bytes4) {
+    function onERC721Received(address, address, uint256, bytes memory) external virtual returns (bytes4) {
         return this.onERC721Received.selector;
     }
     
-    function onERC1155Received(address, address, uint256, uint256, bytes memory) public virtual  returns (bytes4) {
+    function onERC1155Received(address, address, uint256, uint256, bytes memory) external virtual  returns (bytes4) {
         return this.onERC1155Received.selector;
     }
 
-    function onERC1155BatchReceived(address, address, uint256[] memory, uint256[] memory, bytes memory) public virtual  returns (bytes4) {
+    function onERC1155BatchReceived(address, address, uint256[] memory, uint256[] memory, bytes memory) external virtual  returns (bytes4) {
         return this.onERC1155BatchReceived.selector;
     }
 

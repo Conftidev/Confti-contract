@@ -39,4 +39,6 @@ contract RouterData is IRouterData{
     uint256 override public supply;
  
     uint256 override public fee;
+
+    bool override public curatorChange;
 }

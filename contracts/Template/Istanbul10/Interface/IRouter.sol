@@ -10,6 +10,8 @@ interface IRouter {
 
     function claimFees() external;
 
+    function updateContractCurator(address) external;
+
     function cash() external;
 
     // whiteList

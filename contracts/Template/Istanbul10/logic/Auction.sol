@@ -58,7 +58,11 @@ contract Auction is IAuction, AuctionData {
         IVault(getVault()).safeSetState(address(0),0,State.NftState.occupied,"Auction");
 
         _auction.livePrice = msg.value;
-        payable(getVault()).transfer(_auction.livePrice);
+        
+          // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
+        (bool success, ) = payable(getVault()).call{ value: _auction.livePrice }("");
+        require(success, "Address: unable to send value, recipient may have reverted");
+
         _auction.winning = payable(msg.sender);
 
 
@@ -94,7 +98,6 @@ contract Auction is IAuction, AuctionData {
 
     /// @notice an external function to end an auction after the timer has run out
     function end() override external nonReentrant {
-        console.log("end xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         AuctionInfo storage _auction = auctions[0];
         require( IVault(getVault()).getEntireVaultState() == State.NftState.occupied && utilCompareInternal(IVault(getVault()).getEntireVaultActivity(),"Auction"), "end :: DAO has been closed" );
         require(block.timestamp >= _auction.auctionEnd, "end :: DAO auction ongoing, unable to close");
